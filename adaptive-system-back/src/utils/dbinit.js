@@ -1,13 +1,21 @@
 import Role from '../components/roles/roles.model.js';
 
 const initializeDb = () => {
+	var counter = 0;
 	const roles = [ 'admin', 'teacher', 'student' ];
-	try {
-		roles.forEach((role) => {
-			new Role({ name: role }).save();
+
+	roles.forEach((role) => {
+		Role.find({ name: role }).then((resp) => {
+			if (!resp.name)
+				new Role({ name: role })
+					.save()
+					.then(() => {
+						counter++;
+						if (counter == roles.length) console.log(' Database initialized with roles: ', roles);
+					})
+					.catch(() => null);
 		});
-		console.log('Data base initialized with roles: ', roles);
-	} catch (error) {}
+	});
 };
 
 export default initializeDb;
