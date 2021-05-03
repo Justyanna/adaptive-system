@@ -46,8 +46,8 @@ const authUser = async (req, res, next) => {
 		const checkPassword = await bcrypt.compare(req.body.password, user.password);
 		if (!checkPassword) throw new Error('Incorrect password');
 
-		const secret = process.env.TOKEN_SECRET;
-		const token = jwt.sign({}, secret, { expiresIn: '1d' });
+		const SECRET = process.env.TOKEN_SECRET;
+		const token = jwt.sign({}, SECRET, { expiresIn: '1d' });
 
 		res.json({ user, token });
 	} catch (ex) {
@@ -57,8 +57,8 @@ const authUser = async (req, res, next) => {
 
 const verifyUserToken = async (req, res, next) => {
 	try {
-		const secret = process.env.TOKEN_SECRET;
-		const verfied = jwt.verify(req.body.token, secret);
+		const SECRET = process.env.TOKEN_SECRET;
+		const verfied = jwt.verify(req.body.token, SECRET);
 
 		res.json({ valid: verfied });
 	} catch (ex) {
