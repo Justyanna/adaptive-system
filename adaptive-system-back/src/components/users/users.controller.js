@@ -14,15 +14,22 @@ const getUser = async (req, res, next) => {
 
 const addUser = async (req, res, next) => {
 	try {
-		const role = await Role.find({ name: req.body.role });
 		const tempUsr = req.body;
-		tempUsr.role = role[0]._id;
+
+		let roles = await Role.find({}, { name: 0, _id: 1 }).where('name').in(tempUsr.roles).exec();
+		roles = roles.map((e) => e._id);
+		tempUsr.roles = roles;
+
 		const user = new User(tempUsr);
 		const salt = await bcrypt.genSalt();
 		user.password = await bcrypt.hash(user.password, salt);
-
 		const savedUser = await user.save();
-		res.json(savedUser);
+
+		const resultUsr = {
+			firstname: user.firstname,
+			lastname: user.lastname
+		};
+		res.json(resultUsr);
 	} catch (error) {
 		next(error);
 	}
@@ -30,9 +37,17 @@ const addUser = async (req, res, next) => {
 
 const deleteUser = async (req, res, next) => {
 	try {
-		await User.findByIdAndDelete(req.params.userId);
+		let roles = await Role.find({}, { name: 1, _id: 0 }).where('_id').in(req.roles).exec();
+		roles = roles.map((e) => e.name);
 
-		res.json({ message: 'User deleted' });
+		if (roles.includes('admin')) {
+			await User.findByIdAndDelete(req.params.userId);
+
+			res.json({ message: 'User deleted' });
+		} else {
+			res.status(403);
+			res.json({ message: 'Forbbiden access' });
+		}
 	} catch (error) {
 		next(error);
 	}
@@ -47,9 +62,25 @@ const authUser = async (req, res, next) => {
 		if (!checkPassword) throw new Error('Incorrect password');
 
 		const SECRET = process.env.TOKEN_SECRET;
-		const token = jwt.sign({}, SECRET, { expiresIn: '1d' });
 
-		res.json({ user, token });
+		const payload = {
+			login: user.login,
+			password: user.password,
+			roles: user.roles
+		};
+
+		const token = jwt.sign(payload, SECRET, { expiresIn: '1d' });
+
+		let roles = await Role.find({}, { name: 1, _id: 0 }).where('_id').in(user.roles).exec();
+		roles = roles.map((e) => e.name);
+
+		const resultUsr = {
+			firstname: user.firstname,
+			lastname: user.lastname,
+			roles: roles
+		};
+
+		res.json({ user: resultUsr, token });
 	} catch (ex) {
 		next(ex);
 	}

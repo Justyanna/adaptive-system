@@ -32,8 +32,8 @@ const model = new mongoose.Schema({
 		maxlength: 20,
 		trim: true
 	},
-	role: {
-		type: mongoose.Schema.Types.ObjectId,
+	roles: {
+		type: [ mongoose.Schema.Types.ObjectId ],
 		required: true,
 		ref: 'Role'
 	}
