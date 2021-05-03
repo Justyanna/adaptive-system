@@ -14,10 +14,9 @@ const model = new mongoose.Schema({
 		type: String,
 		required: true,
 		minlength: 8,
-		maxlength: 20,
 		trim: true
 	},
-	firsName: {
+	firstname: {
 		type: String,
 		required: true,
 		match: /^[a-zA-Z\s]+$/,
@@ -25,7 +24,7 @@ const model = new mongoose.Schema({
 		maxlength: 20,
 		trim: true
 	},
-	lastName: {
+	lastname: {
 		type: String,
 		required: true,
 		match: /^[a-zA-Z\s]+$/,

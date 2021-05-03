@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import { router } from './components/index.js';
 
 const app = express();
 dotenv.config();
@@ -11,5 +12,6 @@ app.use(
 		extended: true
 	})
 );
+app.use(router);
 
 export default app;

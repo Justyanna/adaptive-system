@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 
-const auth = (req, next) => {
+const auth = (req, res, next) => {
 	try {
 		if (!req.headers.authorization) throw new Error('Not authorized');
 		const secret = process.env.TOKEN_SECRET;
@@ -15,4 +15,4 @@ const auth = (req, next) => {
 	}
 };
 
-export default { auth };
+export default auth;

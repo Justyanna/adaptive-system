@@ -1,27 +1,30 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import User from './users.model.js';
+import Role from '../roles/roles.model.js';
 
 const getUser = async (req, res, next) => {
 	try {
 		const user = await User.findById(req.params.userId);
 		res.json(user);
 	} catch (error) {
-		next(ex);
+		next(error);
 	}
 };
 
 const addUser = async (req, res, next) => {
 	try {
-		const user = new User(req.body);
-
-		const salt = await bcrypt.getSalt();
+		const role = await Role.find({ name: req.body.role });
+		const tempUsr = req.body;
+		tempUsr.role = role[0]._id;
+		const user = new User(tempUsr);
+		const salt = await bcrypt.genSalt();
 		user.password = await bcrypt.hash(user.password, salt);
 
 		const savedUser = await user.save();
 		res.json(savedUser);
 	} catch (error) {
-		next(ex);
+		next(error);
 	}
 };
 
@@ -31,7 +34,7 @@ const deleteUser = async (req, res, next) => {
 
 		res.json({ message: 'User deleted' });
 	} catch (error) {
-		next(ex);
+		next(error);
 	}
 };
 
@@ -44,7 +47,7 @@ const authUser = async (req, res, next) => {
 		if (!checkPassword) throw new Error('Incorrect password');
 
 		const secret = process.env.TOKEN_SECRET;
-		const token = jwt.sign(user.login, secret, { expiresIn: '7 days' });
+		const token = jwt.sign({}, secret, { expiresIn: '1d' });
 
 		res.json({ user, token });
 	} catch (ex) {
