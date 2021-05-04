@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const loginUrl = "http://localhost:8080/user/login"
-const registerUrl = "http://localhost:8080/user/register"
+const registerUrl = "http://localhost:8080/user"
 
 export const signIn = (data) =>
 {
@@ -10,5 +10,5 @@ export const signIn = (data) =>
 
 export const signUp = (data) =>
 {
-    return new Promise(resolve => { setTimeout(() => resolve(data), 50) })
+    return axios.post(registerUrl, data)
 }

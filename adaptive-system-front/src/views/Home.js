@@ -4,19 +4,24 @@ import { getCourseList } from '../services/courses'
 
 const Home = () =>
 {
-    const [courseList, setCourseList] = useState([])
-    useEffect(async () =>
+    const [courseList, setCourseList] = useState(null)
+    const [refetchFlag] = useState(false)
+    useEffect(() =>
     {
-        let res = await getCourseList()
-        setCourseList(res.data)
-    })
+        (async () => {
+            let res = await getCourseList()
+            setCourseList(res.data)
+        })()
+    }, [refetchFlag])
 
     return (
         <div>
             <h2>Strona główna</h2>
+            {courseList === null ? (<p>Nie ma jeszcze żadnych kursów</p>) : (
             <ul>
-                {courseList.map(course => (<li>{course.name}</li>))}
+                {courseList.map(course => (<li key={course._id}>{course.name}</li>))}
             </ul>
+            )}
         </div>
     )
 }
