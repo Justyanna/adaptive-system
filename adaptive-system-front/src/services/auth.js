@@ -1,6 +1,7 @@
 import axios from 'axios'
 
-const loginUrl = "http://localhost:8080/user/auth/login"
+const loginUrl = "http://localhost:8080/user/login"
+const registerUrl = "http://localhost:8080/user/register"
 
 export const signIn = (data) =>
 {
