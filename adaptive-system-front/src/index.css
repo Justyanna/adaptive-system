@@ -11,3 +11,13 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/*  */
+
+.collapsed {
+  display: none;
+}
+
+.highlight-error {
+  box-shadow: inset 0 0 0.5em 1px rgb(245, 95, 95);
+}
