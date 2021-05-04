@@ -10,6 +10,14 @@ const model = new mongoose.Schema({
 		maxlength: 20,
 		trim: true
 	},
+	email: {
+		type: String,
+		trim: true,
+		lowercase: true,
+		unique: true,
+		required: true,
+		match: [ /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Please fill a valid email address' ]
+	},
 	password: {
 		type: String,
 		required: true,
@@ -31,6 +39,20 @@ const model = new mongoose.Schema({
 		minlength: 2,
 		maxlength: 20,
 		trim: true
+	},
+	courses: {
+		type: [ mongoose.Schema.Types.ObjectId ],
+		ref: 'Course',
+		default: [],
+		required: false
+	},
+	Xaxis: {
+		type: Number,
+		required: false
+	},
+	Yaxis: {
+		type: Number,
+		required: false
 	},
 	roles: {
 		type: [ mongoose.Schema.Types.ObjectId ],

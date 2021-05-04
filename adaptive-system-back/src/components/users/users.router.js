@@ -4,11 +4,13 @@ import auth from '../../middleware/auth.js';
 
 const usersRouter = express.Router();
 
-usersRouter.get('/user/:userId', auth, usersController.getUser);
-usersRouter.delete('/user/:userId', auth, usersController.deleteUser);
-usersRouter.post('/user', auth, usersController.addUser);
+usersRouter.get('/user/:userId', auth.authenticate, usersController.getUser);
+usersRouter.delete('/user/:userId', auth.authenticate, usersController.deleteUser);
+usersRouter.post('/user', auth.authenticate, usersController.addUser);
 
 usersRouter.post('/user/login', usersController.authUser);
 usersRouter.post('/user/verify', usersController.verifyUserToken);
+usersRouter.post('/user/enroll', auth.authenticate, usersController.enrollUserForCourse);
+usersRouter.post('/questionnaire', auth.authenticate, usersController.checkQuestionnaire);
 
 export default usersRouter;

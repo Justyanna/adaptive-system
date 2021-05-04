@@ -1,8 +1,9 @@
 import express from 'express';
 import usersRouter from './users/users.router.js';
+import courseRoter from './courses/coursers.router.js';
 
 const main = express.Router();
-const componentRouters = [ usersRouter ];
+const componentRouters = [ usersRouter, courseRoter ];
 
 main.use(componentRouters);
 
