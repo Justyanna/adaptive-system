@@ -8,10 +8,10 @@ const Nav = () => {
 
     return (
         <nav>
-            <ul>
-                <li><Link to='/'>Home</Link></li>
-                <li><Link to='/login'>Sign in</Link></li>
-                <li><Link to='/register'>Sign up</Link></li>
+            <ul className="nav-list">
+                <li><Link className="nav-item" to='/'>Strona główna</Link></li>
+                <li><Link className="nav-item" to='/login'>Zaloguj się</Link></li>
+                <li><Link className="nav-item" to='/register'>Zarejestruj się</Link></li>
             </ul>
         </nav>
     )

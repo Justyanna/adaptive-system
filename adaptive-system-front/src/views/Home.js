@@ -1,6 +1,9 @@
-import React from 'react'
+import { useState } from 'react'
+import { getCourseList } from '../services/courses'
 
-const Home = () => {
+
+const Home = async () =>
+{
     return (
         <div>
             <h2>Strona główna</h2>
