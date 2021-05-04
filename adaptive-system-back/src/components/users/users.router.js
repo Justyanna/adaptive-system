@@ -6,7 +6,7 @@ const usersRouter = express.Router();
 
 usersRouter.get('/user/:userId', auth.authenticate, usersController.getUser);
 usersRouter.delete('/user/:userId', auth.authenticate, usersController.deleteUser);
-usersRouter.post('/user', auth.authenticate, usersController.addUser);
+usersRouter.post('/user', usersController.addUser);
 
 usersRouter.post('/user/login', usersController.authUser);
 usersRouter.post('/user/verify', usersController.verifyUserToken);
