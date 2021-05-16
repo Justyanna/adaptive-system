@@ -1,14 +1,17 @@
 import { Link, useLocation } from 'react-router-dom'
+import React, { useState } from 'react'
 
 const Nav = () => {
   const location = useLocation()
 
-  if (['/login', '/register'].includes(location.pathname)) return <></>
+  let [user] = useState(JSON.parse(localStorage.getItem('eDukatorUser')))
 
   let signOut = _ => {
-    localStorage.removeItem('eDukacjaToken')
-    localStorage.removeItem('eDukacjaUser')
+    localStorage.removeItem('eDukatorToken')
+    localStorage.removeItem('eDukatorUser')
   }
+
+  if (['/login', '/register'].includes(location.pathname)) return <></>
 
   return (
     <nav className="h nav">
@@ -18,33 +21,62 @@ const Nav = () => {
             Strona główna
           </Link>
         </li>
+        {user?.roles.includes('admin') ? (
+          <li>
+            <Link className="nav-item" to="/admin">
+              Panel administratora
+            </Link>
+          </li>
+        ) : (
+          <></>
+        )}
+        {user?.roles.includes('teacher') ? (
+          <li>
+            <Link className="nav-item" to="/teacher">
+              Panel nauczyciela
+            </Link>
+          </li>
+        ) : (
+          <></>
+        )}
+        {user?.roles.includes('student') ? (
+          <li>
+            <Link className="nav-item" to="/student">
+              Panel kursanta
+            </Link>
+          </li>
+        ) : (
+          <></>
+        )}
       </ul>
       <ul className="h nav-list">
-        {localStorage.getItem('eDukacjaUser') === null
-          ? [
-              <li>
-                <Link className="nav-item" to="/login">
-                  Zaloguj się
-                </Link>
-              </li>,
-              <li>
-                <Link className="nav-item" to="/register">
-                  Zarejestruj się
-                </Link>
-              </li>,
-            ]
-          : [
-              <li>
-                <Link className="nav-item" to="/profile">
-                  {JSON.parse(localStorage.getItem('eDukacjaUser'))?.firstname}
-                </Link>
-              </li>,
-              <li>
-                <Link className="nav-item" onClick={signOut}>
-                  Wyloguj
-                </Link>
-              </li>,
-            ]}
+        {localStorage.getItem('eDukatorUser') === null ? (
+          <React.Fragment>
+            <li>
+              <Link className="nav-item" to="/login">
+                Zaloguj się
+              </Link>
+            </li>
+            <li>
+              <Link className="nav-item" to="/register">
+                Zarejestruj się
+              </Link>
+            </li>
+          </React.Fragment>
+        ) : (
+          <React.Fragment>
+            <li>
+              <Link className="nav-item" to="/profile">
+                {`${user?.firstname} ${user?.lastname}`}
+              </Link>
+            </li>
+            <li>
+              <Link className="nav-item" to="/" onClick={signOut}>
+                Wyloguj
+              </Link>
+            </li>
+          </React.Fragment>
+        )}
       </ul>
     </nav>
   )
