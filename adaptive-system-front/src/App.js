@@ -9,6 +9,7 @@ import Profile from './views/Profile'
 import Admin from './views/Admin'
 import Teacher from './views/Teacher'
 import Student from './views/Student'
+import Questionnaire from './views/Questionnaire'
 
 function App() {
   let [user, setUser] = useState(localStorage.getItem('eDukatorUser'))
@@ -32,6 +33,7 @@ function App() {
         <Route exact path="/admin" component={Admin} />
         <Route exact path="/teacher" component={Teacher} />
         <Route exact path="/student" component={Student} />
+        <Route exact path="/questionnaire" component={Questionnaire} />
       </Switch>
     </Router>
   )

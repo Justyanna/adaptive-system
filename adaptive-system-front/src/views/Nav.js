@@ -20,6 +20,11 @@ const Nav = ({ user, setUser }) => {
             Strona główna
           </Link>
         </li>
+        <li>
+          <Link className="nav-item" to="/questionnaire">
+            Ankieta
+          </Link>
+        </li>
         {user?.roles?.includes('admin') ? (
           <li>
             <Link className="nav-item" to="/admin">

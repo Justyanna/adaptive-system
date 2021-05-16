@@ -3,13 +3,13 @@ import { getCourseList } from '../services/courses'
 
 const Home = () => {
   const [courseList, setCourseList] = useState(null)
-  const [refetchFlag] = useState(false)
+
   useEffect(() => {
     ;(async () => {
       let res = await getCourseList()
       setCourseList(res.data)
     })()
-  }, [refetchFlag])
+  }, [])
 
   return (
     <div>

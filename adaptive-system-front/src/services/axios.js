@@ -7,7 +7,9 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
   config => {
-    config.headers['Authorization'] = `Bearer ${localStorage.getItem('token')}`
+    config.headers['Authorization'] = `Bearer ${localStorage.getItem(
+      'eDukatorToken'
+    )}`
     return config
   },
   error => {
