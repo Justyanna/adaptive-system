@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import { useState } from 'react'
 
 import Home from './views/Home'
 import Login from './views/Login'
@@ -10,13 +11,23 @@ import Teacher from './views/Teacher'
 import Student from './views/Student'
 
 function App() {
+  let [user, setUser] = useState(localStorage.getItem('eDukatorUser'))
+
   return (
     <Router>
-      <Nav />
+      <Nav user={user} setUser={setUser} />
       <Switch>
         <Route exact path="/" component={Home} />
-        <Route exact path="/login" component={Login} />
-        <Route exact path="/register" component={Register} />
+        <Route
+          exact
+          path="/login"
+          component={_ => <Login setUser={setUser} />}
+        />
+        <Route
+          exact
+          path="/register"
+          component={_ => <Register setUser={setUser} />}
+        />
         <Route exact path="/profile" component={Profile} />
         <Route exact path="/admin" component={Admin} />
         <Route exact path="/teacher" component={Teacher} />
