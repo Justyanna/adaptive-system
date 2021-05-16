@@ -1,14 +1,12 @@
-import axios from 'axios'
+import { default as axios } from './axios'
 
-const loginUrl = "http://localhost:8080/user/login"
-const registerUrl = "http://localhost:8080/user"
+const loginUrl = 'user/login'
+const registerUrl = 'user'
 
-export const signIn = (data) =>
-{
-    return axios.post(loginUrl, data)
+export const signIn = data => {
+  return axios.post(loginUrl, data)
 }
 
-export const signUp = (data) =>
-{
-    return axios.post(registerUrl, data)
+export const signUp = data => {
+  return axios.post(registerUrl, data)
 }

@@ -1,29 +1,32 @@
 import { useState, useEffect } from 'react'
 import { getCourseList } from '../services/courses'
 
+const Home = () => {
+  const [courseList, setCourseList] = useState(null)
+  const [refetchFlag] = useState(false)
+  useEffect(() => {
+    ;(async () => {
+      let res = await getCourseList()
+      setCourseList(res.data)
+    })()
+  }, [refetchFlag])
 
-const Home = () =>
-{
-    const [courseList, setCourseList] = useState(null)
-    const [refetchFlag] = useState(false)
-    useEffect(() =>
-    {
-        (async () => {
-            let res = await getCourseList()
-            setCourseList(res.data)
-        })()
-    }, [refetchFlag])
-
-    return (
-        <div>
-            <h2>Strona główna</h2>
-            {courseList === null ? (<p>Nie ma jeszcze żadnych kursów</p>) : (
-            <ul>
-                {courseList.map(course => (<li key={course._id}>{course.name}</li>))}
-            </ul>
-            )}
-        </div>
-    )
+  return (
+    <div>
+      <h2>Strona główna</h2>
+      {courseList === null ? (
+        <p>Nie ma jeszcze żadnych kursów</p>
+      ) : (
+        <ul className="list">
+          {courseList.map(course => (
+            <li className="list-item" key={course._id}>
+              {course.name}
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  )
 }
 
 export default Home

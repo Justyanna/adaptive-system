@@ -6,15 +6,38 @@
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: 'Recursive', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  padding: 1em 2em;
+  padding: 0 2em;
 }
 
-/*  */
+:not(.h) > * + * {
+  margin-top: 1em;
+}
+
+/* COMPONENTS */
+
+.nav {
+  display: flex;
+  justify-content: space-between;
+}
+
+.nav-list {
+  list-style-type: none;
+  display: flex;
+  gap: 1em;
+}
+
+.list {
+  list-style-type: none;
+}
+
+/* NAV */
+
+/* MAIN */
+
+/* MODIFIERS */
 
 .collapsed {
   display: none;
@@ -26,10 +49,4 @@ body {
 
 .link {
   text-decoration: none;
-}
-
-.nav-list {
-  list-style-type: none;
-  display: flex;
-  gap: 1em;
 }
