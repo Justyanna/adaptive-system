@@ -30,7 +30,8 @@ const addUser = async(req, res, next) => {
 
         const resultUsr = {
             firstName: user.firstName,
-            lastName: user.lastName
+            lastName: user.lastName,
+            roles: roles
         };
         res.json(resultUsr);
     } catch (error) {
