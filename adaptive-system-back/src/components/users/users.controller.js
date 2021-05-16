@@ -28,12 +28,22 @@ const addUser = async(req, res, next) => {
         user.password = await bcrypt.hash(user.password, salt);
         const savedUser = await user.save();
 
+        const SECRET = process.env.TOKEN_SECRET;
+
+        const payload = {
+            login: user.login,
+            password: user.password,
+            roles: user.roles
+        };
+
+        const token = jwt.sign(payload, SECRET, { expiresIn: '1d' });
+
         const resultUsr = {
             firstName: user.firstName,
             lastName: user.lastName,
             roles: roles
         };
-        res.json(resultUsr);
+        res.json({ user: resultUsr, token });
     } catch (error) {
         next(error);
     }
