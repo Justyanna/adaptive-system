@@ -1,14 +1,13 @@
 import { Link, useLocation } from 'react-router-dom'
-import React, { useState } from 'react'
+import React from 'react'
 
-const Nav = () => {
+const Nav = ({ user, setUser }) => {
   const location = useLocation()
-
-  let [user] = useState(JSON.parse(localStorage.getItem('eDukatorUser')))
 
   let signOut = _ => {
     localStorage.removeItem('eDukatorToken')
     localStorage.removeItem('eDukatorUser')
+    setUser(null)
   }
 
   if (['/login', '/register'].includes(location.pathname)) return <></>
@@ -21,7 +20,7 @@ const Nav = () => {
             Strona główna
           </Link>
         </li>
-        {user?.roles.includes('admin') ? (
+        {user?.roles?.includes('admin') ? (
           <li>
             <Link className="nav-item" to="/admin">
               Panel administratora
@@ -30,7 +29,7 @@ const Nav = () => {
         ) : (
           <></>
         )}
-        {user?.roles.includes('teacher') ? (
+        {user?.roles?.includes('teacher') ? (
           <li>
             <Link className="nav-item" to="/teacher">
               Panel nauczyciela
@@ -39,7 +38,7 @@ const Nav = () => {
         ) : (
           <></>
         )}
-        {user?.roles.includes('student') ? (
+        {user?.roles?.includes('student') ? (
           <li>
             <Link className="nav-item" to="/student">
               Panel kursanta
@@ -50,7 +49,7 @@ const Nav = () => {
         )}
       </ul>
       <ul className="h nav-list">
-        {localStorage.getItem('eDukatorUser') === null ? (
+        {user === null ? (
           <React.Fragment>
             <li>
               <Link className="nav-item" to="/login">
