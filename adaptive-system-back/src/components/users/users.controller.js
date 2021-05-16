@@ -133,7 +133,7 @@ const enrollUserForCourse = async (req, res, next) => {
 const getQuestionnaire = async (req, res, next) => {
   try {
     let keys = Object.keys(form)
-    keys = keys.sort(() => Math.random())
+    keys = keys.sort(() => Math.random() - 0.5)
     let questionnaire = Array()
     keys.forEach(key => questionnaire.push(form[key]))
     res.json({ keys: keys, questions: questionnaire })

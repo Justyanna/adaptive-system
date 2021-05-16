@@ -14,6 +14,10 @@ const model = new mongoose.Schema({
         type: String,
         required: true
     },
+    category: {
+        type: String,
+        required: true
+    },
     activities: {
         type: [new mongoose.Schema({})]
     }
