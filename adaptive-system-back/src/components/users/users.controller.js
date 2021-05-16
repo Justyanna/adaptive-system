@@ -29,8 +29,8 @@ const addUser = async(req, res, next) => {
         const savedUser = await user.save();
 
         const resultUsr = {
-            firstname: user.firstName,
-            lastname: user.lastName
+            firstName: user.firstName,
+            lastName: user.lastName
         };
         res.json(resultUsr);
     } catch (error) {
@@ -76,8 +76,8 @@ const authUser = async(req, res, next) => {
         roles = roles.map((e) => e.name);
 
         const resultUsr = {
-            firstname: user.firstName,
-            lastname: user.lastName,
+            firstName: user.firstName,
+            lastName: user.lastName,
             roles: roles
         };
 

@@ -67,7 +67,7 @@ const Nav = () => {
           <React.Fragment>
             <li>
               <Link className="nav-item" to="/profile">
-                {`${user?.firstname} ${user?.lastname}`}
+                {`${user?.firstName} ${user?.lastName}`}
               </Link>
             </li>
             <li>

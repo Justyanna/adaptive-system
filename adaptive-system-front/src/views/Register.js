@@ -12,7 +12,7 @@ const Register = () =>
         if(!validateForm()) return
         try
         {
-            const res = await signUp({email, firstname: firstName, lastname: lastName, login, password})
+            const res = await signUp({email, firstName, lastName, login, password})
             console.log(res)
         }
         catch(err)
