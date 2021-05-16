@@ -11,7 +11,7 @@ import {
 } from '../services/formUtils'
 
 const Register = ({ setUser }) => {
-  let history = useHistory
+  let history = useHistory()
 
   const handleSubmit = async e => {
     e.preventDefault()
