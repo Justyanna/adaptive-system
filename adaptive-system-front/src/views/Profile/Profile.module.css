@@ -1,0 +1,25 @@
+.layout {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.user-name {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.user-roles {
+  list-style-type: none;
+  display: flex;
+  gap: 2em;
+}
+
+.user-role {
+  color: royalblue;
+  font-weight: bold;
+  outline: solid 2px royalblue;
+  outline-offset: 0.5em;
+}

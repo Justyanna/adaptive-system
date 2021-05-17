@@ -1,0 +1,29 @@
+.nav {
+  padding: 0 2em;
+  background-color: royalblue;
+  display: flex;
+  justify-content: space-between;
+}
+
+.nav-list {
+  list-style-type: none;
+  display: flex;
+  gap: 1em;
+}
+
+.nav-item {
+  display: block;
+  padding: 1em 1em;
+  text-decoration: none;
+  color: #fff;
+}
+
+.nav-item:not(.nav-item-active):hover {
+  background-color: #6384e6;
+}
+
+.nav-item-active {
+  background-color: #fff;
+  color: royalblue;
+  font-weight: bold;
+}
