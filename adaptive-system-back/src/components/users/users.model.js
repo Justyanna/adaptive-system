@@ -46,11 +46,11 @@ const model = new mongoose.Schema({
         default: [],
         required: false
     },
-    Xaxis: {
+    xAxis: {
         type: Number,
         required: false
     },
-    Yaxis: {
+    yAxis: {
         type: Number,
         required: false
     },
@@ -58,6 +58,18 @@ const model = new mongoose.Schema({
         type: [mongoose.Schema.Types.ObjectId],
         required: true,
         ref: 'Role'
+    },
+    questionnaire: {
+        type: new mongoose.Schema({
+            active: Number,
+            questions: [
+                new mongoose.Schema({
+                    id: String,
+                    val: String
+                }, { _id: false })
+            ]
+        }, { _id: false }),
+        required: false
     }
 });
 
