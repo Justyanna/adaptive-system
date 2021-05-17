@@ -142,7 +142,7 @@ const getQuestionnaire = async(req, res, next) => {
             const active = user.questionnaire.active;
             const questions = user.questionnaire.questions;
             const current = questions[active].val;
-            res.json({ current });
+            res.json({ question: current });
         }
     } catch (error) {
         next(error);

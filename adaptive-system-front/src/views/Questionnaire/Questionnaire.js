@@ -1,32 +1,30 @@
-import React, { useState, useEffect } from 'react'
-import { getQuestions } from '../../services/users'
+import React, { useState, useEffect } from 'react';
+import { getQuestions } from '../../services/users';
 
 const Questionnaire = () => {
-  let [questions, setQuestions] = useState(null)
+	let [ question, setQuestion ] = useState(null);
 
-  useEffect(() => {
-    ;(async () => {
-      let res = await getQuestions()
-      setQuestions(res.data.questions)
-    })()
-  }, [])
+	useEffect(() => {
+		(async () => {
+			let res = await getQuestions();
+			setQuestion(res.data.question);
+		})();
+	}, []);
 
-  return (
-    <div>
-      <h2>Strona główna</h2>
-      {questions === null ? (
-        <p>Pytania są niedostępne</p>
-      ) : (
-        <ul className="list">
-          {questions.map((question, id) => (
-            <li className="list-item" key={id}>
-              {question}
-            </li>
-          ))}
-        </ul>
-      )}
-    </div>
-  )
-}
+	return (
+		<div>
+			<h2>Strona główna</h2>
+			{question === null ? (
+				<p>Pytania są niedostępne</p>
+			) : (
+				<ul className="list">
+					<li className="list-item" >
+						{question}
+					</li>
+				</ul>
+			)}
+		</div>
+	);
+};
 
-export default Questionnaire
+export default Questionnaire;
