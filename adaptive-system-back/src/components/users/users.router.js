@@ -4,11 +4,11 @@ import auth from '../../middleware/auth.js';
 
 const usersRouter = express.Router();
 
+usersRouter.get('/user/courses', auth.authenticate, usersController.getCourses);
 usersRouter.get('/user/:userId', auth.authenticate, usersController.getUser);
 usersRouter.get('/users', auth.authenticate, usersController.getUsers);
 usersRouter.get('/update', auth.authenticate, usersController.updateToken);
 // usersRouter.get('/users/roleId', auth.authenticate, usersController.getUserByRole);
-usersRouter.get('/users/courses', auth.authenticate, usersController.getCourses);
 
 usersRouter.post('/user', usersController.addUser);
 usersRouter.post('/user/login', usersController.authUser);
