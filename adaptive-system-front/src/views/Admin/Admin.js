@@ -46,7 +46,7 @@ const Admin = () => {
   }
 
   return (
-    <main>
+    <main className="layout">
       <h2>Użytkownicy</h2>
       {userList === null ? (
         <p>Nie ma tu żadnych użytkowników</p>

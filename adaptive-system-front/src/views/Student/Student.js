@@ -29,12 +29,12 @@ const Student = () => {
   }
 
   return (
-    <main>
+    <main className="layout">
       <h2>Twoje kursy</h2>
       {courseList === null ? (
         <p>Nie masz jeszcze żadnych kursów</p>
       ) : (
-        <ul>
+        <ul className="list">
           {courseList.map((course, key) => (
             <CourseCard course={course} key={key} />
           ))}

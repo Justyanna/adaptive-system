@@ -26,11 +26,11 @@ const Questionnaire = () => {
         <form className={styles['question-container']} onSubmit={handleSubmit}>
           <p className={styles['question-contents']}>{question}</p>
           <div className={styles['question-interface']}>
-            <button className={`btn ${styles.btn}`} id="true">
-              TAK
+            <button className={`btn action ${styles.btn}`} id="true">
+              PRAWDA
             </button>
-            <button className={`btn ${styles.btn}`} id="false">
-              NIE
+            <button className={`btn action ${styles.btn}`} id="false">
+              FAŁSZ
             </button>
           </div>
         </form>
