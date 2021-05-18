@@ -29,12 +29,12 @@ const Teacher = () => {
   }
 
   return (
-    <main>
+    <main className="layout">
       <h2>Prowadzone kursy</h2>
       {courseList === null ? (
         <p>Nie prowadzisz jeszcze żadnych kursów</p>
       ) : (
-        <ul>
+        <ul className="list">
           {courseList.map((course, key) => (
             <CourseCard course={course} key={key} />
           ))}

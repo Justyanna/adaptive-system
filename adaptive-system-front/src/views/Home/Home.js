@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react'
 import { getCourseList } from '../../services/courses'
+import CourseCard from './CourseCard'
+// import styles from './Home.module.css'
 
 const Home = () => {
   const [courseList, setCourseList] = useState(null)
@@ -12,20 +14,18 @@ const Home = () => {
   }, [])
 
   return (
-    <div>
-      <h2>Strona główna</h2>
+    <main className="layout">
+      <h2>Dostępne kursy</h2>
       {courseList === null ? (
         <p>Nie ma jeszcze żadnych kursów</p>
       ) : (
         <ul className="list">
-          {courseList.map(course => (
-            <li className="list-item" key={course._id}>
-              {course.name}
-            </li>
+          {courseList.map((course, key) => (
+            <CourseCard course={course} key={key} />
           ))}
         </ul>
       )}
-    </div>
+    </main>
   )
 }
 

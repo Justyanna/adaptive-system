@@ -1,5 +1,5 @@
 .btn {
-  letter-spacing: 0.1em;
+  width: 10em;
 }
 
 .question-container {
@@ -19,4 +19,5 @@
   margin-top: 2em;
   display: flex;
   justify-content: space-evenly;
+  gap: 1em;
 }

@@ -20,7 +20,8 @@
 }
 
 .nav-item:not(.nav-item-active):hover {
-  filter: brightness(140%);
+  background-color: var(--c-secondary);
+  color: var(--c-black);
 }
 
 .nav-item-active {
