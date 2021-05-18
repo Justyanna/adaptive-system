@@ -267,7 +267,14 @@ const updateToken = async(req, res, next) => {
 const getCourses = async(req, res, next) => {
     try {
         const user = await User.findOne({ login: req.login });
-        let courses = await Course.find({}, { name: 1, author: 1, category: 1, _id: 1, activities: 0 })
+        let courses = await Course.find({})
+            .select({
+                name: 1,
+                _id: 1,
+                category: 1,
+                author: 1,
+                date: 1
+            })
             .where('_id')
             .in(user.courses)
             .exec();

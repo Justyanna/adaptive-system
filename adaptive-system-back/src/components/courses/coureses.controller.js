@@ -4,7 +4,13 @@ import User from '../users/users.model.js';
 
 const getCourses = async(req, res, next) => {
     try {
-        const courses = await Course.find({}, { name: 1, _id: 1, category: 1, author: 1, date: 1, activities: 0 });
+        const courses = await Course.find({}).select({
+            name: 1,
+            _id: 1,
+            category: 1,
+            author: 1,
+            date: 1
+        });
         res.json(courses);
     } catch (ex) {
         next(ex);
