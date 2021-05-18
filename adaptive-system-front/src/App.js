@@ -11,6 +11,7 @@ import Teacher from './views/Teacher/Teacher'
 import Student from './views/Student/Student'
 import Questionnaire from './views/Questionnaire/Questionnaire'
 import Course from './views/Course/Course'
+import CourseEdit from './views/Course/CourseEdit'
 
 function App() {
   let [user, setUser] = useState(
@@ -36,6 +37,7 @@ function App() {
         <Route exact path="/student" component={Student} />
         <Route exact path="/questionnaire" component={Questionnaire} />
         <Route exact path="/course/:courseId" component={Course} />
+        <Route exact path="/course/:courseId/edit" component={CourseEdit} />
       </Switch>
     </Router>
   )
