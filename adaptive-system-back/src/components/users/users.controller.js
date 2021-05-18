@@ -195,16 +195,16 @@ const checkQuestionnaire = async(req, res, next) => {
                     for (let i = 0; i < questions.length; i++) {
                         switch (questions[i].id[0]) {
                             case 'a':
-                                counterA += questions[i].val ? 1 : 0;
+                                counterA += questions[i].val === 'true' ? 1 : 0;
                                 break;
                             case 'b':
-                                counterB += questions[i].val ? 1 : 0;
+                                counterB += questions[i].val === 'true' ? 1 : 0;
                                 break;
                             case 'g':
-                                counterG += questions[i].val ? 1 : 0;
+                                counterG += questions[i].val === 'true' ? 1 : 0;
                                 break;
                             case 'd':
-                                counterD += questions[i].val ? 1 : 0;
+                                counterD += questions[i].val === 'true' ? 1 : 0;
                                 break;
                         }
                     }
