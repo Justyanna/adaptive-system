@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
-import { getCourseList } from '../../services/courses'
+import { getCourse } from '../../services/courses'
 import { enrollAtCourse } from '../../services/users'
 import { objIsEmpty } from '../../utils'
 
@@ -12,8 +12,8 @@ const Course = () => {
   useEffect(
     _ => {
       ;(async _ => {
-        const res = await getCourseList()
-        setCourse(res.data.filter(c => c._id === courseId)[0])
+        const res = await getCourse(courseId)
+        setCourse(res.data)
       })()
     },
     [courseId]

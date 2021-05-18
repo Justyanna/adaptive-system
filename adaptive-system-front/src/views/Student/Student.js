@@ -13,7 +13,6 @@ const Student = () => {
 
   let getCourseList = async _ => {
     const res = await getUserCourseList()
-    console.log(res.data.courses)
     return res.data.courses
   }
 
