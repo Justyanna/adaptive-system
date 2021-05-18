@@ -7,11 +7,12 @@
   max-width: 50vw;
   margin: auto auto;
   padding: 4em 3em;
-  outline: solid 4px royalblue;
+  outline: solid 4px var(--c-action);
 }
 
 .question-contents {
   font-size: 1.2em;
+  font-weight: bold;
 }
 
 .question-interface {

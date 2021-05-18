@@ -18,8 +18,8 @@
 }
 
 .user-role {
-  color: royalblue;
+  color: var(--c-primary);
   font-weight: bold;
-  outline: solid 2px royalblue;
+  outline: solid 2px var(--c-primary);
   outline-offset: 0.5em;
 }
