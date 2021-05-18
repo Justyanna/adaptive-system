@@ -4,7 +4,6 @@ import User from '../users/users.model.js';
 
 const getCourses = async(req, res, next) => {
     try {
-        roles = roles.map((e) => e._id);
         const courses = await Course.find({}, { name: 1, _id: 1, category: 1, author: 1, date: 1, activities: 0 });
         res.json(courses);
     } catch (ex) {
