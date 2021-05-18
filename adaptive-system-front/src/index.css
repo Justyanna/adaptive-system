@@ -61,6 +61,7 @@
   color: var(--secondary, var(--c-white));
   font-family: 'Lexend Deca', sans-serif;
   font-weight: bold;
+  cursor: pointer;
 }
 
 .list {
@@ -71,6 +72,7 @@
   text-decoration: none;
   font-weight: bold;
   color: var(--c-sDark);
+  cursor: pointer;
 }
 
 .link:hover {

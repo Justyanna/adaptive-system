@@ -1,38 +1,27 @@
 import { useState, useEffect } from 'react'
 import CourseCard from './CourseCard'
+import { getUserCourseList } from '../../services/users'
 
 const Student = () => {
-  let [courseList, setCourseList] = useState(null)
+  let [courseList, setCourseList] = useState([])
 
   useEffect(_ => {
-    setCourseList(getCourseList())
+    ;(async _ => {
+      setCourseList(await getCourseList())
+    })()
   }, [])
 
-  let getCourseList = _ => {
-    return [
-      {
-        name: 'Kurs 1',
-        author: 'Janina Kowalska',
-        category: 'Przyroda',
-      },
-      {
-        name: 'Kurs 2',
-        author: 'Janina Kowalska',
-        category: 'Matematyka',
-      },
-      {
-        name: 'Kurs 5',
-        author: 'Jan Kowalski',
-        category: 'Matematyka',
-      },
-    ]
+  let getCourseList = async _ => {
+    const res = await getUserCourseList()
+    console.log(res.data.courses)
+    return res.data.courses
   }
 
   return (
     <main className="layout">
       <h2>Twoje kursy</h2>
-      {courseList === null ? (
-        <p>Nie masz jeszcze żadnych kursów</p>
+      {courseList.length === 0 ? (
+        <p>Nie bierzesz udziału w żadnym kursie</p>
       ) : (
         <ul className="list">
           {courseList.map((course, key) => (
