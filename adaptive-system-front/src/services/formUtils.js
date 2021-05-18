@@ -13,17 +13,17 @@ export const errMessages = {
   confirmPassword: 'Hasła nie są identyczne',
 }
 
-export const handleIssues = (document, issues) => {
+export const handleIssues = (document, issues, errClass) => {
   if (issues.length === 0) return true
   for (const issue of issues) {
     const source = document.querySelector(`#${issue.source}`)
     const target = document.querySelector(`#err-${issue.source}`)
     target.classList.remove('collapsed')
     target.innerText = issue.message
-    source.classList.add('highlight-error')
+    source.classList.add(errClass)
     source.addEventListener('focus', e => {
       target.classList.add('collapsed')
-      source.classList.remove('highlight-error')
+      source.classList.remove(errClass)
     })
   }
   return false

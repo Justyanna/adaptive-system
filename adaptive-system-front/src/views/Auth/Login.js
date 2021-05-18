@@ -3,6 +3,7 @@ import { Link, useHistory } from 'react-router-dom'
 import { signIn } from '../../services/auth'
 import { handleHttpError } from '../../services/httpUtils'
 import { handleIssues } from '../../services/formUtils'
+import styles from './Auth.module.css'
 
 const Login = ({ setUser }) => {
   const history = useHistory()
@@ -37,37 +38,55 @@ const Login = ({ setUser }) => {
         message: 'Pole hasło nie może być puste',
       })
 
-    return handleIssues(document, issues)
+    return handleIssues(document, issues, styles['form-input-error'])
   }
 
   const [login, setLogin] = useState(null)
   const [password, setPassword] = useState(null)
 
   return (
-    <main>
-      <form onSubmit={handleSubmit}>
-        <h2>Zaloguj się</h2>
-        <div className="input">
-          <label htmlFor="login">Login</label>
+    <main className="layout">
+      <form
+        className={styles['form']}
+        style={{ width: '300px' }}
+        onSubmit={handleSubmit}
+      >
+        <h2>Logowanie</h2>
+        <div className={styles['form-item']}>
+          <label className={styles['form-label']} htmlFor="login">
+            Login
+          </label>
           <input
+            className={styles['form-input']}
             type="text"
             name="login"
             id="login"
             onChange={e => setLogin(e.target.value)}
           />
-          <small className="collapsed" id="err-login"></small>
+          <small
+            className={`collapsed ${styles['form-error']}`}
+            id="err-login"
+          ></small>
         </div>
-        <div className="input">
-          <label htmlFor="password">Hasło</label>
+        <div className={styles['form-item']}>
+          <label className={styles['form-label']} htmlFor="password">
+            Hasło
+          </label>
           <input
-            type="text"
+            className={styles['form-input']}
+            type="password"
             name="password"
             id="password"
             onChange={e => setPassword(e.target.value)}
           />
-          <small className="collapsed" id="err-password"></small>
+          <small
+            className={`collapsed ${styles['form-error']}`}
+            id="err-password"
+          ></small>
         </div>
-        <button className="btn">Zaloguj</button>
+        <div className={styles['form-item']}>
+          <button className={`btn ${styles['form-submit']}`}>Zaloguj</button>
+        </div>
       </form>
       <Link to="/">Strona główna</Link>
     </main>

@@ -9,6 +9,7 @@ import {
   regexLogin,
   handleIssues,
 } from '../../services/formUtils'
+import styles from './Auth.module.css'
 
 const Register = ({ setUser }) => {
   let history = useHistory()
@@ -61,7 +62,7 @@ const Register = ({ setUser }) => {
         message: errMessages.confirmPassword,
       })
 
-    return handleIssues(document, issues)
+    return handleIssues(document, issues, styles['form-input-error'])
   }
 
   const [email, setEmail] = useState(null)
@@ -72,71 +73,115 @@ const Register = ({ setUser }) => {
   const [confirmPassword, setConfirmPassword] = useState(null)
 
   return (
-    <main>
-      <form onSubmit={handleSubmit}>
-        <h2>Zarejestruj się</h2>
-        <div className="input">
-          <label htmlFor="email">Adres email</label>
+    <main className="layout">
+      <form
+        className={styles['form']}
+        style={{ width: '400px' }}
+        onSubmit={handleSubmit}
+      >
+        <h2>Rejestracja</h2>
+        <div className={styles['form-item']}>
+          <label className={styles['form-label']} htmlFor="email">
+            Adres email
+          </label>
           <input
+            className={styles['form-input']}
             type="text"
             name="email"
             id="email"
             onChange={e => setEmail(e.target.value)}
           />
-          <small className="collapsed" id="err-email"></small>
+          <small
+            className={`collapsed ${styles['form-error']}`}
+            id="err-email"
+          ></small>
         </div>
-        <div className="input">
-          <label htmlFor="first-name">Imię</label>
+        <div className={styles['form-item']}>
+          <label className={styles['form-label']} htmlFor="first-name">
+            Imię
+          </label>
           <input
+            className={styles['form-input']}
             type="text"
             name="first-name"
             id="first-name"
             onChange={e => setFirstName(e.target.value)}
           />
-          <small className="collapsed" id="err-first-name"></small>
+          <small
+            className={`collapsed ${styles['form-error']}`}
+            id="err-first-name"
+          ></small>
         </div>
-        <div className="input">
-          <label htmlFor="last-name">Nazwisko</label>
+        <div className={styles['form-item']}>
+          <label className={styles['form-label']} htmlFor="last-name">
+            Nazwisko
+          </label>
           <input
+            className={styles['form-input']}
             type="text"
             name="last-name"
             id="last-name"
             onChange={e => setLastName(e.target.value)}
           />
-          <small className="collapsed" id="err-last-name"></small>
+          <small
+            className={`collapsed ${styles['form-error']}`}
+            id="err-last-name"
+          ></small>
         </div>
-        <div className="input">
-          <label htmlFor="login">Login</label>
+        <div className={styles['form-item']}>
+          <label className={styles['form-label']} htmlFor="login">
+            Login
+          </label>
           <input
+            className={styles['form-input']}
             type="text"
             name="login"
             id="login"
             onChange={e => setLogin(e.target.value)}
           />
-          <small className="collapsed" id="err-login"></small>
+          <small
+            className={`collapsed ${styles['form-error']}`}
+            id="err-login"
+          ></small>
         </div>
-        <div className="input">
-          <label htmlFor="password">Hasło</label>
+        <div className={styles['form-item']}>
+          <label className={styles['form-label']} htmlFor="password">
+            Hasło
+          </label>
           <input
-            type="text"
+            className={styles['form-input']}
+            type="password"
             name="password"
             id="password"
             onChange={e => setPassword(e.target.value)}
           />
-          <small className="collapsed" id="err-password"></small>
+          <small
+            className={`collapsed ${styles['form-error']}`}
+            id="err-password"
+          ></small>
         </div>
-        <div className="input">
-          <label htmlFor="confirm-password">Potwierdź hasło</label>
+        <div className={styles['form-item']}>
+          <label className={styles['form-label']} htmlFor="confirm-password">
+            Potwierdź hasło
+          </label>
           <input
-            type="text"
+            className={styles['form-input']}
+            type="password"
             name="confirm-password"
             id="confirm-password"
             onChange={e => setConfirmPassword(e.target.value)}
             onBlur={e => checkPassword()}
           />
-          <small className="collapsed" id="err-confirm-password"></small>
+          <small
+            className={`collapsed ${styles['form-error']}`}
+            id="err-confirm-password"
+          ></small>
         </div>
-        <button className="btn">Zarejestruj</button>
+        <div className={styles['form-item']}>
+          <button className={`btn ${styles['form-submit']}`}>
+            Zarejestruj
+          </button>
+        </div>
       </form>
       <Link to="/">Strona główna</Link>
     </main>
