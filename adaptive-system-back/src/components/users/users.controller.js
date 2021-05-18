@@ -18,7 +18,6 @@ const getUser = async(req, res, next) => {
 const getUserByRole = async(req, res, next) => {
     try {
         const role = await Role.findById(req.params.roleId);
-        console.log(role);
         const users = await User.find({ role: role });
         res.json(users);
     } catch (error) {
@@ -268,7 +267,7 @@ const updateToken = async(req, res, next) => {
 const getCourses = async(req, res, next) => {
     try {
         const user = await User.findOne({ login: req.login });
-        let courses = await Course.find({}, { name: 1, author: 1, category: 1, _id: 0 })
+        let courses = await Course.find({}, { name: 1, author: 1, category: 1, _id: 1, activities: 0 })
             .where('_id')
             .in(user.courses)
             .exec();
