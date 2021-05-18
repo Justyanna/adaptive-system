@@ -2,6 +2,6 @@ import { default as axios } from './axios'
 
 const questionnaireUrl = 'questionnaire'
 
-export const getQuestions = _ => {
+export const getQuestion = _ => {
   return axios.get(questionnaireUrl)
 }

@@ -21,16 +21,18 @@ const Nav = ({ user, setUser }) => {
             Strona główna
           </Link>
         </li>
-        <li>
-          <NavLink
-            className={styles['nav-item']}
-            activeClassName={styles['nav-item-active']}
-            to="/questionnaire"
-          >
-            Ankieta
-          </NavLink>
-        </li>
-        {user?.roles?.includes('admin') ? (
+        {user?.roles && !user.roles.includes('student') && (
+          <li>
+            <NavLink
+              className={styles['nav-item']}
+              activeClassName={styles['nav-item-active']}
+              to="/questionnaire"
+            >
+              Ankieta
+            </NavLink>
+          </li>
+        )}
+        {user?.roles?.includes('admin') && (
           <li>
             <NavLink
               className={styles['nav-item']}
@@ -40,10 +42,8 @@ const Nav = ({ user, setUser }) => {
               Panel administratora
             </NavLink>
           </li>
-        ) : (
-          <></>
         )}
-        {user?.roles?.includes('teacher') ? (
+        {user?.roles?.includes('teacher') && (
           <li>
             <NavLink
               className={styles['nav-item']}
@@ -53,10 +53,8 @@ const Nav = ({ user, setUser }) => {
               Panel prowadzącego
             </NavLink>
           </li>
-        ) : (
-          <></>
         )}
-        {user?.roles?.includes('student') ? (
+        {user?.roles?.includes('student') && (
           <li>
             <NavLink
               className={styles['nav-item']}
@@ -66,8 +64,6 @@ const Nav = ({ user, setUser }) => {
               Panel kursanta
             </NavLink>
           </li>
-        ) : (
-          <></>
         )}
       </ul>
       <ul className={styles['nav-list']}>

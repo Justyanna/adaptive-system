@@ -5,7 +5,7 @@ import { handleHttpError } from '../../services/httpUtils'
 import { handleIssues } from '../../services/formUtils'
 
 const Login = ({ setUser }) => {
-  let history = useHistory()
+  const history = useHistory()
 
   const handleSubmit = async e => {
     e.preventDefault()

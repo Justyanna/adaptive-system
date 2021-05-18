@@ -1,0 +1,21 @@
+.btn {
+  letter-spacing: 0.1em;
+}
+
+.question-container {
+  width: fit-content;
+  max-width: 50vw;
+  margin: auto auto;
+  padding: 4em 3em;
+  outline: solid 4px royalblue;
+}
+
+.question-contents {
+  font-size: 1.2em;
+}
+
+.question-interface {
+  margin-top: 2em;
+  display: flex;
+  justify-content: space-evenly;
+}

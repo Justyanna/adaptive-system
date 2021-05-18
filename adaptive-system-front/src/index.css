@@ -11,6 +11,13 @@
   flex-direction: column;
 }
 
+.layout {
+  flex: 1;
+  padding: 2rem 3em;
+  display: flex;
+  flex-direction: column;
+}
+
 .flow > * + * {
   margin-top: 1em;
 }
@@ -25,6 +32,16 @@
   margin: 1em 0;
   padding: 1em;
   box-shadow: 0 0 1em var(--shadow, #888);
+}
+
+.btn {
+  border: none;
+  outline: none;
+  padding: 1em 2em;
+  background-color: var(--btn-bg, royalblue);
+  color: var(--btn-color, #fff);
+  font-family: 'Recursive', sans-serif;
+  font-weight: bold;
 }
 
 /* MODIFIERS */
