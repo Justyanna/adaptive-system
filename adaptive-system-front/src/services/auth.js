@@ -2,6 +2,7 @@ import { default as axios } from './axios'
 
 const loginUrl = 'user/login'
 const registerUrl = 'user'
+const updateTokenUrl = 'update'
 
 export const signIn = data => {
   return axios.post(loginUrl, data)
@@ -9,6 +10,10 @@ export const signIn = data => {
 
 export const signUp = data => {
   return axios.post(registerUrl, data)
+}
+
+export const updateToken = _ => {
+  return axios.get(updateTokenUrl)
 }
 
 export const updateUserData = (source, setter) => {

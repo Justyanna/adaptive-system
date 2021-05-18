@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { getQuestion, answerQuestion } from '../../services/users'
+import { updateToken, updateUserData } from '../../services/auth'
+import { useHistory } from 'react-router-dom'
 import styles from './Questionnaire.module.css'
-import { updateUserData } from '../../services/auth'
 
 const Questionnaire = ({ setUser }) => {
+  const history = useHistory()
+
   const [question, setQuestion] = useState(null)
   const [questionId, setQuestionId] = useState(null)
 
@@ -18,11 +21,12 @@ const Questionnaire = ({ setUser }) => {
   const handleSubmit = async e => {
     e.preventDefault()
     const res = await answerQuestion(e.nativeEvent.submitter.id)
-    if (questionId < 31) {
+    if (questionId < 30) {
       setQuestion(res.data.question)
-      setQuestion(res.data.id)
+      setQuestionId(res.data.id)
     } else {
-      updateUserData(res, setUser)
+      updateUserData(await updateToken(), setUser)
+      history.push('/')
     }
   }
 
