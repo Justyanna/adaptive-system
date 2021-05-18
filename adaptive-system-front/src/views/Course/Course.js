@@ -9,12 +9,15 @@ const Course = () => {
 
   const [course, setCourse] = useState({})
 
-  useEffect(_ => {
-    ;(async _ => {
-      const res = await getCourseList()
-      setCourse(res.data.filter(c => c._id === courseId)[0])
-    })()
-  }, [])
+  useEffect(
+    _ => {
+      ;(async _ => {
+        const res = await getCourseList()
+        setCourse(res.data.filter(c => c._id === courseId)[0])
+      })()
+    },
+    [courseId]
+  )
 
   const enroll = async _ => {
     console.log(await enrollAtCourse({ name: course.name }))
