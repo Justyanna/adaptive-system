@@ -11,16 +11,6 @@ const getCourses = async(req, res, next) => {
     }
 };
 
-const getUserCourses = async(req, res, next) => {
-    try {
-        const user = await User.findById(req.params.userId);
-        let courses = await Course.find({}, { name: 1, _id: 0 }).where('_id').in(user.courses).exec();
-        res.json(courses);
-    } catch (ex) {
-        next(ex);
-    }
-};
-
 const getCourse = async(req, res, next) => {
     try {
         const course = await Course.findById(req.params.courseId);
@@ -76,4 +66,4 @@ const updateCourse = async(req, res, next) => {
     }
 };
 
-export default { getCourses, getCourse, addCourse, deleteCourse, updateCourse, getUserCourses };
+export default { getCourses, getCourse, addCourse, deleteCourse, updateCourse };
