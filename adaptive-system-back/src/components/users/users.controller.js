@@ -15,6 +15,26 @@ const getUser = async(req, res, next) => {
     }
 };
 
+const getUserByRole = async(req, res, next) => {
+    try {
+        const role = await Role.findById(req.params.roleId);
+        console.log(role);
+        const users = await User.find({ role: role });
+        res.json(users);
+    } catch (error) {
+        next(error);
+    }
+};
+
+const getUsers = async(req, res, next) => {
+    try {
+        const users = await User.find();
+        res.json(users);
+    } catch (error) {
+        next(error);
+    }
+};
+
 const addUser = async(req, res, next) => {
     try {
         const tempUsr = req.body;
@@ -75,10 +95,10 @@ const deleteUser = async(req, res, next) => {
 const authUser = async(req, res, next) => {
     try {
         const user = await User.findOne({ login: req.body.login });
-        if (!user) throw new Error('Incorrect login');
+        if (!user) res.status(401).end('Wrong login');
 
         const checkPassword = await bcrypt.compare(req.body.password, user.password);
-        if (!checkPassword) throw new Error('Incorrect password');
+        if (!checkPassword) res.status(401).end('Wrong password');
 
         const SECRET = process.env.TOKEN_SECRET;
 
@@ -142,7 +162,7 @@ const getQuestionnaire = async(req, res, next) => {
             const active = user.questionnaire.active;
             const questions = user.questionnaire.questions;
             const current = questions[active].val;
-            res.json({ question: current });
+            res.json({ question: current, id: active });
         }
     } catch (error) {
         next(error);
@@ -153,50 +173,56 @@ const checkQuestionnaire = async(req, res, next) => {
     try {
         const isStudent = await auth.checkIsStudent(req.roles);
         if (isStudent) {
-            res.status(406).end('Not Acceptable');
+            res.status(403).end('User already is student');
         } else {
             var user = await User.findOne({ login: req.login });
-            var active = user.questionnaire.active;
-            if (active < 32) {
-                user.questionnaire.questions[active].val = req.body.answer;
-                user.questionnaire.active = active + 1;
-                await User.findByIdAndUpdate(user._id, user, { new: true });
-                res.status(200).end('Updated');
-            } else {
-                let counterA = 0;
-                let counterB = 0;
-                let counterG = 0;
-                let counterD = 0;
-                const questions = user.questionnaire.questions;
-                for (let i = 0; i < questions.length; i++) {
-                    switch (questions[i].id[0]) {
-                        case 'a':
-                            counterA += questions[i].val ? 1 : 0;
-                            break;
-                        case 'b':
-                            counterB += questions[i].val ? 1 : 0;
-                            break;
-                        case 'g':
-                            counterG += questions[i].val ? 1 : 0;
-                            break;
-                        case 'd':
-                            counterD += questions[i].val ? 1 : 0;
-                            break;
+            if (user.questionnaire != null) {
+                var active = user.questionnaire.active;
+                if (active < 30) {
+                    user.questionnaire.questions[active].val = req.body.answer;
+                    user.questionnaire.active = active + 1;
+                    await User.findByIdAndUpdate(user._id, user, { new: true });
+
+                    const questions = user.questionnaire.questions;
+                    const current = questions[user.questionnaire.active].val;
+                    res.json({ question: current, id: user.questionnaire.active });
+                } else {
+                    let counterA = 0;
+                    let counterB = 0;
+                    let counterG = 0;
+                    let counterD = 0;
+                    const questions = user.questionnaire.questions;
+                    for (let i = 0; i < questions.length; i++) {
+                        switch (questions[i].id[0]) {
+                            case 'a':
+                                counterA += questions[i].val ? 1 : 0;
+                                break;
+                            case 'b':
+                                counterB += questions[i].val ? 1 : 0;
+                                break;
+                            case 'g':
+                                counterG += questions[i].val ? 1 : 0;
+                                break;
+                            case 'd':
+                                counterD += questions[i].val ? 1 : 0;
+                                break;
+                        }
                     }
+
+                    let valY = (counterG - counterA) / 10;
+                    let valX = (counterD - counterB) / 10;
+
+                    user.xAxis = valX;
+                    user.yAxis = valY;
+                    user.questionnaire = null;
+                    const studentRole = await Role.findOne({ name: 'student' });
+                    user.roles.push(studentRole._id);
+                    await User.findByIdAndUpdate(user._id, user, { new: true });
+
+                    res.json({ xaxis: valX, yaxis: valY });
                 }
-
-                let valY = (counterG - counterA) / 10;
-                let valX = (counterD - counterB) / 10;
-
-                user.xAxis = valX;
-                user.yAxis = valY;
-                user.questionnaire = null;
-                const studentRole = await Role.findOne({ name: 'student' });
-                user.roles.push(studentRole._id);
-                await User.findByIdAndUpdate(user._id, user, { new: true });
-
-                res.json({ xaxis: valX, yaxis: valY });
             }
+            res.status(403).end('User already is student');
         }
     } catch (error) {
         next(error);
@@ -206,7 +232,7 @@ const checkQuestionnaire = async(req, res, next) => {
 const updateToken = async(req, res, next) => {
     try {
         const user = await User.findOne({ login: req.login });
-        if (!user) throw new Error('Incorrect login');
+        if (!user) res.status(401).end('Wrong user login');
 
         const SECRET = process.env.TOKEN_SECRET;
 
@@ -235,6 +261,8 @@ const updateToken = async(req, res, next) => {
 
 export default {
     getUser,
+    getUsers,
+    getUserByRole,
     addUser,
     deleteUser,
     authUser,
