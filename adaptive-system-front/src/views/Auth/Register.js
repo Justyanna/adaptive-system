@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link, useHistory } from 'react-router-dom'
-import { signUp } from '../../services/auth'
+import { signUp, updateUserData } from '../../services/auth'
 import { handleHttpError } from '../../services/httpUtils'
 import {
   regexEmail,
@@ -19,9 +19,7 @@ const Register = ({ setUser }) => {
     if (!validateForm()) return
     try {
       const res = await signUp({ email, firstName, lastName, login, password })
-      localStorage.setItem('eDukatorToken', res.data.token)
-      localStorage.setItem('eDukatorUser', JSON.stringify(res.data.user))
-      setUser(res.data.user)
+      updateUserData(res, setUser)
       history.push('/')
     } catch (err) {
       handleHttpError(err, {

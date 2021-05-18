@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link, useHistory } from 'react-router-dom'
-import { signIn } from '../../services/auth'
+import { signIn, updateUserData } from '../../services/auth'
 import { handleHttpError } from '../../services/httpUtils'
 import { handleIssues } from '../../services/formUtils'
 import styles from './Auth.module.css'
@@ -13,9 +13,7 @@ const Login = ({ setUser }) => {
     if (!validateForm()) return
     try {
       const res = await signIn({ login, password })
-      localStorage.setItem('eDukatorToken', res.data.token)
-      localStorage.setItem('eDukatorUser', JSON.stringify(res.data.user))
-      setUser(res.data.user)
+      updateUserData(res, setUser)
       history.push('/')
     } catch (err) {
       handleHttpError(err, {

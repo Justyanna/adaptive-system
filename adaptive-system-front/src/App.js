@@ -35,7 +35,9 @@ function App() {
         <Route exact path="/admin" component={Admin} />
         <Route exact path="/teacher" component={Teacher} />
         <Route exact path="/student" component={Student} />
-        <Route exact path="/questionnaire" component={Questionnaire} />
+        <Route exact path="/questionnaire">
+          <Questionnaire setUser={setUser} />
+        </Route>
         <Route exact path="/course/:courseId" component={Course} />
         <Route exact path="/course/:courseId/edit" component={CourseEdit} />
       </Switch>

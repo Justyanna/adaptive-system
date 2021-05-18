@@ -10,3 +10,9 @@ export const signIn = data => {
 export const signUp = data => {
   return axios.post(registerUrl, data)
 }
+
+export const updateUserData = (source, setter) => {
+  localStorage.setItem('eDukatorToken', source.data.token)
+  localStorage.setItem('eDukatorUser', JSON.stringify(source.data.user))
+  setter(source.data.user)
+}
