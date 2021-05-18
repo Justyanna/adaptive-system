@@ -179,7 +179,7 @@ const checkQuestionnaire = async (req, res, next) => {
   try {
     const isStudent = await auth.checkIsStudent(req.roles)
     if (isStudent) {
-      res.status(403).end('User already is student')
+      return res.status(403).end('User already is student')
     } else {
       var user = await User.findOne({ login: req.login })
       if (user.questionnaire != null) {
@@ -201,16 +201,16 @@ const checkQuestionnaire = async (req, res, next) => {
           for (let i = 0; i < questions.length; i++) {
             switch (questions[i].id[0]) {
               case 'a':
-                counterA += questions[i].val ? 1 : 0
+                counterA += questions[i].val === 'true' ? 1 : 0
                 break
               case 'b':
-                counterB += questions[i].val ? 1 : 0
+                counterB += questions[i].val === 'true' ? 1 : 0
                 break
               case 'g':
-                counterG += questions[i].val ? 1 : 0
+                counterG += questions[i].val === 'true' ? 1 : 0
                 break
               case 'd':
-                counterD += questions[i].val ? 1 : 0
+                counterD += questions[i].val === 'true' ? 1 : 0
                 break
             }
           }
@@ -225,10 +225,11 @@ const checkQuestionnaire = async (req, res, next) => {
           user.roles.push(studentRole._id)
           await User.findByIdAndUpdate(user._id, user, { new: true })
 
-          res.json({ xaxis: valX, yaxis: valY })
+          return res.json({ xaxis: valX, yaxis: valY })
         }
+      } else {
+        return res.status(403).end('User already is student')
       }
-      res.status(403).end('User already is student')
     }
   } catch (error) {
     next(error)
