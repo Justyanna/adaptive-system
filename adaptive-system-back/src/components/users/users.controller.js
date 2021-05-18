@@ -66,6 +66,8 @@ const addUser = async(req, res, next) => {
         const token = jwt.sign(payload, SECRET, { expiresIn: '1d' });
 
         const resultUsr = {
+            _id: user._id,
+            email: user.email,
             firstName: user.firstName,
             lastName: user.lastName,
             roles: roles
@@ -114,6 +116,8 @@ const authUser = async(req, res, next) => {
         roles = roles.map((e) => e.name);
 
         const resultUsr = {
+            _id: user._id,
+            email: user.email,
             firstName: user.firstName,
             lastName: user.lastName,
             roles: roles
@@ -249,11 +253,12 @@ const updateToken = async(req, res, next) => {
         roles = roles.map((e) => e.name);
 
         const resultUsr = {
+            _id: user._id,
+            email: user.email,
             firstName: user.firstName,
             lastName: user.lastName,
             roles: roles
         };
-
         res.json({ user: resultUsr, token });
     } catch (ex) {
         next(ex);
@@ -263,8 +268,44 @@ const updateToken = async(req, res, next) => {
 const getCourses = async(req, res, next) => {
     try {
         const user = await User.findOne({ login: req.login });
-        let courses = await Course.find({}, { name: 1, _id: 0 }).where('_id').in(user.courses).exec();
+        let courses = await Course.find({}, { name: 1, author: 1, category: 1, _id: 0 })
+            .where('_id')
+            .in(user.courses)
+            .exec();
         res.json({ courses: courses });
+    } catch (ex) {
+        next(ex);
+    }
+};
+
+const switchUserRole = async(req, res, next) => {
+    try {
+        const isAdmin = await auth.checkIsAdmin(req.roles);
+        if (isAdmin) {
+            const user = await User.findById(req.body.userId);
+            const role = await Role.findOne({ name: req.body.role });
+
+            if (user.roles.includes(role._id)) {
+                user.roles = user.roles.filter((roleId) => roleId != String(role._id));
+            } else {
+                user.roles.push(role._id);
+            }
+
+            const updatedUser = await User.findByIdAndUpdate(user._id, user, { new: true });
+
+            const resultUsr = {
+                _id: updatedUser._id,
+                email: updatedUser.email,
+                firstName: updatedUser.firstName,
+                lastName: updatedUser.lastName,
+                roles: updatedUser.roles
+            };
+
+            return res.json({ user: resultUsr });
+        } else {
+            res.status(403);
+            res.json({ message: 'User is not admin' });
+        }
     } catch (ex) {
         next(ex);
     }
@@ -282,5 +323,6 @@ export default {
     enrollUserForCourse,
     getQuestionnaire,
     checkQuestionnaire,
-    updateToken
+    updateToken,
+    switchUserRole
 };
