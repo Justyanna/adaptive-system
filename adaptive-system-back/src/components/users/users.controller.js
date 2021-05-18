@@ -173,7 +173,7 @@ const checkQuestionnaire = async(req, res, next) => {
     try {
         const isStudent = await auth.checkIsStudent(req.roles);
         if (isStudent) {
-            res.status(403).end('User already is student');
+            return res.status(403).end('User already is student');
         } else {
             var user = await User.findOne({ login: req.login });
             if (user.questionnaire != null) {
@@ -219,10 +219,11 @@ const checkQuestionnaire = async(req, res, next) => {
                     user.roles.push(studentRole._id);
                     await User.findByIdAndUpdate(user._id, user, { new: true });
 
-                    res.json({ xaxis: valX, yaxis: valY });
+                    return res.json({ xaxis: valX, yaxis: valY });
                 }
+            } else {
+                return res.status(403).end('User already is student');
             }
-            res.status(403).end('User already is student');
         }
     } catch (error) {
         next(error);
