@@ -9,5 +9,5 @@ coursesRouter.post('/course', auth.authenticate, coursesController.addCourse);
 coursesRouter.get('/course/:courseId', coursesController.getCourse);
 coursesRouter.patch('/course/:courseId', auth.authenticate, coursesController.updateCourse);
 coursesRouter.delete('/course/:courseId', auth.authenticate, coursesController.deleteCourse);
-
+coursesRouter.get('/courses/:userId', auth.authenticate, coursesController.getUserCourses);
 export default coursesRouter;
