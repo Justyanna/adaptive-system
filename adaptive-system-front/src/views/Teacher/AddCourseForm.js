@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useHistory } from 'react-router'
 import { createCourse } from '../../services/courses'
 
-const AddCourseForm = () => {
+const AddCourseForm = ({ categories }) => {
   const history = useHistory()
 
   const [title, setTitle] = useState(null)
@@ -41,9 +41,9 @@ const AddCourseForm = () => {
           onChange={e => setCategory(e.target.value)}
         />
         <datalist id="course-categories">
-          <option value="Matematyka" />
-          <option value="Śmieszne" />
-          <option value="Życiowe" />
+          {categories.map((category, key) => (
+            <option value={category} key={key} />
+          ))}
         </datalist>
       </div>
       <button className="btn action">Stwórz</button>
