@@ -4,6 +4,7 @@ import auth from '../../middleware/auth.js';
 
 const coursesRouter = express.Router();
 coursesRouter.get('/teacher/courses', auth.authenticate, coursesController.getTeacherCourses);
+coursesRouter.get('/categories', auth.authenticate, coursesController.getCatgories);
 coursesRouter.get('/courses', coursesController.getCourses);
 coursesRouter.post('/course', auth.authenticate, coursesController.addCourse);
 coursesRouter.get('/course/:courseId', coursesController.getCourse);
