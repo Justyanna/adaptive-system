@@ -1,9 +1,11 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useParams } from 'react-router-dom'
+import { isLoggedIn } from '../../services/auth'
 import { getCourse } from '../../services/courses'
 import { enrollAtCourse, getUserCourseList } from '../../services/users'
 import { objIsEmpty } from '../../utils'
-import { isLoggedIn } from '../../services/auth'
+import ActivityList from './ActivityList'
+import EnrollUi from './EnrollUi'
 
 const Course = () => {
   const { courseId } = useParams()
@@ -44,26 +46,19 @@ const Course = () => {
     checkEnrolled()
   }
 
+  if (objIsEmpty(course)) return <h2>Kurs {courseId}</h2>
+
   return (
     <main className="layout">
-      {objIsEmpty(course) ? (
-        <h2>Kurs {courseId}</h2>
-      ) : (
-        <>
-          <h2>Kurs {course.name}</h2>
-          {isLoggedIn() && (
-            <div>
-              {enrolled ? (
-                <p>Zapisano</p>
-              ) : (
-                <button className="btn action" onClick={enroll}>
-                  Zapisz się
-                </button>
-              )}
-            </div>
-          )}
-        </>
-      )}
+      <>
+        <h2>Kurs {course.name}</h2>
+        <EnrollUi enrolled={enrolled} enroll={enroll} />
+        {isLoggedIn() && enrolled ? (
+          <ActivityList activities={course.lessons} />
+        ) : (
+          <p>Zaloguj się aby zapisać się na kurs</p>
+        )}
+      </>
     </main>
   )
 }
