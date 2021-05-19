@@ -9,6 +9,7 @@ const Admin = () => {
     ;(async _ => {
       const res = await getUserList()
       setUsers(res.data)
+      // console.log(res.data[1])
     })()
   }, [])
 

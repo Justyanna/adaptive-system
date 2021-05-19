@@ -5,9 +5,11 @@ const Roleroles = ({ roles, user }) => {
   return (
     <>
       <p>Role</p>
-      {roles.map((role, key) => (
-        <RoleItem user={user} role={role} key={key} />
-      ))}
+      <ul>
+        {roles.map((role, key) => (
+          <RoleItem user={user} role={role} key={key} />
+        ))}
+      </ul>
     </>
   )
 }
