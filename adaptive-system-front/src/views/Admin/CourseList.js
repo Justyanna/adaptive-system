@@ -3,14 +3,11 @@ import CourseItem from './CourseItem'
 const CourseList = ({ courses }) => {
   if (!courses?.length > 0) return <></>
   return (
-    <>
-      <p>Kursy</p>
-      <ul className="list">
-        {courses.map((course, key) => (
-          <CourseItem course={course} key={key} />
-        ))}
-      </ul>
-    </>
+    <ul className="list">
+      {courses.map((course, key) => (
+        <CourseItem course={course} key={key} />
+      ))}
+    </ul>
   )
 }
 
