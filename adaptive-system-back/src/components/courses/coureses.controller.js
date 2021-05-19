@@ -61,11 +61,14 @@ const getCourse = async(req, res, next) => {
 
 const addCourse = async(req, res, next) => {
     try {
-        const isAdmin = await auth.checkIsAdmin(req.roles);
-        if (isAdmin) {
+        const isTeacher = await auth.checkUserRole(req.roles, 'teacher');
+        if (isTeacher) {
+            const user = await User.findOne({ login: req.login });
+            req.body.date = Date.now();
+            req.body.author = user._id;
             const newCourse = new Course(req.body);
             const newSavedCourse = await newCourse.save();
-            res.json(newSavedCourse);
+            res.json({ _id: newSavedCourse._id });
         } else {
             res.status(403);
             res.json({ message: 'Forbbiden access' });
@@ -77,8 +80,8 @@ const addCourse = async(req, res, next) => {
 
 const deleteCourse = async(req, res, next) => {
     try {
-        const isAdmin = await auth.checkIsAdmin(req.roles);
-        if (isAdmin) {
+        const isTeacher = await auth.checkUserRole(req.roles, 'teacher');
+        if (isTeacher) {
             await Course.findByIdAndDelete(req.params.courseId);
             res.json({ message: 'Course deleted successfully' });
         } else {
