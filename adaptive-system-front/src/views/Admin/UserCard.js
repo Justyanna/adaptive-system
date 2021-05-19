@@ -9,7 +9,7 @@ const UserCard = ({ user, setUser }) => {
       <p>Role</p>
       <RoleList user={user} setUser={setUser} />
       <p>Kursy</p>
-      <CourseList courses={user.courses} />
+      {/* <CourseList courses={user.courses} /> */}
       {/* <button className="btn error">Zablokuj</button> */}
     </li>
   )
