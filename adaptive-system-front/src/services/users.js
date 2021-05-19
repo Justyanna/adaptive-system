@@ -3,6 +3,7 @@ import { default as axios } from './axios'
 const questionnaireUrl = 'questionnaire'
 const userCourseListUrl = 'user/courses'
 const enrollUrl = 'user/enroll'
+const userListUrl = 'users'
 
 export const getQuestion = _ => {
   return axios.get(questionnaireUrl)
@@ -18,4 +19,8 @@ export const getUserCourseList = _ => {
 
 export const enrollAtCourse = data => {
   return axios.post(enrollUrl, data)
+}
+
+export const getUserList = data => {
+  return axios.get(userListUrl)
 }

@@ -50,7 +50,7 @@
 .card {
   margin: 1em 0;
   padding: 1em;
-  background-color: #fff;
+  background-color: #eee;
 }
 
 .btn {
@@ -62,6 +62,14 @@
   font-family: 'Lexend Deca', sans-serif;
   font-weight: bold;
   cursor: pointer;
+}
+
+.btn:hover {
+  background-color: var(--primary-hover, var(--c-pDark));
+}
+
+.btn:active {
+  background-color: var(--primary-active, var(--c-pLight));
 }
 
 .list {
@@ -87,16 +95,22 @@
 
 .action {
   --primary: var(--c-action);
+  --primary-hover: var(--c-actDark);
+  --primary-active: var(--c-actLight);
   --secondary: var(--c-black);
 }
 
 .error {
   --primary: var(--c-error);
+  --primary-hover: var(--c-errDark);
+  --primary-active: var(--c-errLight);
   --secondary: var(--c-white);
 }
 
 .success {
   --primary: var(--c-success);
+  --primary-hover: var(--c-sucDark);
+  --primary-active: var(--c-sucLight);
   --secondary: var(--c-white);
 }
 
