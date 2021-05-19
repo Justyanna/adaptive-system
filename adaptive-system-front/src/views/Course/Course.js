@@ -53,7 +53,7 @@ const Course = () => {
       <>
         <h2>Kurs {course.name}</h2>
         <EnrollUi enrolled={enrolled} enroll={enroll} />
-        <ActivityList activities={course.lessons} />
+        <ActivityList enrolled={enrolled} activities={course.lessons} />
       </>
     </main>
   )
