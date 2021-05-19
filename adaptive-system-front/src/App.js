@@ -32,7 +32,9 @@ function App() {
         <Route exact path="/profile">
           <Profile user={user} setUser={setUser} />
         </Route>
-        <Route exact path="/admin" component={Admin} />
+        <Route exact path="/admin">
+          <Admin setUser={setUser} />
+        </Route>
         <Route exact path="/teacher" component={Teacher} />
         <Route exact path="/student" component={Student} />
         <Route exact path="/questionnaire">

@@ -5,9 +5,11 @@ const CourseList = ({ courses }) => {
   return (
     <>
       <p>Kursy</p>
-      {courses.map((course, key) => (
-        <CourseItem course={course} key={key} />
-      ))}
+      <ul className="list">
+        {courses.map((course, key) => (
+          <CourseItem course={course} key={key} />
+        ))}
+      </ul>
     </>
   )
 }

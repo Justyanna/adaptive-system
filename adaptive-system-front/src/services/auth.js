@@ -25,3 +25,7 @@ export const updateUserData = (source, setter) => {
 export const isLoggedIn = _ => {
   return localStorage.getItem('eDukatorToken')
 }
+
+export const getUserDetails = _ => {
+  return JSON.parse(localStorage.getItem('eDukatorUser'))
+}

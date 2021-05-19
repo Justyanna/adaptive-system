@@ -1,14 +1,14 @@
 import RoleItem from './RoleItem'
 
-const Roleroles = ({ roles, user }) => {
+const Roleroles = ({ roles, user, setUser }) => {
   if (!roles?.length > 0) return <></>
   return (
     <>
       <p>Role</p>
-      <ul>
-        {roles.map((role, key) => (
-          <RoleItem user={user} role={role} key={key} />
-        ))}
+      <ul className="list">
+        <RoleItem user={user} role="admin" setUser={setUser} key="0" />
+        <RoleItem user={user} role="teacher" setUser={setUser} key="1" />
+        <RoleItem user={user} role="student" setUser={setUser} key="2" />
       </ul>
     </>
   )
