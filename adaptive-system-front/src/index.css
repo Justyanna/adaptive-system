@@ -2,18 +2,18 @@
   --c-action: #ffab00;
   --c-actLight: #ffdd4b;
   --c-actDark: #c67c00;
-  --c-error: #d82200;
-  --c-errLight: #ff5e33;
-  --c-errDark: #9e0000;
+  --c-error: #e83621;
+  --c-errLight: #ff6c4c;
+  --c-errDark: #ad0000;
   --c-success: #09aa6f;
   --c-sucLight: #57dd9e;
   --c-sucDark: #007a43;
   --c-primary: #0d47a1;
   --c-pLight: #5472d3;
   --c-pDark: #002171;
-  --c-secondary: #64dd17;
-  --c-sLight: #9cff57;
-  --c-sDark: #1faa00;
+  --c-secondary: #4dd129;
+  --c-sLight: #87ff5f;
+  --c-sDark: #009f00;
   --c-white: #fff;
   --c-black: #000;
   --c-shadow: var(--c-secondary);
@@ -66,10 +66,12 @@
 
 .btn:hover {
   background-color: var(--primary-hover, var(--c-pDark));
+  color: var(--secondary-hover, var(--secondary));
 }
 
 .btn:active {
   background-color: var(--primary-active, var(--c-pLight));
+  color: var(--secondary-active, var(--secondary));
 }
 
 .list {
@@ -104,7 +106,7 @@
   --primary: var(--c-error);
   --primary-hover: var(--c-errDark);
   --primary-active: var(--c-errLight);
-  --secondary: var(--c-white);
+  --secondary: var(--c-black);
 }
 
 .success {
@@ -112,6 +114,13 @@
   --primary-hover: var(--c-sucDark);
   --primary-active: var(--c-sucLight);
   --secondary: var(--c-white);
+}
+
+.navigation {
+  --primary: var(--c-secondary);
+  --primary-hover: var(--c-action);
+  --primary-active: var(--c-actLight);
+  --secondary: var(--c-black);
 }
 
 /* MODIFIERS */

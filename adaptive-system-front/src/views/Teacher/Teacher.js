@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react'
-import CourseCard from '../Teacher/CourseCard'
+import { CourseList } from './CourseList'
+import NewCourseForm from './NewCourseForm'
 
 const Teacher = () => {
-  let [courseList, setCourseList] = useState(null)
+  const [courseList, setCourseList] = useState(null)
 
   useEffect(_ => {
     setCourseList(getCourseList())
@@ -30,16 +31,10 @@ const Teacher = () => {
 
   return (
     <main className="layout">
+      <h2>Aktualności</h2>
       <h2>Prowadzone kursy</h2>
-      {courseList === null ? (
-        <p>Nie prowadzisz jeszcze żadnych kursów</p>
-      ) : (
-        <ul className="list">
-          {courseList.map((course, key) => (
-            <CourseCard course={course} key={key} />
-          ))}
-        </ul>
-      )}
+      <NewCourseForm />
+      <CourseList courses={courseList} />
     </main>
   )
 }

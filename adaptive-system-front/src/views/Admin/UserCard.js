@@ -8,7 +8,7 @@ const UserCard = ({ user, setUser }) => {
       <p>{user.email}</p>
       <RoleList user={user} roles={user.roles} setUser={setUser} />
       <CourseList courses={user.courses} />
-      <button className="btn error">Zablokuj</button>
+      {/* <button className="btn error">Zablokuj</button> */}
     </li>
   )
 }
