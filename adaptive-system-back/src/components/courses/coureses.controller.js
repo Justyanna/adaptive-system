@@ -116,7 +116,7 @@ const deleteCourse = async(req, res, next) => {
 
 const updateCourse = async(req, res, next) => {
     try {
-        const isAdmin = await auth.checkIsAdmin(req.roles);
+        const isAdmin = await auth.checkUserRole(req.roles, 'admin');
         if (isAdmin) {
             const updatedCourse = await Course.findByIdAndUpdate(req.params.courseId, req.body, { new: true });
             res.json(updatedCourse);
