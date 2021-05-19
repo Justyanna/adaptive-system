@@ -23,6 +23,27 @@ const getCourses = async(req, res, next) => {
     }
 };
 
+const getCatgories = async(req, res, next) => {
+    try {
+        const isTeacher = await auth.checkUserRole(req.roles, 'teacher');
+        if (isTeacher) {
+            let courses = await Course.find().select({
+                category: 1,
+                _id: 0
+            });
+
+            let unique = Array.from(new Set(courses.map((course) => course.category)));
+
+            res.json(unique);
+        } else {
+            res.status(403);
+            res.json({ message: 'User is not teacher' });
+        }
+    } catch (ex) {
+        next(ex);
+    }
+};
+
 const getTeacherCourses = async(req, res, next) => {
     try {
         const isTeacher = await auth.checkUserRole(req.roles, 'teacher');
@@ -108,4 +129,4 @@ const updateCourse = async(req, res, next) => {
     }
 };
 
-export default { getCourses, getCourse, addCourse, deleteCourse, updateCourse, getTeacherCourses };
+export default { getCourses, getCourse, addCourse, deleteCourse, updateCourse, getTeacherCourses, getCatgories };
