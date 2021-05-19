@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-const NewCourseForm = () => {
+const AddCourseForm = () => {
   const [title, setTitle] = useState(null)
   const [category, setCategory] = useState(null)
 
@@ -38,4 +38,4 @@ const NewCourseForm = () => {
   )
 }
 
-export default NewCourseForm
+export default AddCourseForm

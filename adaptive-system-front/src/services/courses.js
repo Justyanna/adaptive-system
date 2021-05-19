@@ -2,9 +2,14 @@ import { default as axios } from './axios'
 
 const courseListUrl = 'courses'
 const courseUrl = 'course/'
+const teacherCourseListUrl = 'teacher/courses'
 
-export const getCourseList = () => {
+export const getCourseList = _ => {
   return axios.get(courseListUrl)
+}
+
+export const getTeacherCourseList = _ => {
+  return axios.get(teacherCourseListUrl)
 }
 
 export const getCourse = id => {
