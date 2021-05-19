@@ -27,7 +27,7 @@ const getUserByRole = async(req, res, next) => {
 
 const getUsers = async(req, res, next) => {
     try {
-        const isAdmin = await auth.checkIsAdmin(req.roles);
+        const isAdmin = await auth.checkUserRole(req.roles, 'admin');
         if (isAdmin) {
             let users = await User.find({}, { _id: 1, courses: 1, roles: 1, email: 1, firstName: 1, lastName: 1 });
             for (let user of users) {
@@ -100,7 +100,7 @@ const addUser = async(req, res, next) => {
 
 const deleteUser = async(req, res, next) => {
     try {
-        const isAdmin = await auth.checkIsAdmin(req.roles);
+        const isAdmin = await auth.checkUserRole(req.roles, 'admin');
         if (isAdmin) {
             await User.findByIdAndDelete(req.params.userId);
 
@@ -117,10 +117,10 @@ const deleteUser = async(req, res, next) => {
 const authUser = async(req, res, next) => {
     try {
         const user = await User.findOne({ login: req.body.login });
-        if (!user) res.status(401).end('Wrong login');
+        if (!user) return res.status(401).end('Wrong login');
 
         const checkPassword = await bcrypt.compare(req.body.password, user.password);
-        if (!checkPassword) res.status(401).end('Wrong password');
+        if (!checkPassword) return res.status(401).end('Wrong password');
 
         const SECRET = process.env.TOKEN_SECRET;
 
@@ -143,7 +143,7 @@ const authUser = async(req, res, next) => {
             roles: roles
         };
 
-        res.json({ user: resultUsr, token });
+        return res.json({ user: resultUsr, token });
     } catch (ex) {
         next(ex);
     }
@@ -177,7 +177,7 @@ const enrollUserForCourse = async(req, res, next) => {
 
 const getQuestionnaire = async(req, res, next) => {
     try {
-        const isStudent = await auth.checkIsStudent(req.roles);
+        const isStudent = await auth.checkUserRole(req.roles, 'student');
         if (isStudent) {
             res.status(406).end('Not Acceptable');
         } else {
@@ -195,7 +195,7 @@ const getQuestionnaire = async(req, res, next) => {
 
 const checkQuestionnaire = async(req, res, next) => {
     try {
-        const isStudent = await auth.checkIsStudent(req.roles);
+        const isStudent = await auth.checkUserRole(req.roles, 'student');
         if (isStudent) {
             return res.status(403).end('User already is student');
         } else {
@@ -307,7 +307,7 @@ const getCourses = async(req, res, next) => {
 
 const switchUserRole = async(req, res, next) => {
     try {
-        const isAdmin = await auth.checkIsAdmin(req.roles);
+        const isAdmin = await auth.checkUserRole(req.roles, 'admin');
         if (isAdmin) {
             const user = await User.findById(req.body.userId);
             const role = await Role.findOne({ name: req.body.role });
