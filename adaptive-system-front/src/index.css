@@ -14,8 +14,12 @@
   --c-secondary: #4dd129;
   --c-sLight: #87ff5f;
   --c-sDark: #009f00;
-  --c-white: #fff;
-  --c-black: #000;
+  --c-white: #eee;
+  --c-whDark: #ccc;
+  --c-whLight: #fff;
+  --c-black: #111;
+  --c-blDark: #000;
+  --c-blLight: #222;
   --c-shadow: var(--c-secondary);
 }
 
@@ -50,7 +54,8 @@
 .card {
   margin: 1em 0;
   padding: 1em;
-  background-color: #eee;
+  background-color: var(--c-whLight);
+  border-radius: 0.5em;
 }
 
 .btn {
@@ -61,6 +66,7 @@
   color: var(--secondary, var(--c-white));
   font-family: 'Lexend Deca', sans-serif;
   font-weight: bold;
+  border-radius: 0.5em;
   cursor: pointer;
 }
 
