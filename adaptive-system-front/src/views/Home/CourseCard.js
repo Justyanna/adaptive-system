@@ -6,7 +6,9 @@ const CourseCard = ({ course }) => {
     <li className="card">
       <p className={styles['course-name']}>{course.name}</p>
       <p className={styles['course-category']}>{course.category}</p>
-      <p className={styles['course-author']}>{course.author}</p>
+      <p
+        className={styles['course-author']}
+      >{`${course.author.firstName} ${course.author.lastName}`}</p>
       <Link
         className={`link ${styles['course-nav']}`}
         to={`course/${course._id}`}
