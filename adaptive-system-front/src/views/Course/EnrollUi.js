@@ -1,7 +1,7 @@
-import { isLoggedIn } from '../../services/auth'
+import { isLoggedIn, getUserDetails } from '../../services/auth'
 
 const EnrollUi = ({ enrolled, enroll }) => {
-  if (!isLoggedIn()) return <></>
+  if (!isLoggedIn() || !getUserDetails().roles.includes('student')) return <></>
 
   if (enrolled)
     return (

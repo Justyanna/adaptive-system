@@ -53,11 +53,7 @@ const Course = () => {
       <>
         <h2>Kurs {course.name}</h2>
         <EnrollUi enrolled={enrolled} enroll={enroll} />
-        {isLoggedIn() && enrolled ? (
-          <ActivityList activities={course.lessons} />
-        ) : (
-          <p>Zaloguj się aby zapisać się na kurs</p>
-        )}
+        <ActivityList activities={course.lessons} />
       </>
     </main>
   )
