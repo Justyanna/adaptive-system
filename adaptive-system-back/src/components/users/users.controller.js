@@ -33,7 +33,7 @@ const getUsers = async(req, res, next) => {
             for (let user of users) {
                 for (let i = 0; i < user.roles.length; i++) {
                     const role = await Role.find({}, { _id: 1, name: 1 }).where('_id').in(user.roles[i]).exec();
-                    user.roles[i] = role;
+                    user.roles[i] = role[0];
                 }
 
                 for (let i = 0; i < user.courses.length; i++) {
@@ -41,7 +41,7 @@ const getUsers = async(req, res, next) => {
                         .where('_id')
                         .in(user.courses[i])
                         .exec();
-                    user.courses[i] = course;
+                    user.courses[i] = course[0];
                 }
             }
 
