@@ -11,7 +11,7 @@ const CourseCard = ({ course }) => {
     <li className="card">
       <p>{course.name}</p>
       <p>{course.category}</p>
-      <p>{course.author}</p>
+      <p>{`${course.author.firstName} ${course.author.lastName}`}</p>
       <button className="btn" onClick={goToCourse}>
         Przejdź
       </button>
