@@ -11,15 +11,22 @@ const model = new mongoose.Schema({
         required: true
     },
     author: {
-        type: String,
-        required: true
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: 'User'
     },
     category: {
         type: String,
         required: true
     },
     activities: {
-        type: new mongoose.Schema({}, { _id: false })
+        type: new mongoose.Schema({
+            common: [
+                new mongoose.Schema({
+                    texts: []
+                }, { _id: false })
+            ]
+        }, { _id: false })
     }
 });
 

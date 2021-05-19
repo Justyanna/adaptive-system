@@ -19,16 +19,10 @@ const authenticate = (req, res, next) => {
     }
 };
 
-const checkIsAdmin = async(rolesIds) => {
+const checkUserRole = async(rolesIds, roleName) => {
     let roles = await Role.find({}, { name: 1, _id: 0 }).where('_id').in(rolesIds).exec();
     roles = roles.map((e) => e.name);
-    return roles.includes('admin');
+    return roles.includes(roleName);
 };
 
-const checkIsStudent = async(rolesIds) => {
-    let roles = await Role.find({}, { name: 1, _id: 0 }).where('_id').in(rolesIds).exec();
-    roles = roles.map((e) => e.name);
-    return roles.includes('student');
-};
-
-export default { authenticate, checkIsAdmin, checkIsStudent };
+export default { authenticate, checkUserRole };

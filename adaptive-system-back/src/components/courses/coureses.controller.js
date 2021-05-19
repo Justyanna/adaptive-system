@@ -4,14 +4,47 @@ import User from '../users/users.model.js';
 
 const getCourses = async(req, res, next) => {
     try {
-        const courses = await Course.find({}).select({
+        let courses = await Course.find({}).select({
             name: 1,
             _id: 1,
             category: 1,
             author: 1,
             date: 1
         });
+
+        for (let course of courses) {
+            const user = await User.findOne({ _id: course.author }, { _id: 1, courses: 1, roles: 1, email: 1, firstName: 1, lastName: 1 });
+            course.author = user;
+        }
+
         res.json(courses);
+    } catch (ex) {
+        next(ex);
+    }
+};
+
+const getTeacherCourses = async(req, res, next) => {
+    try {
+        const isTeacher = await auth.checkUserRole(req.roles, 'teacher');
+        if (isTeacher) {
+            const user = await User.findOne({ login: req.login });
+            let courses = await Course.find({ author: user._id }).select({
+                name: 1,
+                _id: 1,
+                category: 1,
+                author: 1,
+                date: 1
+            });
+
+            for (let course of courses) {
+                const user = await User.findOne({ _id: course.author }, { _id: 1, courses: 1, roles: 1, email: 1, firstName: 1, lastName: 1 });
+                course.author = user;
+            }
+            res.json(courses);
+        } else {
+            res.status(403);
+            res.json({ message: 'User is not teacher' });
+        }
     } catch (ex) {
         next(ex);
     }
@@ -72,4 +105,4 @@ const updateCourse = async(req, res, next) => {
     }
 };
 
-export default { getCourses, getCourse, addCourse, deleteCourse, updateCourse };
+export default { getCourses, getCourse, addCourse, deleteCourse, updateCourse, getTeacherCourses };
