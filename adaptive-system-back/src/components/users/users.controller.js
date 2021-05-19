@@ -299,6 +299,11 @@ const getCourses = async(req, res, next) => {
             .where('_id')
             .in(user.courses)
             .exec();
+
+        for (let course of courses) {
+            const author = await User.findOne({ _id: course.author }, { _id: 1, firstName: 1, lastName: 1 });
+            course.author = author;
+        }
         res.json({ courses: courses });
     } catch (ex) {
         next(ex);

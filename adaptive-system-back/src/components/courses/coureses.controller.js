@@ -13,7 +13,7 @@ const getCourses = async(req, res, next) => {
         });
 
         for (let course of courses) {
-            const user = await User.findOne({ _id: course.author }, { _id: 1, courses: 1, roles: 1, email: 1, firstName: 1, lastName: 1 });
+            const user = await User.findOne({ _id: course.author }, { _id: 1, firstName: 1, lastName: 1 });
             course.author = user;
         }
 
@@ -37,7 +37,7 @@ const getTeacherCourses = async(req, res, next) => {
             });
 
             for (let course of courses) {
-                const user = await User.findOne({ _id: course.author }, { _id: 1, courses: 1, roles: 1, email: 1, firstName: 1, lastName: 1 });
+                const user = await User.findOne({ _id: course.author }, { _id: 1, firstName: 1, lastName: 1 });
                 course.author = user;
             }
             res.json(courses);
