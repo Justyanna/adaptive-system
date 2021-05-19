@@ -1,5 +1,14 @@
 import mongoose from 'mongoose';
 
+const lesson = new mongoose.Schema({
+    type: new mongoose.Schema({
+        type: String,
+        content: [
+            [Object]
+        ]
+    }, { _id: false })
+}, { _id: false });
+
 const model = new mongoose.Schema({
     name: {
         type: String,
@@ -19,14 +28,9 @@ const model = new mongoose.Schema({
         type: String,
         required: true
     },
-    activities: {
-        type: new mongoose.Schema({
-            common: [
-                new mongoose.Schema({
-                    texts: []
-                }, { _id: false })
-            ]
-        }, { _id: false })
+    lessons: {
+        type: [Object],
+        required: false
     }
 });
 
