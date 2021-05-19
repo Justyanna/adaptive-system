@@ -1,13 +1,33 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useParams } from 'react-router-dom'
 import { getCourse } from '../../services/courses'
-import { enrollAtCourse } from '../../services/users'
+import { enrollAtCourse, getUserCourseList } from '../../services/users'
 import { objIsEmpty } from '../../utils'
+import { isLoggedIn } from '../../services/auth'
 
 const Course = () => {
   const { courseId } = useParams()
 
   const [course, setCourse] = useState({})
+  const [enrolled, setEnrolled] = useState({})
+
+  const checkEnrolled = useCallback(
+    async _ => {
+      if (!isLoggedIn()) return
+      const res = await getUserCourseList(courseId)
+      setEnrolled(
+        res.data.courses.filter(course => course._id === courseId).length > 0
+      )
+    },
+    [courseId]
+  )
+
+  useEffect(
+    _ => {
+      checkEnrolled()
+    },
+    [checkEnrolled]
+  )
 
   useEffect(
     _ => {
@@ -20,7 +40,8 @@ const Course = () => {
   )
 
   const enroll = async _ => {
-    console.log(await enrollAtCourse({ name: course.name }))
+    await enrollAtCourse({ name: course.name })
+    checkEnrolled()
   }
 
   return (
@@ -30,11 +51,17 @@ const Course = () => {
       ) : (
         <>
           <h2>Kurs {course.name}</h2>
-          <div>
-            <button className="btn action" onClick={enroll}>
-              Zapisz się
-            </button>
-          </div>
+          {isLoggedIn() && (
+            <div>
+              {enrolled ? (
+                <p>Zapisano</p>
+              ) : (
+                <button className="btn action" onClick={enroll}>
+                  Zapisz się
+                </button>
+              )}
+            </div>
+          )}
         </>
       )}
     </main>

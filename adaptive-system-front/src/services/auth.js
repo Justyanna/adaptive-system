@@ -21,3 +21,7 @@ export const updateUserData = (source, setter) => {
   localStorage.setItem('eDukatorUser', JSON.stringify(source.data.user))
   setter(source.data.user)
 }
+
+export const isLoggedIn = _ => {
+  return localStorage.getItem('eDukatorToken')
+}
