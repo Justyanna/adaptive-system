@@ -1,11 +1,18 @@
 import { useState } from 'react'
+import { useHistory } from 'react-router'
+import { createCourse } from '../../services/courses'
 
 const AddCourseForm = () => {
+  const history = useHistory()
+
   const [title, setTitle] = useState(null)
   const [category, setCategory] = useState(null)
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault()
+    if (!(title?.length > 0 && category?.length > 0)) return
+    let res = await createCourse({ name: title, category })
+    history.push(`/course/${res.data._id}/edit`)
   }
 
   return (
@@ -15,7 +22,12 @@ const AddCourseForm = () => {
         <label className="form-label" htmlFor="title">
           Tytuł kursu
         </label>
-        <input className="form-input" type="text" id="title" />
+        <input
+          className="form-input"
+          type="text"
+          id="title"
+          onChange={e => setTitle(e.target.value)}
+        />
       </div>
       <div className="form-item">
         <label className="form-label" htmlFor="category">
@@ -26,6 +38,7 @@ const AddCourseForm = () => {
           type="text"
           list="course-categories"
           id="category"
+          onChange={e => setCategory(e.target.value)}
         />
         <datalist id="course-categories">
           <option value="Matematyka" />

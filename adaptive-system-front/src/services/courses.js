@@ -15,3 +15,7 @@ export const getTeacherCourseList = _ => {
 export const getCourse = id => {
   return axios.get(courseUrl + id)
 }
+
+export const createCourse = data => {
+  return axios.post(courseUrl, data)
+}
