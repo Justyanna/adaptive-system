@@ -27,8 +27,29 @@ const getUserByRole = async(req, res, next) => {
 
 const getUsers = async(req, res, next) => {
     try {
-        const users = await User.find();
-        res.json(users);
+        const isAdmin = await auth.checkIsAdmin(req.roles);
+        if (isAdmin) {
+            let users = await User.find({}, { _id: 1, courses: 1, roles: 1, email: 1, firstName: 1, lastName: 1 });
+            for (let user of users) {
+                for (let i = 0; i < user.roles.length; i++) {
+                    const role = await Role.find({}, { _id: 1, name: 1 }).where('_id').in(user.roles[i]).exec();
+                    user.roles[i] = role;
+                }
+
+                for (let i = 0; i < user.courses.length; i++) {
+                    const course = await Course.find({}, { _id: 1, name: 1, author: 1, category: 1 })
+                        .where('_id')
+                        .in(user.courses[i])
+                        .exec();
+                    user.courses[i] = course;
+                }
+            }
+
+            res.json(users);
+        } else {
+            res.status(403);
+            res.json({ message: 'User is not admin' });
+        }
     } catch (error) {
         next(error);
     }

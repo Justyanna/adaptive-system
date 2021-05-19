@@ -19,7 +19,7 @@ const model = new mongoose.Schema({
         required: true
     },
     activities: {
-        type: [new mongoose.Schema({})]
+        type: new mongoose.Schema({}, { _id: false })
     }
 });
 
