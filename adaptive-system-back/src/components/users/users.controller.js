@@ -343,6 +343,24 @@ const switchUserRole = async(req, res, next) => {
     }
 };
 
+const updateUser = async(req, res, next) => {
+    try {
+        const user = await User.findOne({ login: req.login });
+        console.log(user);
+        const updatedUser = await User.findByIdAndUpdate(user._id, req.body, { new: false });
+        const resultUsr = {
+            _id: updatedUser._id,
+            email: updatedUser.email,
+            firstName: updatedUser.firstName,
+            lastName: updatedUser.lastName,
+            roles: updatedUser.roles
+        };
+        res.json(resultUsr);
+    } catch (ex) {
+        next(ex);
+    }
+};
+
 export default {
     getUser,
     getUsers,
@@ -356,5 +374,6 @@ export default {
     getQuestionnaire,
     checkQuestionnaire,
     updateToken,
-    switchUserRole
+    switchUserRole,
+    updateUser
 };
