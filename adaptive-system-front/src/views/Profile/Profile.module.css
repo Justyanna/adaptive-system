@@ -14,12 +14,14 @@
 .user-roles {
   list-style-type: none;
   display: flex;
-  gap: 2em;
+  gap: 1em;
 }
 
 .user-role {
+  padding: 0 0.5em;
   color: var(--c-primary);
   font-weight: bold;
   outline: solid 2px var(--c-primary);
-  outline-offset: 0.5em;
+  outline-offset: 0.25em;
+  margin: 0.25em;
 }
