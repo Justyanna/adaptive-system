@@ -11,7 +11,7 @@ const getUser = async (req, res, next) => {
     const user = await User.findById(req.params.userId)
     return res.send(user)
   } catch (e) {
-    next(e)
+    res.status(500).end()
   }
 }
 
@@ -21,45 +21,43 @@ const getUserByRole = async (req, res, next) => {
     const users = await User.find({ role: role })
     return res.send(users)
   } catch (e) {
-    next(e)
+    res.status(500).end()
   }
 }
 
 const getUsers = async (req, res, next) => {
   try {
     const isAdmin = await auth.checkUserRole(req.roles, 'admin')
-    if (isAdmin) {
-      let users = await User.find(
-        {},
-        { _id: 1, courses: 1, roles: 1, email: 1, firstName: 1, lastName: 1 }
-      )
-      for (let user of users) {
-        for (let i = 0; i < user.roles.length; i++) {
-          const role = await Role.find({}, { _id: 1, name: 1 })
-            .where('_id')
-            .in(user.roles[i])
-            .exec()
-          user.roles[i] = role[0]
-        }
+    if (!isAdmin) return res.status(403).end('admin')
 
-        for (let i = 0; i < user.courses.length; i++) {
-          const course = await Course.find(
-            {},
-            { _id: 1, name: 1, author: 1, category: 1 }
-          )
-            .where('_id')
-            .in(user.courses[i])
-            .exec()
-          user.courses[i] = course[0]
-        }
+    let users = await User.find(
+      {},
+      { _id: 1, courses: 1, roles: 1, email: 1, firstName: 1, lastName: 1 }
+    )
+    for (let user of users) {
+      for (let i = 0; i < user.roles.length; i++) {
+        const role = await Role.find({}, { _id: 1, name: 1 })
+          .where('_id')
+          .in(user.roles[i])
+          .exec()
+        user.roles[i] = role[0]
       }
 
-      return res.send(users)
-    } else {
-      return res.status(403).end('admin')
+      for (let i = 0; i < user.courses.length; i++) {
+        const course = await Course.find(
+          {},
+          { _id: 1, name: 1, author: 1, category: 1 }
+        )
+          .where('_id')
+          .in(user.courses[i])
+          .exec()
+        user.courses[i] = course[0]
+      }
     }
+
+    return res.send(users)
   } catch (e) {
-    next(e)
+    res.status(500).end()
   }
 }
 
@@ -105,22 +103,18 @@ const addUser = async (req, res, next) => {
     }
     return res.send({ user: resultUsr, token })
   } catch (e) {
-    next(e)
+    res.status(500).end()
   }
 }
 
 const deleteUser = async (req, res, next) => {
   try {
     const isAdmin = await auth.checkUserRole(req.roles, 'admin')
-    if (isAdmin) {
-      await User.findByIdAndDelete(req.params.userId)
-
-      res.json({ message: 'User deleted' })
-    } else {
-      return res.status(403).end('admin')
-    }
+    if (!isAdmin) return res.status(403).end('admin')
+    await User.findByIdAndDelete(req.params.userId)
+    res.json({ message: 'User deleted' })
   } catch (e) {
-    next(e)
+    res.status(500).end()
   }
 }
 
@@ -158,7 +152,7 @@ const authUser = async (req, res, next) => {
 
     return res.send({ user: resultUsr, token })
   } catch (e) {
-    next(e)
+    res.status(500).end()
   }
 }
 
@@ -166,11 +160,9 @@ const verifyUserToken = async (req, res, next) => {
   try {
     const SECRET = process.env.TOKEN_SECRET
     const verified = jwt.verify(req.body.token, SECRET)
-
     return res.send({ valid: verified })
   } catch (e) {
     return res.send({ valid: false })
-    next(e)
   }
 }
 
@@ -184,86 +176,80 @@ const enrollUserForCourse = async (req, res, next) => {
     })
     return res.json({ message: 'User enrolled for course : ' + courseId.name })
   } catch (e) {
-    next(e)
+    res.status(500).end()
   }
 }
 
 const getQuestionnaire = async (req, res, next) => {
   try {
     const isStudent = await auth.checkUserRole(req.roles, 'student')
-    if (isStudent) {
-      res.status(403).end('student')
-    } else {
-      const user = await User.findOne({ login: req.login })
+    if (!isStudent) res.status(403).end('student')
 
-      const active = user.questionnaire.active
-      const questions = user.questionnaire.questions
-      const current = questions[active].val
-      res.json({ question: current, id: active })
-    }
+    const user = await User.findOne({ login: req.login })
+    const active = user.questionnaire.active
+    const questions = user.questionnaire.questions
+    const current = questions[active].val
+    res.json({ question: current, id: active })
   } catch (e) {
-    next(e)
+    res.status(500).end()
   }
 }
 
 const checkQuestionnaire = async (req, res, next) => {
   try {
     const isStudent = await auth.checkUserRole(req.roles, 'student')
-    if (isStudent) {
-      return res.status(400).end('User already is student')
-    } else {
-      var user = await User.findOne({ login: req.login })
-      if (user.questionnaire != null) {
-        var active = user.questionnaire.active
-        if (active < 30) {
-          user.questionnaire.questions[active].val = req.body.answer
-          user.questionnaire.active = active + 1
-          await User.findByIdAndUpdate(user._id, user, { new: true })
+    if (isStudent) return res.status(400).end('User already is student')
 
-          const questions = user.questionnaire.questions
-          const current = questions[user.questionnaire.active].val
-          res.json({ question: current, id: user.questionnaire.active })
-        } else {
-          let counterA = 0
-          let counterB = 0
-          let counterG = 0
-          let counterD = 0
-          const questions = user.questionnaire.questions
-          for (let i = 0; i < questions.length; i++) {
-            switch (questions[i].id[0]) {
-              case 'a':
-                counterA += questions[i].val === 'true' ? 1 : 0
-                break
-              case 'b':
-                counterB += questions[i].val === 'true' ? 1 : 0
-                break
-              case 'g':
-                counterG += questions[i].val === 'true' ? 1 : 0
-                break
-              case 'd':
-                counterD += questions[i].val === 'true' ? 1 : 0
-                break
-            }
-          }
+    var user = await User.findOne({ login: req.login })
+    if (user.questionnaire === null)
+      return res.status(400).end('Questionnaire not available')
 
-          let valY = (counterG - counterA) / 10
-          let valX = (counterD - counterB) / 10
+    var active = user.questionnaire.active
+    if (active < 30) {
+      user.questionnaire.questions[active].val = req.body.answer
+      user.questionnaire.active = active + 1
+      await User.findByIdAndUpdate(user._id, user, { new: true })
 
-          user.xAxis = valX
-          user.yAxis = valY
-          user.questionnaire = null
-          const studentRole = await Role.findOne({ name: 'student' })
-          user.roles.push(studentRole._id)
-          await User.findByIdAndUpdate(user._id, user, { new: true })
+      const questions = user.questionnaire.questions
+      const current = questions[user.questionnaire.active].val
+      return res.send({ question: current, id: user.questionnaire.active })
+    }
 
-          return res.send({ xaxis: valX, yaxis: valY })
-        }
-      } else {
-        return res.status(403).end('User already is student')
+    let counterA = 0
+    let counterB = 0
+    let counterG = 0
+    let counterD = 0
+    const questions = user.questionnaire.questions
+    for (let i = 0; i < questions.length; i++) {
+      switch (questions[i].id[0]) {
+        case 'a':
+          counterA += questions[i].val === 'true' ? 1 : 0
+          break
+        case 'b':
+          counterB += questions[i].val === 'true' ? 1 : 0
+          break
+        case 'g':
+          counterG += questions[i].val === 'true' ? 1 : 0
+          break
+        case 'd':
+          counterD += questions[i].val === 'true' ? 1 : 0
+          break
       }
     }
+
+    let valY = (counterG - counterA) / 10
+    let valX = (counterD - counterB) / 10
+
+    user.xAxis = valX
+    user.yAxis = valY
+    user.questionnaire = null
+    const studentRole = await Role.findOne({ name: 'student' })
+    user.roles.push(studentRole._id)
+    await User.findByIdAndUpdate(user._id, user, { new: true })
+
+    return res.send({ xaxis: valX, yaxis: valY })
   } catch (e) {
-    next(e)
+    res.status(500).end()
   }
 }
 
@@ -297,7 +283,7 @@ const updateToken = async (req, res, next) => {
     }
     return res.send({ user: resultUsr, token })
   } catch (e) {
-    next(e)
+    res.status(500).end()
   }
 }
 
@@ -325,42 +311,39 @@ const getCourses = async (req, res, next) => {
     }
     return res.send({ courses: courses })
   } catch (e) {
-    next(e)
+    res.status(500).end()
   }
 }
 
 const switchUserRole = async (req, res, next) => {
   try {
     const isAdmin = await auth.checkUserRole(req.roles, 'admin')
-    if (isAdmin) {
-      const user = await User.findById(req.body.userId)
-      const role = await Role.findOne({ name: req.body.role })
+    if (!isAdmin) res.status(403).end('admin')
 
-      if (user.roles.includes(role._id)) {
-        user.roles = user.roles.filter(roleId => roleId != String(role._id))
-      } else {
-        user.roles.push(role._id)
-      }
+    const user = await User.findById(req.body.userId)
+    const role = await Role.findOne({ name: req.body.role })
 
-      const updatedUser = await User.findByIdAndUpdate(user._id, user, {
-        new: true
-      })
-
-      const resultUsr = {
-        _id: updatedUser._id,
-        email: updatedUser.email,
-        firstName: updatedUser.firstName,
-        lastName: updatedUser.lastName,
-        roles: updatedUser.roles
-      }
-
-      return res.send({ user: resultUsr })
+    if (user.roles.includes(role._id)) {
+      user.roles = user.roles.filter(roleId => roleId != String(role._id))
     } else {
-      res.status(403)
-      res.json({ message: 'User is not admin' })
+      user.roles.push(role._id)
     }
+
+    const updatedUser = await User.findByIdAndUpdate(user._id, user, {
+      new: true
+    })
+
+    const resultUsr = {
+      _id: updatedUser._id,
+      email: updatedUser.email,
+      firstName: updatedUser.firstName,
+      lastName: updatedUser.lastName,
+      roles: updatedUser.roles
+    }
+
+    return res.send({ user: resultUsr })
   } catch (e) {
-    next(e)
+    res.status(500).end()
   }
 }
 
@@ -380,7 +363,7 @@ const updateUser = async (req, res, next) => {
     }
     return res.send(resultUsr)
   } catch (e) {
-    next(e)
+    res.status(500).end()
   }
 }
 
