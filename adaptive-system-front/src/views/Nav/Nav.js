@@ -24,17 +24,6 @@ const Nav = () => {
             Strona główna
           </Link>
         </li>
-        {user?.roles && !user.roles.includes('student') && (
-          <li>
-            <NavLink
-              className={styles['nav-item']}
-              activeClassName={styles['nav-item-active']}
-              to='/questionnaire'
-            >
-              Ankieta
-            </NavLink>
-          </li>
-        )}
         {user?.roles?.includes('admin') && (
           <li>
             <NavLink

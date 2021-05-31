@@ -1,5 +1,6 @@
 import Lesson from './Lesson'
 import { isLoggedIn, getUserDetails } from '../../services/auth'
+import { Link } from 'react-router-dom'
 
 const ActivityList = ({ enrolled, activities }) => {
   if (!isLoggedIn())
@@ -8,7 +9,11 @@ const ActivityList = ({ enrolled, activities }) => {
   if (!getUserDetails().roles.includes('student'))
     return (
       <div>
-        Zanim przystąpisz do zapisywania się na kursy musisz wypełnić ankietę.
+        Zanim przystąpisz do zapisywania się na kursy musisz wypełnić
+        <Link className='link' to='/questionnaire'>
+           ankietę
+        </Link>
+        .
       </div>
     )
 
