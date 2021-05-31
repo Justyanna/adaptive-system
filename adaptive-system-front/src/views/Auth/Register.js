@@ -7,12 +7,19 @@ import {
   regexName,
   errMessages,
   regexLogin,
-  handleIssues,
+  handleIssues
 } from '../../services/formUtils'
 import styles from './Auth.module.css'
 
 const Register = ({ setUser }) => {
   let history = useHistory()
+
+  const [email, setEmail] = useState(null)
+  const [firstName, setFirstName] = useState(null)
+  const [lastName, setLastName] = useState(null)
+  const [login, setLogin] = useState(null)
+  const [password, setPassword] = useState(null)
+  const [confirmPassword, setConfirmPassword] = useState(null)
 
   const handleSubmit = async e => {
     e.preventDefault()
@@ -25,7 +32,7 @@ const Register = ({ setUser }) => {
       handleHttpError(err, {
         handle5xx: err => {
           console.log(`Błąd serwera: ${err.statusText}`)
-        },
+        }
       })
     }
   }
@@ -57,21 +64,14 @@ const Register = ({ setUser }) => {
     if (password !== confirmPassword)
       issues.push({
         source: 'confirm-password',
-        message: errMessages.confirmPassword,
+        message: errMessages.confirmPassword
       })
 
     return handleIssues(document, issues, styles['form-input-error'])
   }
 
-  const [email, setEmail] = useState(null)
-  const [firstName, setFirstName] = useState(null)
-  const [lastName, setLastName] = useState(null)
-  const [login, setLogin] = useState(null)
-  const [password, setPassword] = useState(null)
-  const [confirmPassword, setConfirmPassword] = useState(null)
-
   return (
-    <main className="layout">
+    <main className='layout'>
       <form
         className={styles['form']}
         style={{ width: '400px' }}
@@ -79,100 +79,100 @@ const Register = ({ setUser }) => {
       >
         <h2>Rejestracja</h2>
         <div className={styles['form-item']}>
-          <label className={styles['form-label']} htmlFor="email">
+          <label className={styles['form-label']} htmlFor='email'>
             Adres email
           </label>
           <input
             className={styles['form-input']}
-            type="text"
-            name="email"
-            id="email"
+            type='text'
+            name='email'
+            id='email'
             onChange={e => setEmail(e.target.value)}
           />
           <small
             className={`collapsed ${styles['form-error']}`}
-            id="err-email"
+            id='err-email'
           ></small>
         </div>
         <div className={styles['form-item']}>
-          <label className={styles['form-label']} htmlFor="first-name">
+          <label className={styles['form-label']} htmlFor='first-name'>
             Imię
           </label>
           <input
             className={styles['form-input']}
-            type="text"
-            name="first-name"
-            id="first-name"
+            type='text'
+            name='first-name'
+            id='first-name'
             onChange={e => setFirstName(e.target.value)}
           />
           <small
             className={`collapsed ${styles['form-error']}`}
-            id="err-first-name"
+            id='err-first-name'
           ></small>
         </div>
         <div className={styles['form-item']}>
-          <label className={styles['form-label']} htmlFor="last-name">
+          <label className={styles['form-label']} htmlFor='last-name'>
             Nazwisko
           </label>
           <input
             className={styles['form-input']}
-            type="text"
-            name="last-name"
-            id="last-name"
+            type='text'
+            name='last-name'
+            id='last-name'
             onChange={e => setLastName(e.target.value)}
           />
           <small
             className={`collapsed ${styles['form-error']}`}
-            id="err-last-name"
+            id='err-last-name'
           ></small>
         </div>
         <div className={styles['form-item']}>
-          <label className={styles['form-label']} htmlFor="login">
+          <label className={styles['form-label']} htmlFor='login'>
             Login
           </label>
           <input
             className={styles['form-input']}
-            type="text"
-            name="login"
-            id="login"
+            type='text'
+            name='login'
+            id='login'
             onChange={e => setLogin(e.target.value)}
           />
           <small
             className={`collapsed ${styles['form-error']}`}
-            id="err-login"
+            id='err-login'
           ></small>
         </div>
         <div className={styles['form-item']}>
-          <label className={styles['form-label']} htmlFor="password">
+          <label className={styles['form-label']} htmlFor='password'>
             Hasło
           </label>
           <input
             className={styles['form-input']}
-            type="password"
-            name="password"
-            id="password"
+            type='password'
+            name='password'
+            id='password'
             onChange={e => setPassword(e.target.value)}
           />
           <small
             className={`collapsed ${styles['form-error']}`}
-            id="err-password"
+            id='err-password'
           ></small>
         </div>
         <div className={styles['form-item']}>
-          <label className={styles['form-label']} htmlFor="confirm-password">
+          <label className={styles['form-label']} htmlFor='confirm-password'>
             Potwierdź hasło
           </label>
           <input
             className={styles['form-input']}
-            type="password"
-            name="confirm-password"
-            id="confirm-password"
+            type='password'
+            name='confirm-password'
+            id='confirm-password'
             onChange={e => setConfirmPassword(e.target.value)}
             onBlur={e => checkPassword()}
           />
           <small
             className={`collapsed ${styles['form-error']}`}
-            id="err-confirm-password"
+            id='err-confirm-password'
           ></small>
         </div>
         <div className={styles['form-item']}>
@@ -181,7 +181,7 @@ const Register = ({ setUser }) => {
           </button>
         </div>
       </form>
-      <Link to="/">Strona główna</Link>
+      <Link to='/'>Strona główna</Link>
     </main>
   )
 }

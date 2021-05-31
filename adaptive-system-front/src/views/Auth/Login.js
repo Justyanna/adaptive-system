@@ -8,6 +8,9 @@ import styles from './Auth.module.css'
 const Login = ({ setUser }) => {
   const history = useHistory()
 
+  const [login, setLogin] = useState(null)
+  const [password, setPassword] = useState(null)
+
   const handleSubmit = async e => {
     e.preventDefault()
     if (!validateForm()) return
@@ -19,7 +22,7 @@ const Login = ({ setUser }) => {
       handleHttpError(err, {
         handle5xx: err => {
           console.log(`Błąd serwera: ${err.statusText}`)
-        },
+        }
       })
     }
   }
@@ -33,17 +36,14 @@ const Login = ({ setUser }) => {
     if ((password?.length ?? 0) === 0)
       issues.push({
         source: 'password',
-        message: 'Pole hasło nie może być puste',
+        message: 'Pole hasło nie może być puste'
       })
 
     return handleIssues(document, issues, styles['form-input-error'])
   }
 
-  const [login, setLogin] = useState(null)
-  const [password, setPassword] = useState(null)
-
   return (
-    <main className="layout">
+    <main className='layout'>
       <form
         className={styles['form']}
         style={{ width: '300px' }}
@@ -51,42 +51,42 @@ const Login = ({ setUser }) => {
       >
         <h2>Logowanie</h2>
         <div className={styles['form-item']}>
-          <label className={styles['form-label']} htmlFor="login">
+          <label className={styles['form-label']} htmlFor='login'>
             Login
           </label>
           <input
             className={styles['form-input']}
-            type="text"
-            name="login"
-            id="login"
+            type='text'
+            name='login'
+            id='login'
             onChange={e => setLogin(e.target.value)}
           />
           <small
             className={`collapsed ${styles['form-error']}`}
-            id="err-login"
+            id='err-login'
           ></small>
         </div>
         <div className={styles['form-item']}>
-          <label className={styles['form-label']} htmlFor="password">
+          <label className={styles['form-label']} htmlFor='password'>
             Hasło
           </label>
           <input
             className={styles['form-input']}
-            type="password"
-            name="password"
-            id="password"
+            type='password'
+            name='password'
+            id='password'
             onChange={e => setPassword(e.target.value)}
           />
           <small
             className={`collapsed ${styles['form-error']}`}
-            id="err-password"
+            id='err-password'
           ></small>
         </div>
         <div className={styles['form-item']}>
           <button className={`btn ${styles['form-submit']}`}>Zaloguj</button>
         </div>
       </form>
-      <Link to="/">Strona główna</Link>
+      <Link to='/'>Strona główna</Link>
     </main>
   )
 }

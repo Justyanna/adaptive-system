@@ -10,14 +10,15 @@ export const errMessages = {
   login:
     'Login musi mieć od 6 do 20 znaków, zaczynać się literą oraz składać się wyłącznie z liter i cyfr.',
   password: 'Hasło musi mieć od 8 do 64 znaków',
-  confirmPassword: 'Hasła nie są identyczne',
+  confirmPassword: 'Hasła nie są identyczne'
 }
 
 export const handleIssues = (document, issues, errClass) => {
   if (issues.length === 0) return true
-  for (const issue of issues) {
+  issues.forEach(issue => {
     const source = document.querySelector(`#${issue.source}`)
     const target = document.querySelector(`#err-${issue.source}`)
+    if (!target) return
     target.classList.remove('collapsed')
     target.innerText = issue.message
     source.classList.add(errClass)
@@ -25,6 +26,6 @@ export const handleIssues = (document, issues, errClass) => {
       target.classList.add('collapsed')
       source.classList.remove(errClass)
     })
-  }
+  })
   return false
 }

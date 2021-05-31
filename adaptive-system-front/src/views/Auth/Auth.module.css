@@ -16,12 +16,12 @@
 
 .form-input {
   padding: 0.5em 1em;
-  border: none;
-  outline: solid 1px var(--outline, var(--c-primary));
+  border: solid 1px var(--outline, var(--c-primary));
+  outline: none;
 }
 
 .form-input-error {
-  --outline: var(--c-error);
+  border: solid 2px var(--c-error);
 }
 
 .form-error {

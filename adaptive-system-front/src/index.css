@@ -26,7 +26,7 @@
 * {
   margin: 0;
   padding: 0;
-  box-sizing: 0;
+  box-sizing: border-box;
 }
 
 #root {
@@ -62,12 +62,13 @@
 .btn {
   border: none;
   outline: none;
+  width: fit-content;
   padding: 0.75em 1.5em;
   background-color: var(--primary, var(--c-primary));
   color: var(--secondary, var(--c-white));
   font-family: 'Lexend Deca', sans-serif;
   font-weight: bold;
-  border-radius: 0.5em;
+  border-radius: 0.25rem;
   cursor: pointer;
 }
 
@@ -93,7 +94,6 @@
 
 .link {
   text-decoration: none;
-  font-weight: bold;
   color: var(--c-sDark);
   cursor: pointer;
 }
@@ -108,10 +108,6 @@
 
 /* - Form - */
 
-/* .form {
-
-} */
-
 .form-item {
   display: flex;
   flex-direction: column;
@@ -123,18 +119,22 @@
 }
 
 .form-input {
-  width: 25em;
   padding: 0.5em 1em;
-  border: none;
-  outline: solid 1px var(--outline, var(--c-primary));
+  border: solid 1px var(--border-color, var(--c-primary));
+  outline: none;
+}
+
+.form-input-wide {
+  width: 25em;
 }
 
 .form-input:focus {
-  outline: solid 2px var(--outline-active, var(--c-pLight));
+  outline: solid 1px var(--border-active-color, var(--c-pLight));
 }
 
 .form-input-error {
-  --outline: var(--c-error);
+  --border-color: var(--c-error);
+  outline: solid 1px var(--border-color);
 }
 
 .form-error {
