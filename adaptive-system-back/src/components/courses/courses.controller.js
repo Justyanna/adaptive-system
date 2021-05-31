@@ -21,8 +21,8 @@ const getCourses = async (req, res, next) => {
     }
 
     return res.send(courses)
-  } catch (ex) {
-    next(ex)
+  } catch (e) {
+    next(e)
   }
 }
 
@@ -41,8 +41,8 @@ const getCatgories = async (req, res, next) => {
     } else {
       return res.status(403).end('teacher')
     }
-  } catch (ex) {
-    next(ex)
+  } catch (e) {
+    next(e)
   }
 }
 
@@ -70,8 +70,8 @@ const getTeacherCourses = async (req, res, next) => {
     } else {
       return res.status(403).end('teacher')
     }
-  } catch (ex) {
-    next(ex)
+  } catch (e) {
+    next(e)
   }
 }
 
@@ -79,8 +79,8 @@ const getCourse = async (req, res, next) => {
   try {
     const course = await Course.findById(req.params.courseId)
     return res.send(course)
-  } catch (ex) {
-    next(ex)
+  } catch (e) {
+    next(e)
   }
 }
 
@@ -97,8 +97,8 @@ const addCourse = async (req, res, next) => {
     } else {
       return res.status(403).end('teacher')
     }
-  } catch (ex) {
-    next(ex)
+  } catch (e) {
+    next(e)
   }
 }
 
@@ -111,8 +111,8 @@ const deleteCourse = async (req, res, next) => {
     } else {
       res.status(403).end('teacher')
     }
-  } catch (ex) {
-    next(ex)
+  } catch (e) {
+    next(e)
   }
 }
 
@@ -129,8 +129,8 @@ const updateCourse = async (req, res, next) => {
     } else {
       return res.status(403).end('admin')
     }
-  } catch (ex) {
-    next(ex)
+  } catch (e) {
+    next(e)
   }
 }
 

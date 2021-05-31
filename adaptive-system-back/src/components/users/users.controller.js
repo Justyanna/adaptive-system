@@ -10,8 +10,8 @@ const getUser = async (req, res, next) => {
   try {
     const user = await User.findById(req.params.userId)
     return res.send(user)
-  } catch (error) {
-    next(error)
+  } catch (e) {
+    next(e)
   }
 }
 
@@ -20,8 +20,8 @@ const getUserByRole = async (req, res, next) => {
     const role = await Role.findById(req.params.roleId)
     const users = await User.find({ role: role })
     return res.send(users)
-  } catch (error) {
-    next(error)
+  } catch (e) {
+    next(e)
   }
 }
 
@@ -58,8 +58,8 @@ const getUsers = async (req, res, next) => {
     } else {
       return res.status(403).end('admin')
     }
-  } catch (error) {
-    next(error)
+  } catch (e) {
+    next(e)
   }
 }
 
@@ -104,8 +104,8 @@ const addUser = async (req, res, next) => {
       roles: roles
     }
     return res.send({ user: resultUsr, token })
-  } catch (error) {
-    next(error)
+  } catch (e) {
+    next(e)
   }
 }
 
@@ -119,8 +119,8 @@ const deleteUser = async (req, res, next) => {
     } else {
       return res.status(403).end('admin')
     }
-  } catch (error) {
-    next(error)
+  } catch (e) {
+    next(e)
   }
 }
 
@@ -157,8 +157,8 @@ const authUser = async (req, res, next) => {
     }
 
     return res.send({ user: resultUsr, token })
-  } catch (ex) {
-    next(ex)
+  } catch (e) {
+    next(e)
   }
 }
 
@@ -168,9 +168,9 @@ const verifyUserToken = async (req, res, next) => {
     const verified = jwt.verify(req.body.token, SECRET)
 
     return res.send({ valid: verified })
-  } catch (ex) {
+  } catch (e) {
     return res.send({ valid: false })
-    next(ex)
+    next(e)
   }
 }
 
@@ -183,8 +183,8 @@ const enrollUserForCourse = async (req, res, next) => {
       new: true
     })
     return res.json({ message: 'User enrolled for course : ' + courseId.name })
-  } catch (error) {
-    next(error)
+  } catch (e) {
+    next(e)
   }
 }
 
@@ -201,8 +201,8 @@ const getQuestionnaire = async (req, res, next) => {
       const current = questions[active].val
       res.json({ question: current, id: active })
     }
-  } catch (error) {
-    next(error)
+  } catch (e) {
+    next(e)
   }
 }
 
@@ -262,8 +262,8 @@ const checkQuestionnaire = async (req, res, next) => {
         return res.status(403).end('User already is student')
       }
     }
-  } catch (error) {
-    next(error)
+  } catch (e) {
+    next(e)
   }
 }
 
@@ -296,8 +296,8 @@ const updateToken = async (req, res, next) => {
       roles: roles
     }
     return res.send({ user: resultUsr, token })
-  } catch (ex) {
-    next(ex)
+  } catch (e) {
+    next(e)
   }
 }
 
@@ -324,8 +324,8 @@ const getCourses = async (req, res, next) => {
       course.author = author
     }
     return res.send({ courses: courses })
-  } catch (ex) {
-    next(ex)
+  } catch (e) {
+    next(e)
   }
 }
 
@@ -359,8 +359,8 @@ const switchUserRole = async (req, res, next) => {
       res.status(403)
       res.json({ message: 'User is not admin' })
     }
-  } catch (ex) {
-    next(ex)
+  } catch (e) {
+    next(e)
   }
 }
 
@@ -379,8 +379,8 @@ const updateUser = async (req, res, next) => {
       roles: updatedUser.roles
     }
     return res.send(resultUsr)
-  } catch (ex) {
-    next(ex)
+  } catch (e) {
+    next(e)
   }
 }
 
