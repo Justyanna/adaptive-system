@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { getUserList } from '../../services/users'
 import UserList from './UserList'
 
-const Admin = ({ setUser }) => {
+const Admin = () => {
   const [users, setUsers] = useState([])
 
   useEffect(_ => {
@@ -13,9 +13,9 @@ const Admin = ({ setUser }) => {
   }, [])
 
   return (
-    <main className="layout">
+    <main className='layout'>
       <h2>Użytkownicy</h2>
-      <UserList users={users} setUser={setUser} />
+      <UserList users={users} />
     </main>
   )
 }

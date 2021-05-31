@@ -1,9 +1,12 @@
 import { Link, NavLink, useLocation } from 'react-router-dom'
-import React from 'react'
+import { useContext } from 'react'
 import styles from './Nav.module.css'
+import { UserContext } from '../../contexts/UserContext'
 
-const Nav = ({ user, setUser }) => {
+const Nav = () => {
   const location = useLocation()
+
+  const { user, setUser } = useContext(UserContext)
 
   let signOut = _ => {
     localStorage.removeItem('eDukatorToken')
@@ -17,7 +20,7 @@ const Nav = ({ user, setUser }) => {
     <nav className={styles['nav']}>
       <ul className={styles['nav-list']}>
         <li>
-          <Link className={styles['nav-item']} to="/">
+          <Link className={styles['nav-item']} to='/'>
             Strona główna
           </Link>
         </li>
@@ -26,7 +29,7 @@ const Nav = ({ user, setUser }) => {
             <NavLink
               className={styles['nav-item']}
               activeClassName={styles['nav-item-active']}
-              to="/questionnaire"
+              to='/questionnaire'
             >
               Ankieta
             </NavLink>
@@ -37,7 +40,7 @@ const Nav = ({ user, setUser }) => {
             <NavLink
               className={styles['nav-item']}
               activeClassName={styles['nav-item-active']}
-              to="/admin"
+              to='/admin'
             >
               Panel administratora
             </NavLink>
@@ -48,7 +51,7 @@ const Nav = ({ user, setUser }) => {
             <NavLink
               className={styles['nav-item']}
               activeClassName={styles['nav-item-active']}
-              to="/teacher"
+              to='/teacher'
             >
               Panel prowadzącego
             </NavLink>
@@ -59,7 +62,7 @@ const Nav = ({ user, setUser }) => {
             <NavLink
               className={styles['nav-item']}
               activeClassName={styles['nav-item-active']}
-              to="/student"
+              to='/student'
             >
               Panel kursanta
             </NavLink>
@@ -68,35 +71,35 @@ const Nav = ({ user, setUser }) => {
       </ul>
       <ul className={styles['nav-list']}>
         {user === null ? (
-          <React.Fragment>
+          <>
             <li>
-              <Link className={styles['nav-item']} to="/login">
+              <Link className={styles['nav-item']} to='/login'>
                 Zaloguj się
               </Link>
             </li>
             <li>
-              <Link className={styles['nav-item']} to="/register">
+              <Link className={styles['nav-item']} to='/register'>
                 Zarejestruj się
               </Link>
             </li>
-          </React.Fragment>
+          </>
         ) : (
-          <React.Fragment>
+          <>
             <li>
               <NavLink
                 className={styles['nav-item']}
                 activeClassName={styles['nav-item-active']}
-                to="/profile"
+                to='/profile'
               >
                 {`${user?.firstName} ${user?.lastName}`}
               </NavLink>
             </li>
             <li>
-              <Link className={styles['nav-item']} to="/" onClick={signOut}>
+              <Link className={styles['nav-item']} to='/' onClick={signOut}>
                 Wyloguj
               </Link>
             </li>
-          </React.Fragment>
+          </>
         )}
       </ul>
     </nav>

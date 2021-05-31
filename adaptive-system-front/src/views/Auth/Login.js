@@ -1,12 +1,15 @@
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import { signIn, updateUserData } from '../../services/auth'
 import { handleHttpError } from '../../services/httpUtils'
 import { handleIssues } from '../../services/formUtils'
 import styles from './Auth.module.css'
+import { UserContext } from '../../contexts/UserContext'
 
-const Login = ({ setUser }) => {
+const Login = () => {
   const history = useHistory()
+
+  const { setUser } = useContext(UserContext)
 
   const [login, setLogin] = useState(null)
   const [password, setPassword] = useState(null)

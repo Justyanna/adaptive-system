@@ -1,22 +1,25 @@
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 import { Link } from 'react-router-dom'
 import Modal from '../../components/Modal/Modal'
 import RoleList from './RoleList'
 import { handleIssues } from '../../services/formUtils'
+import { UserContext } from '../../contexts/UserContext'
 
 const errMessages = {
   confirmPassword: 'Hasła muszą być identyczne'
 }
 
-const Profile = ({ user }) => {
+const Profile = () => {
   const [modal, showModal] = useState(false)
+
+  const { user } = useContext(UserContext)
 
   const [firstName, setFirstName] = useState(user.firstName)
   const [lastName, setLastName] = useState(user.lastName)
   const [email, setEmail] = useState(user.email)
   const [newPassword, setNewPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
-  const [oldPassword, setOldPassword] = useState('')
+  // const [oldPassword, setOldPassword] = useState('')
 
   const userDataChanged = _ =>
     firstName !== user.firstName ||
@@ -148,7 +151,7 @@ const Profile = ({ user }) => {
             className='form-input'
             name='old-password'
             id='old-password'
-            onChange={e => setOldPassword(e.target.value)}
+            // onChange={e => setOldPassword(e.target.value)}
           />
         </div>
         <div className='form-item'>

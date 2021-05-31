@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import { useState } from 'react'
+import { UserContext } from './contexts/UserContext'
 
 import Home from './views/Home/Home'
 import Login from './views/Auth/Login'
@@ -20,29 +21,21 @@ function App() {
 
   return (
     <Router>
-      <Nav user={user} setUser={setUser} />
-      <Switch>
-        <Route exact path="/" component={Home} />
-        <Route exact path="/login">
-          <Login setUser={setUser} />
-        </Route>
-        <Route exact path="/register">
-          <Register setUser={setUser} />
-        </Route>
-        <Route exact path="/profile">
-          <Profile user={user} setUser={setUser} />
-        </Route>
-        <Route exact path="/admin">
-          <Admin setUser={setUser} />
-        </Route>
-        <Route exact path="/teacher" component={Teacher} />
-        <Route exact path="/student" component={Student} />
-        <Route exact path="/questionnaire">
-          <Questionnaire setUser={setUser} />
-        </Route>
-        <Route exact path="/course/:courseId" component={Course} />
-        <Route exact path="/course/:courseId/edit" component={CourseEdit} />
-      </Switch>
+      <UserContext.Provider value={{ user, setUser }}>
+        <Nav />
+        <Switch>
+          <Route exact path='/' component={Home} />
+          <Route exact path='/login' component={Login} />
+          <Route exact path='/register' component={Register} />
+          <Route exact path='/profile' component={Profile} />
+          <Route exact path='/admin' component={Admin} />
+          <Route exact path='/teacher' component={Teacher} />
+          <Route exact path='/student' component={Student} />
+          <Route exact path='/questionnaire' component={Questionnaire} />
+          <Route exact path='/course/:courseId' component={Course} />
+          <Route exact path='/course/:courseId/edit' component={CourseEdit} />
+        </Switch>
+      </UserContext.Provider>
     </Router>
   )
 }

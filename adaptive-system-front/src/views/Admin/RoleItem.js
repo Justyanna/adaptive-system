@@ -1,17 +1,21 @@
+import { useContext } from 'react'
 import styles from './Admin.module.css'
 import { toggleUserRole } from '../../services/users'
 import {
   getUserDetails,
   updateToken,
-  updateUserData,
+  updateUserData
 } from '../../services/auth'
+import { UserContext } from '../../contexts/UserContext'
 
-const RoleItem = ({ user, role, setUser }) => {
-  const roleNames = {
-    admin: 'Administrator',
-    teacher: 'Prowadzący',
-    student: 'Kursant',
-  }
+const roleNames = {
+  admin: 'Administrator',
+  teacher: 'Prowadzący',
+  student: 'Kursant'
+}
+
+const RoleItem = ({ user, role }) => {
+  const { setUser } = useContext(UserContext)
 
   const toggleRole = async _ => {
     let res = await toggleUserRole({ userId: user._id, role: role })
@@ -22,7 +26,7 @@ const RoleItem = ({ user, role, setUser }) => {
   return (
     <li className={styles['item']}>
       <input
-        type="checkbox"
+        type='checkbox'
         name={role}
         id={`${user._id}-${role}`}
         defaultChecked={user.roles.some(r => r.name === role)}

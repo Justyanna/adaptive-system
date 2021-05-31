@@ -1,11 +1,14 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useContext, useEffect } from 'react'
 import { getQuestion, answerQuestion } from '../../services/users'
 import { updateToken, updateUserData } from '../../services/auth'
 import { useHistory } from 'react-router-dom'
 import styles from './Questionnaire.module.css'
+import { UserContext } from '../../contexts/UserContext'
 
-const Questionnaire = ({ setUser }) => {
+const Questionnaire = () => {
   const history = useHistory()
+
+  const { setUser } = useContext(UserContext)
 
   const [question, setQuestion] = useState(null)
   const [questionId, setQuestionId] = useState(null)
@@ -34,17 +37,17 @@ const Questionnaire = ({ setUser }) => {
     <main className={`layout`}>
       <h2 className={styles['heading']}>Ankieta</h2>
       {question === null ? (
-        <p className="error">Pytania są niedostępne</p>
+        <p className='error'>Pytania są niedostępne</p>
       ) : (
         <form className={styles['question-container']} onSubmit={handleSubmit}>
           <p className={styles['question-contents']}>
             {question} ({questionId + 1}/32)
           </p>
           <div className={styles['question-interface']}>
-            <button className={`btn action ${styles.btn}`} id="true">
+            <button className={`btn action ${styles.btn}`} id='true'>
               PRAWDA
             </button>
-            <button className={`btn action ${styles.btn}`} id="false">
+            <button className={`btn action ${styles.btn}`} id='false'>
               FAŁSZ
             </button>
           </div>

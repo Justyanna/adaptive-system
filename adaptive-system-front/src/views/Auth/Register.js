@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import { signUp, updateUserData } from '../../services/auth'
 import { handleHttpError } from '../../services/httpUtils'
@@ -10,9 +10,12 @@ import {
   handleIssues
 } from '../../services/formUtils'
 import styles from './Auth.module.css'
+import { UserContext } from '../../contexts/UserContext'
 
-const Register = ({ setUser }) => {
-  let history = useHistory()
+const Register = () => {
+  const history = useHistory()
+
+  const { setUser } = useContext(UserContext)
 
   const [email, setEmail] = useState(null)
   const [firstName, setFirstName] = useState(null)
