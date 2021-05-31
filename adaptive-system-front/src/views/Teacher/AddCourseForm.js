@@ -1,12 +1,20 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useHistory } from 'react-router'
 import { createCourse } from '../../services/courses'
+import { getCategoryList } from '../../services/courses'
 
-const AddCourseForm = ({ categories }) => {
+const AddCourseForm = () => {
   const history = useHistory()
 
+  const [categoryList, setCategoryList] = useState(null)
   const [title, setTitle] = useState(null)
   const [category, setCategory] = useState(null)
+
+  useEffect(_ =>
+    getCategoryList().then(({ data }) => {
+      setCategoryList(data)
+    })
+  )
 
   const handleSubmit = async e => {
     e.preventDefault()
@@ -18,35 +26,36 @@ const AddCourseForm = ({ categories }) => {
   return (
     <form onSubmit={handleSubmit}>
       <p>Nowy kurs</p>
-      <div className="form-item">
-        <label className="form-label" htmlFor="title">
+      <div className='form-item'>
+        <label className='form-label' htmlFor='title'>
           Tytuł kursu
         </label>
         <input
-          className="form-input"
-          type="text"
-          id="title"
+          className='form-input'
+          type='text'
+          id='title'
           onChange={e => setTitle(e.target.value)}
         />
       </div>
-      <div className="form-item">
-        <label className="form-label" htmlFor="category">
+      <div className='form-item'>
+        <label className='form-label' htmlFor='category'>
           Kategoria
         </label>
         <input
-          className="form-input"
-          type="text"
-          list="course-categories"
-          id="category"
+          className='form-input'
+          type='text'
+          list='course-categories'
+          id='category'
           onChange={e => setCategory(e.target.value)}
         />
-        <datalist id="course-categories">
-          {categories.map((category, key) => (
-            <option value={category} key={key} />
-          ))}
+        <datalist id='course-categories'>
+          {categoryList?.length > 0 &&
+            categoryList.map((category, key) => (
+              <option value={category} key={key} />
+            ))}
         </datalist>
       </div>
-      <button className="btn action">Stwórz</button>
+      <button className='btn action'>Stwórz</button>
     </form>
   )
 }

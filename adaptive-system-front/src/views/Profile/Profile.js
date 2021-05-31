@@ -1,5 +1,5 @@
 import { useState, useContext } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import Modal from '../../components/Modal/Modal'
 import RoleList from './RoleList'
 import { handleIssues } from '../../services/formUtils'
@@ -10,16 +10,21 @@ const errMessages = {
 }
 
 const Profile = () => {
+  const history = useHistory()
   const [modal, showModal] = useState(false)
-
   const { user } = useContext(UserContext)
 
-  const [firstName, setFirstName] = useState(user.firstName)
-  const [lastName, setLastName] = useState(user.lastName)
-  const [email, setEmail] = useState(user.email)
+  const [firstName, setFirstName] = useState(user?.firstName || '')
+  const [lastName, setLastName] = useState(user?.lastName || '')
+  const [email, setEmail] = useState(user?.email || '')
   const [newPassword, setNewPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   // const [oldPassword, setOldPassword] = useState('')
+
+  if (!user) {
+    history.push('/')
+    return <></>
+  }
 
   const userDataChanged = _ =>
     firstName !== user.firstName ||

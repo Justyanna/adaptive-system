@@ -1,26 +1,32 @@
 import { useState, useEffect } from 'react'
+import { useHistory } from 'react-router-dom'
 import { CourseList } from './CourseList'
 import AddCourseForm from './AddCourseForm'
-import { getCategoryList, getTeacherCourseList } from '../../services/courses'
+import { getTeacherCourseList } from '../../services/courses'
 
 const Teacher = () => {
-  const [courseList, setCourseList] = useState(null)
-  const [categoryList, setCategoryList] = useState([])
+  const history = useHistory()
 
-  useEffect(_ => {
-    ;(async _ => {
-      let res = await getTeacherCourseList()
-      setCourseList(res.data)
-      res = await getCategoryList()
-      setCategoryList(res.data)
-    })()
-  }, [])
+  const [courseList, setCourseList] = useState(null)
+
+  useEffect(
+    _ => {
+      getTeacherCourseList()
+        .then(({ data }) => {
+          setCourseList(data)
+        })
+        .catch(_ => {
+          history.push('/')
+        })
+    },
+    [history]
+  )
 
   return (
-    <main className="layout">
+    <main className='layout'>
       <h2>Aktualności</h2>
       <h2>Prowadzone kursy</h2>
-      <AddCourseForm categories={categoryList} />
+      {courseList && <AddCourseForm />}
       <CourseList courses={courseList} />
     </main>
   )

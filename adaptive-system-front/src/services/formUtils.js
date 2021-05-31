@@ -18,7 +18,10 @@ export const handleIssues = (document, issues, errClass) => {
   issues.forEach(issue => {
     const source = document.querySelector(`#${issue.source}`)
     const target = document.querySelector(`#err-${issue.source}`)
-    if (!target) return
+    if (!target) {
+      console.error(`${issue.source}: ${issue.message}`)
+      return
+    }
     target.classList.remove('collapsed')
     target.innerText = issue.message
     source.classList.add(errClass)

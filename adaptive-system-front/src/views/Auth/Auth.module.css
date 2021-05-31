@@ -1,7 +1,11 @@
 .form {
   margin: auto;
   padding: 2em;
-  outline: solid 4px var(--c-primary);
+  outline: solid 4px var(--form-border, var(--c-primary));
+}
+
+.form-invalid {
+  --form-border: var(--c-error);
 }
 
 .form-item {
@@ -16,11 +20,11 @@
 
 .form-input {
   padding: 0.5em 1em;
-  border: solid 1px var(--outline, var(--c-primary));
+  border: solid 1px var(--c-primary);
   outline: none;
 }
 
-.form-input-error {
+.form-invalid .form-input {
   border: solid 2px var(--c-error);
 }
 

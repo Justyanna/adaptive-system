@@ -15,7 +15,7 @@ import { UserContext } from '../../contexts/UserContext'
 const Register = () => {
   const history = useHistory()
 
-  const { setUser } = useContext(UserContext)
+  const { user, setUser } = useContext(UserContext)
 
   const [email, setEmail] = useState(null)
   const [firstName, setFirstName] = useState(null)
@@ -23,6 +23,11 @@ const Register = () => {
   const [login, setLogin] = useState(null)
   const [password, setPassword] = useState(null)
   const [confirmPassword, setConfirmPassword] = useState(null)
+
+  if (user) {
+    history.push('/profile')
+    return <></>
+  }
 
   const handleSubmit = async e => {
     e.preventDefault()
