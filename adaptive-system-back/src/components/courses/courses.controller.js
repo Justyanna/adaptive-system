@@ -104,7 +104,7 @@ const updateCourse = async(req, res, next) => {
         if (!isTeacher) res.status(403).end('teacher');
         const course = await Course.findById(req.params.courseId);
         const user = await User.findOne({ login: req.login });
-        if (course.author === user._id) {
+        if (String(course.author) == String(user._id)) {
             const updatedCourse = await Course.findByIdAndUpdate(req.params.courseId, req.body, { new: true });
             return res.send(updatedCourse);
         } else {
