@@ -45,16 +45,26 @@
   flex-direction: column;
 }
 
+.flow {
+  padding: var(--flow-padding) 0;
+}
+
 .flow > * + * {
-  margin-top: 1em;
+  margin-top: var(--flow-gap, 1em);
   line-height: 1.5;
+}
+
+.flow-05 {
+  --flow-padding: 1.5em;
+  --card-padding: var(--flow-padding);
+  --flow-gap: 0.5em;
 }
 
 /* COMPONENTS */
 
 .card {
-  margin: 1em 0;
-  padding: 1em;
+  margin: var(--card-gap, 1em) 0;
+  padding: var(--card-padding, 1em);
   background-color: var(--c-whLight);
   border-radius: 0.5em;
 }

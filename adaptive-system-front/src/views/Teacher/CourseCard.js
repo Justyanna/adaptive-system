@@ -8,13 +8,13 @@ const CourseCard = ({ course }) => {
   }
 
   return (
-    <li className="card">
+    <li className='card flow flow-05'>
       <p>{course.name}</p>
       <p>{course.category}</p>
-      <button className="btn navigation" onClick={goToEdit}>
+      <button className='btn navigation' onClick={goToEdit}>
         Edytuj
       </button>
-      <button className="btn error">Usuń</button>
+      <button className='btn error'>Usuń</button>
     </li>
   )
 }

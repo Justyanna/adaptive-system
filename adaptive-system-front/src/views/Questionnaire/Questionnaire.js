@@ -14,11 +14,16 @@ const Questionnaire = () => {
   const [questionId, setQuestionId] = useState(null)
 
   useEffect(() => {
-    ;(async () => {
-      let res = await getQuestion()
-      setQuestion(res.data.question)
-      setQuestionId(res.data.id)
-    })()
+    let mounted = true
+    getQuestion().then(({ data: { question, id } }) => {
+      if (mounted) {
+        setQuestion(question)
+        setQuestionId(id)
+      }
+    })
+    return () => {
+      mounted = false
+    }
   }, [])
 
   const handleSubmit = async e => {

@@ -183,7 +183,7 @@ const enrollUserForCourse = async (req, res, next) => {
 const getQuestionnaire = async (req, res, next) => {
   try {
     const isStudent = await auth.checkUserRole(req.roles, 'student')
-    if (!isStudent) res.status(403).end('student')
+    if (isStudent) res.status(403).end('student')
 
     const user = await User.findOne({ login: req.login })
     const active = user.questionnaire.active
