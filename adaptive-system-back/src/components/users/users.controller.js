@@ -328,8 +328,14 @@ const switchUserRole = async(req, res, next) => {
 const updateUser = async(req, res, next) => {
     try {
         const user = await User.findOne({ login: req.login });
-        console.log(user);
-        const updatedUser = await User.findByIdAndUpdate(user._id, req.body, {
+        const checkPassword = await bcrypt.compare(req.body.oldPassword, user.password);
+        if (!checkPassword) return res.status(401).end('password');
+        const newUser = req.body;
+        if (newUser.password) {
+            const salt = await bcrypt.genSalt();
+            newUser.password = await bcrypt.hash(user.password, salt);
+        }
+        const updatedUser = await User.findByIdAndUpdate(user._id, newUser, {
             new: false
         });
         const resultUsr = {
