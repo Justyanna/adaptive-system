@@ -2,6 +2,7 @@ import File from './files.model.js';
 import Course from '../courses/courses.model.js';
 import fs from 'fs';
 import path from 'path';
+import mime from 'mime-types';
 
 const uploadFile = async(req, res, next) => {
     try {
@@ -25,7 +26,7 @@ const getFile = async(req, res, next) => {
                 res.end('ERROR File does not exist');
             } else {
                 res.writeHead(200, {
-                    'Content-Type': 'application/octet-stream',
+                    'Content-Type': mime.contentType(path.extname(file.originalname)),
                     'Content-Disposition': 'attachment; filename=' + file.originalname
                 });
                 fs.createReadStream(path.join(path.resolve(), '/uploads/' + file.filename)).pipe(res);
