@@ -20,7 +20,8 @@ const model = new mongoose.Schema({
         required: true
     },
     lessons: {
-        type: Object,
+        type: Array(Object),
+        default: [],
         required: false
     }
 });
