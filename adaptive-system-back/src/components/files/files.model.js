@@ -6,6 +6,9 @@ const model = new mongoose.Schema({
         required: true,
         unique: true
     },
+    originalname: {
+        type: String
+    },
     course: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,

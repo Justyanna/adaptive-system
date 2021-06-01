@@ -1,13 +1,15 @@
-import formidable from 'formidable';
+import File from './files.model.js';
+import Course from '../courses/courses.model.js';
+import fs from 'fs';
+import path from 'path';
 
 const uploadFile = async(req, res, next) => {
     try {
-        const form = new formidable.IncomingForm();
-        form.parse(req, function(err, fields) {
-            console.log(fields);
-            console.lof(err);
-        });
-        res.status(200).end();
+        const course = await Course.findById(req.body.course);
+        if (course == null) res.status(500).end();
+        const file = { filename: req.file.filename, originalname: req.file.originalname, course: course._id };
+        const savedFile = await new File(file).save();
+        return res.send({ fileId: savedFile._id });
     } catch (ex) {
         console.log(ex);
         res.status(500).end();
@@ -15,7 +17,21 @@ const uploadFile = async(req, res, next) => {
 };
 
 const getFile = async(req, res, next) => {
-    try {} catch (ex) {
+    try {
+        const file = await File.findById(req.params.fileId);
+        fs.access(path.join(path.resolve(), '/uploads/' + file.filename), fs.constants.R_OK, (err) => {
+            if (err) {
+                res.writeHead(400, { 'Content-Type': 'text/plain' });
+                res.end('ERROR File does not exist');
+            } else {
+                res.writeHead(200, {
+                    'Content-Type': 'application/octet-stream',
+                    'Content-Disposition': 'attachment; filename=' + file.originalname
+                });
+                fs.createReadStream(path.join(path.resolve(), '/uploads/' + file.filename)).pipe(res);
+            }
+        });
+    } catch (ex) {
         res.status(500).end();
     }
 };
