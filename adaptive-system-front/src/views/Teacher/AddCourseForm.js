@@ -10,11 +10,15 @@ const AddCourseForm = () => {
   const [title, setTitle] = useState(null)
   const [category, setCategory] = useState(null)
 
-  useEffect(_ =>
+  useEffect(_ => {
+    let mounted = true
     getCategoryList().then(({ data }) => {
-      setCategoryList(data)
+      if (mounted) setCategoryList(data)
     })
-  )
+    return () => {
+      mounted = false
+    }
+  })
 
   const handleSubmit = async e => {
     e.preventDefault()

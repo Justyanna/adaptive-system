@@ -7,18 +7,19 @@ const Admin = () => {
   const history = useHistory()
   const [users, setUsers] = useState([])
 
-  useEffect(
-    _ => {
-      getUserList()
-        .then(({ data }) => {
-          setUsers(data)
-        })
-        .catch(_ => {
-          history.push('/')
-        })
-    },
-    [history]
-  )
+  useEffect(() => {
+    let mounted = true
+    getUserList()
+      .then(({ data }) => {
+        if (mounted) setUsers(data)
+      })
+      .catch(_ => {
+        history.push('/')
+      })
+    return () => {
+      mounted = false
+    }
+  }, [history])
 
   return (
     <main className='layout'>

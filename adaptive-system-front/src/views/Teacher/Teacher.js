@@ -9,18 +9,19 @@ const Teacher = () => {
 
   const [courseList, setCourseList] = useState(null)
 
-  useEffect(
-    _ => {
-      getTeacherCourseList()
-        .then(({ data }) => {
-          setCourseList(data)
-        })
-        .catch(_ => {
-          history.push('/')
-        })
-    },
-    [history]
-  )
+  useEffect(() => {
+    let mounted = true
+    getTeacherCourseList()
+      .then(({ data }) => {
+        if (mounted) setCourseList(data)
+      })
+      .catch(_ => {
+        if (mounted) history.push('/')
+      })
+    return _ => {
+      mounted = false
+    }
+  }, [history])
 
   return (
     <main className='layout'>
