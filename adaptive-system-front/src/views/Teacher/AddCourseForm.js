@@ -24,14 +24,14 @@ const AddCourseForm = () => {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form className='flow' onSubmit={handleSubmit}>
       <p>Nowy kurs</p>
       <div className='form-item'>
         <label className='form-label' htmlFor='title'>
           Tytuł kursu
         </label>
         <input
-          className='form-input'
+          className='form-input form-input-wide'
           type='text'
           id='title'
           onChange={e => setTitle(e.target.value)}
@@ -42,7 +42,7 @@ const AddCourseForm = () => {
           Kategoria
         </label>
         <input
-          className='form-input'
+          className='form-input form-input-wide'
           type='text'
           list='course-categories'
           id='category'
