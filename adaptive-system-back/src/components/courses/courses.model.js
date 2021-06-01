@@ -1,14 +1,5 @@
 import mongoose from 'mongoose';
 
-const lesson = new mongoose.Schema({
-    type: new mongoose.Schema({
-        type: String,
-        content: [
-            [Object]
-        ]
-    }, { _id: false })
-}, { _id: false });
-
 const model = new mongoose.Schema({
     name: {
         type: String,
@@ -29,7 +20,7 @@ const model = new mongoose.Schema({
         required: true
     },
     lessons: {
-        type: [Object],
+        type: Object,
         required: false
     }
 });
