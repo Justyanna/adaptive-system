@@ -66,6 +66,22 @@ const Course = () => {
     setSaved(false)
   }
 
+  const moveLessonUp = idx => {
+    const tmp = [...lessonList]
+    const el = tmp.splice(idx, 1)
+    tmp.splice(idx - 1, 0, ...el)
+    setLessonList(tmp)
+    setSaved(false)
+  }
+
+  const moveLessonDown = idx => {
+    const tmp = [...lessonList]
+    const el = tmp.splice(idx, 1)
+    tmp.splice(idx + 1, 0, ...el)
+    setLessonList(tmp)
+    setSaved(false)
+  }
+
   if (!course)
     return (
       <main className='layout'>
@@ -80,6 +96,8 @@ const Course = () => {
         value={{
           addLesson,
           updateLesson,
+          moveLessonUp,
+          moveLessonDown,
           removeLesson,
           saveChanges,
           saved,

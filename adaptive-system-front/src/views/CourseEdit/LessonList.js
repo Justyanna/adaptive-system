@@ -3,8 +3,15 @@ import { CourseContext } from './CourseEdit'
 import styles from './CourseEdit.module.css'
 
 const LessonList = ({ lessons }) => {
-  const { addLesson, removeLesson, saveChanges, saved, setEdit } =
-    useContext(CourseContext)
+  const {
+    addLesson,
+    moveLessonUp,
+    moveLessonDown,
+    removeLesson,
+    saveChanges,
+    saved,
+    setEdit
+  } = useContext(CourseContext)
 
   return (
     <div>
@@ -54,18 +61,22 @@ const LessonList = ({ lessons }) => {
                 </button>
               </div>
               <div className={styles['lesson-ui-item']}>
-                {key > 0 && (
-                  <button className={`btn btn-wide ${'btn-move-up'}`}>
-                    W górę
-                  </button>
-                )}
+                <button
+                  className={`btn btn-wide ${'btn-move-up'}`}
+                  disabled={key < 1}
+                  onClick={() => moveLessonUp(key)}
+                >
+                  W górę
+                </button>
               </div>
               <div className={styles['lesson-ui-item']}>
-                {key < lessons.length - 1 && (
-                  <button className={`btn btn-wide ${'btn-move-down'}`}>
-                    W dół
-                  </button>
-                )}
+                <button
+                  className={`btn btn-wide ${'btn-move-down'}`}
+                  disabled={key >= lessons.length - 1}
+                  onClick={() => moveLessonDown(key)}
+                >
+                  W dół
+                </button>
               </div>
               <div className={styles['lesson-ui-item']}>
                 <button

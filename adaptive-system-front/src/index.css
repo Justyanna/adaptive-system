@@ -98,6 +98,11 @@
   color: var(--secondary-active, var(--secondary));
 }
 
+.btn:disabled {
+  background-color: var(--c-whDark);
+  color: #999;
+}
+
 .list {
   list-style-type: none;
 }
