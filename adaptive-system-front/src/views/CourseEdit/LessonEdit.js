@@ -1,7 +1,10 @@
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 import ActivityList from '../CourseEdit/ActivityList'
+import { CourseContext } from './CourseEdit'
 
-const LessonEdit = ({ data, updateLesson, setEdit, idx }) => {
+const LessonEdit = ({ data, idx }) => {
+  const { updateLesson, saved, setEdit, saveChanges } =
+    useContext(CourseContext)
   const [activityList, _setActivityList] = useState(data.activities)
   const [lesson, setLesson] = useState(data)
 
@@ -11,7 +14,10 @@ const LessonEdit = ({ data, updateLesson, setEdit, idx }) => {
   }
 
   const saveAndQuit = () => {
-    updateLesson(idx, lesson)
+    if (!saved) {
+      updateLesson(idx, lesson)
+      saveChanges()
+    }
     setEdit(-1)
   }
 
@@ -21,7 +27,7 @@ const LessonEdit = ({ data, updateLesson, setEdit, idx }) => {
         <h2>{lesson.title}</h2>
         <p>{lesson.description}</p>
         <button className='btn' onClick={saveAndQuit}>
-          Zapisz
+          {saved ? 'Wróć' : 'Zapisz i wróć'}
         </button>
       </header>
       <ActivityList

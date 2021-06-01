@@ -1,7 +1,10 @@
-// import { useState } from 'react'
+import { useContext } from 'react'
 import ActivityEdit from './ActivityEdit'
+import { CourseContext } from './CourseEdit'
 
 const ActivityList = ({ activities, setActivityList }) => {
+  const { setSaved } = useContext(CourseContext)
+
   const addActivity = () => {
     setActivityList([
       ...activities,
@@ -10,6 +13,7 @@ const ActivityList = ({ activities, setActivityList }) => {
         components: []
       }
     ])
+    setSaved(false)
   }
 
   return (

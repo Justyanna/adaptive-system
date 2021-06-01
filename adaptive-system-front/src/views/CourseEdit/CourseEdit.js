@@ -1,14 +1,17 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, createContext } from 'react'
 import { useParams } from 'react-router-dom'
 import { getCourse, updateCourse } from '../../services/courses'
 import LessonEdit from './LessonEdit'
 import LessonList from './LessonList'
+
+export const CourseContext = createContext(null)
 
 const Course = () => {
   const { courseId } = useParams()
 
   const [course, setCourse] = useState(null)
   const [lessonList, setLessonList] = useState(null)
+  const [saved, setSaved] = useState(true)
   const [edit, setEdit] = useState(-1)
 
   useEffect(() => {
@@ -30,7 +33,8 @@ const Course = () => {
         ...course,
         lessons: lessonList
       })
-      console.log(res)
+      // console.log(res)
+      setSaved(true)
     } catch (e) {
       console.dir(e)
     }
@@ -45,18 +49,21 @@ const Course = () => {
         activities: []
       }
     ])
+    setSaved(false)
   }
 
   const updateLesson = (idx, updated) => {
     const tmp = lessonList
     tmp.splice(idx, 1, updated)
     setLessonList(tmp)
+    setSaved(false)
   }
 
   const removeLesson = idx => {
     const tmp = [...lessonList]
     tmp.splice(idx, 1)
     setLessonList(tmp)
+    setSaved(false)
   }
 
   if (!course)
@@ -69,22 +76,23 @@ const Course = () => {
   return (
     <main className='layout'>
       <h1>{course.name} (edytowanie)</h1>
-      {edit < 0 ? (
-        <LessonList
-          lessons={lessonList}
-          addLesson={addLesson}
-          deleteLesson={removeLesson}
-          setEdit={setEdit}
-          saveChanges={saveChanges}
-        />
-      ) : (
-        <LessonEdit
-          data={lessonList[edit]}
-          updateLesson={updateLesson}
-          setEdit={setEdit}
-          idx={edit}
-        />
-      )}
+      <CourseContext.Provider
+        value={{
+          addLesson,
+          updateLesson,
+          removeLesson,
+          saveChanges,
+          saved,
+          setSaved,
+          setEdit
+        }}
+      >
+        {edit < 0 ? (
+          <LessonList lessons={lessonList} saved={saved} />
+        ) : (
+          <LessonEdit data={lessonList[edit]} idx={edit} />
+        )}
+      </CourseContext.Provider>
     </main>
   )
 }

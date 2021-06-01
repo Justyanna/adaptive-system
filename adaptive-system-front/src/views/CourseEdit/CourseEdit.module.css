@@ -1,0 +1,25 @@
+.lesson-list-item {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+}
+
+.lesson-ui {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.lesson-ui-item {
+  width: 7em;
+}
+
+.ui-new-unit {
+  position: absolute;
+  left: 50%;
+  top: calc(100% + 0.5em);
+  z-index: 50;
+  transform: translate(-50%, -50%);
+  display: flex;
+  gap: 0.5em;
+}
