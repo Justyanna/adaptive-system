@@ -1,3 +1,5 @@
+/* Lessons */
+
 .lesson-list-item {
   position: relative;
   display: flex;
@@ -22,4 +24,21 @@
   transform: translate(-50%, -50%);
   display: flex;
   gap: 0.5em;
+}
+
+/* Activities */
+
+.activity-list-item {
+  position: relative;
+}
+
+.activity-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.activity-ui {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
 }
