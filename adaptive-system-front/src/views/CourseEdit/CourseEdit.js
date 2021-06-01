@@ -25,16 +25,15 @@ const Course = () => {
   }, [courseId])
 
   const saveChanges = async () => {
-    console.log(course)
-    // try {
-    //   const res = await updateCourse(courseId, {
-    //     ...course,
-    //     lessons: lessonList
-    //   })
-    //   console.log(res)
-    // } catch (e) {
-    //   console.dir(e)
-    // }
+    try {
+      const res = await updateCourse(courseId, {
+        ...course,
+        lessons: lessonList
+      })
+      console.log(res)
+    } catch (e) {
+      console.dir(e)
+    }
   }
 
   const addLesson = () => {
