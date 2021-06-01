@@ -1,6 +1,8 @@
-import { useState, useContext } from 'react'
+import { useState, useContext, createContext } from 'react'
 import ActivityList from '../CourseEdit/ActivityList'
 import { CourseContext } from './CourseEdit'
+
+export const LessonContext = createContext(null)
 
 const LessonEdit = ({ data, idx }) => {
   const { updateLesson, saved, setEdit, saveChanges } =
@@ -30,10 +32,11 @@ const LessonEdit = ({ data, idx }) => {
           {saved ? 'Wróć' : 'Zapisz i wróć'}
         </button>
       </header>
-      <ActivityList
-        activities={activityList}
-        setActivityList={setActivityList}
-      />
+      <LessonContext.Provider
+        value={{ activities: activityList, setActivityList }}
+      >
+        <ActivityList />
+      </LessonContext.Provider>
     </div>
   )
 }

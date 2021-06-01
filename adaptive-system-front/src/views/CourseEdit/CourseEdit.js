@@ -59,13 +59,6 @@ const Course = () => {
     setSaved(false)
   }
 
-  const removeLesson = idx => {
-    const tmp = [...lessonList]
-    tmp.splice(idx, 1)
-    setLessonList(tmp)
-    setSaved(false)
-  }
-
   const moveLessonUp = idx => {
     const tmp = [...lessonList]
     const el = tmp.splice(idx, 1)
@@ -78,6 +71,13 @@ const Course = () => {
     const tmp = [...lessonList]
     const el = tmp.splice(idx, 1)
     tmp.splice(idx + 1, 0, ...el)
+    setLessonList(tmp)
+    setSaved(false)
+  }
+
+  const removeLesson = idx => {
+    const tmp = [...lessonList]
+    tmp.splice(idx, 1)
     setLessonList(tmp)
     setSaved(false)
   }
