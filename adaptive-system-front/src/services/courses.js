@@ -17,6 +17,10 @@ export const getCourse = id => {
   return axios.get(courseUrl + id)
 }
 
+export const updateCourse = (id, data) => {
+  return axios.put(courseUrl + id, data)
+}
+
 export const createCourse = data => {
   return axios.post(courseUrl, data)
 }

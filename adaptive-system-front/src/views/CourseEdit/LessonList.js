@@ -1,8 +1,19 @@
 import React from 'react'
 
-const LessonList = ({ lessons, addLesson, deleteLesson, setEdit }) => {
+const LessonList = ({
+  lessons,
+  addLesson,
+  deleteLesson,
+  setEdit,
+  saveChanges
+}) => {
   return (
     <div>
+      <div>
+        <button className='btn btn-save-test' onClick={saveChanges}>
+          Zapisz zmiany
+        </button>
+      </div>
       <div>
         <button className='btn btn-add-lesson' onClick={addLesson}>
           Dodaj lekcję

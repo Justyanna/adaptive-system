@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
-import { getCourse } from '../../services/courses'
+import { getCourse, updateCourse } from '../../services/courses'
 import LessonEdit from './LessonEdit'
 import LessonList from './LessonList'
 
@@ -8,7 +8,7 @@ const Course = () => {
   const { courseId } = useParams()
 
   const [course, setCourse] = useState(null)
-  const [lessonList, _setLessonList] = useState(null)
+  const [lessonList, setLessonList] = useState(null)
   const [edit, setEdit] = useState(-1)
 
   useEffect(() => {
@@ -24,9 +24,17 @@ const Course = () => {
     }
   }, [courseId])
 
-  const setLessonList = data => {
-    _setLessonList(data)
-    setCourse({ ...course, lessons: lessonList })
+  const saveChanges = async () => {
+    console.log(course)
+    // try {
+    //   const res = await updateCourse(courseId, {
+    //     ...course,
+    //     lessons: lessonList
+    //   })
+    //   console.log(res)
+    // } catch (e) {
+    //   console.dir(e)
+    // }
   }
 
   const addLesson = () => {
@@ -68,6 +76,7 @@ const Course = () => {
           addLesson={addLesson}
           deleteLesson={removeLesson}
           setEdit={setEdit}
+          saveChanges={saveChanges}
         />
       ) : (
         <LessonEdit
