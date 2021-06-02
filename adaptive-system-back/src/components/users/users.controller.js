@@ -82,13 +82,26 @@ const addUser = async(req, res, next) => {
 
         const token = jwt.sign(payload, SECRET, { expiresIn: '1d' });
 
-        const resultUsr = {
-            _id: user._id,
-            email: user.email,
-            firstName: user.firstName,
-            lastName: user.lastName,
-            roles: roles
-        };
+        var resultUsr;
+        if (user.xAxis && user.yAxis) {
+            resultUsr = {
+                _id: user._id,
+                email: user.email,
+                firstName: user.firstName,
+                lastName: user.lastName,
+                roles: roles,
+                xAxis: user.xAxis,
+                yAxis: user.yAxis
+            };
+        } else {
+            resultUsr = {
+                _id: user._id,
+                email: user.email,
+                firstName: user.firstName,
+                lastName: user.lastName,
+                roles: roles
+            };
+        }
         return res.send({ user: resultUsr, token });
     } catch (e) {
         res.status(500).end();
@@ -127,13 +140,26 @@ const authUser = async(req, res, next) => {
         let roles = await Role.find({}, { name: 1, _id: 0 }).where('_id').in(user.roles).exec();
         roles = roles.map((e) => e.name);
 
-        const resultUsr = {
-            _id: user._id,
-            email: user.email,
-            firstName: user.firstName,
-            lastName: user.lastName,
-            roles: roles
-        };
+        var resultUsr;
+        if (user.xAxis && user.yAxis) {
+            resultUsr = {
+                _id: user._id,
+                email: user.email,
+                firstName: user.firstName,
+                lastName: user.lastName,
+                roles: roles,
+                xAxis: user.xAxis,
+                yAxis: user.yAxis
+            };
+        } else {
+            resultUsr = {
+                _id: user._id,
+                email: user.email,
+                firstName: user.firstName,
+                lastName: user.lastName,
+                roles: roles
+            };
+        }
 
         return res.send({ user: resultUsr, token });
     } catch (e) {
@@ -254,14 +280,26 @@ const updateToken = async(req, res, next) => {
 
         let roles = await Role.find({}, { name: 1, _id: 0 }).where('_id').in(user.roles).exec();
         roles = roles.map((e) => e.name);
-
-        const resultUsr = {
-            _id: user._id,
-            email: user.email,
-            firstName: user.firstName,
-            lastName: user.lastName,
-            roles: roles
-        };
+        var resultUsr;
+        if (user.xAxis && user.yAxis) {
+            resultUsr = {
+                _id: user._id,
+                email: user.email,
+                firstName: user.firstName,
+                lastName: user.lastName,
+                roles: roles,
+                xAxis: user.xAxis,
+                yAxis: user.yAxis
+            };
+        } else {
+            resultUsr = {
+                _id: user._id,
+                email: user.email,
+                firstName: user.firstName,
+                lastName: user.lastName,
+                roles: roles
+            };
+        }
         return res.send({ user: resultUsr, token });
     } catch (e) {
         res.status(500).end();
@@ -310,14 +348,29 @@ const switchUserRole = async(req, res, next) => {
         const updatedUser = await User.findByIdAndUpdate(user._id, user, {
             new: true
         });
+        let roles = await Role.find({}, { name: 1, _id: 0 }).where('_id').in(user.roles).exec();
+        roles = roles.map((e) => e.name);
 
-        const resultUsr = {
-            _id: updatedUser._id,
-            email: updatedUser.email,
-            firstName: updatedUser.firstName,
-            lastName: updatedUser.lastName,
-            roles: updatedUser.roles
-        };
+        var resultUsr;
+        if (user.xAxis && user.yAxis) {
+            resultUsr = {
+                _id: user._id,
+                email: user.email,
+                firstName: user.firstName,
+                lastName: user.lastName,
+                roles: roles,
+                xAxis: user.xAxis,
+                yAxis: user.yAxis
+            };
+        } else {
+            resultUsr = {
+                _id: user._id,
+                email: user.email,
+                firstName: user.firstName,
+                lastName: user.lastName,
+                roles: roles
+            };
+        }
 
         return res.send({ user: resultUsr });
     } catch (e) {
@@ -338,13 +391,70 @@ const updateUser = async(req, res, next) => {
         const updatedUser = await User.findByIdAndUpdate(user._id, newUser, {
             new: false
         });
-        const resultUsr = {
-            _id: updatedUser._id,
-            email: updatedUser.email,
-            firstName: updatedUser.firstName,
-            lastName: updatedUser.lastName,
-            roles: updatedUser.roles
-        };
+        let roles = await Role.find({}, { name: 1, _id: 0 }).where('_id').in(user.roles).exec();
+        roles = roles.map((e) => e.name);
+        var resultUsr;
+        if (user.xAxis && user.yAxis) {
+            resultUsr = {
+                _id: user._id,
+                email: user.email,
+                firstName: user.firstName,
+                lastName: user.lastName,
+                roles: roles,
+                xAxis: user.xAxis,
+                yAxis: user.yAxis
+            };
+        } else {
+            resultUsr = {
+                _id: user._id,
+                email: user.email,
+                firstName: user.firstName,
+                lastName: user.lastName,
+                roles: roles
+            };
+        }
+        return res.send(resultUsr);
+    } catch (e) {
+        res.status(500).end();
+    }
+};
+
+function between(min, max) {
+    return Math.random() * (max - min) + min;
+}
+
+const adaptUser = async(req, res, next) => {
+    try {
+        let user = await User.findOne({ login: req.login });
+        const x = between(-1.0, 1.0);
+        const y = between(-1.0, 1.0);
+        user.xAxis = x;
+        user.yAxis = y;
+        const updatedUser = await User.findByIdAndUpdate(user._id, user, {
+            new: false
+        });
+        let roles = await Role.find({}, { name: 1, _id: 0 }).where('_id').in(user.roles).exec();
+        roles = roles.map((e) => e.name);
+        var resultUsr;
+        if (updatedUser.xAxis && updatedUser.yAxis) {
+            resultUsr = {
+                _id: updatedUser._id,
+                email: updatedUser.email,
+                firstName: updatedUser.firstName,
+                lastName: updatedUser.lastName,
+                roles: roles,
+                xAxis: updatedUser.xAxis,
+                yAxis: updatedUser.yAxis
+            };
+        } else {
+            resultUsr = {
+                _id: updatedUser._id,
+                email: updatedUser.email,
+                firstName: user.firstName,
+                lastName: user.lastName,
+                roles: roles
+            };
+        }
         return res.send(resultUsr);
     } catch (e) {
         res.status(500).end();
@@ -365,5 +475,6 @@ export default {
     checkQuestionnaire,
     updateToken,
     switchUserRole,
-    updateUser
+    updateUser,
+    adaptUser
 };

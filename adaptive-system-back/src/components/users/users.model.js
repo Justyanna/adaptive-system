@@ -5,7 +5,6 @@ const model = new mongoose.Schema({
         type: String,
         required: true,
         unique: true,
-        match: /^[a-zA-Z0-9\s]+$/,
         minlength: 2,
         maxlength: 20,
         trim: true
@@ -15,8 +14,7 @@ const model = new mongoose.Schema({
         trim: true,
         lowercase: true,
         unique: true,
-        required: true,
-        match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Please fill a valid email address']
+        required: true
     },
     password: {
         type: String,
@@ -27,7 +25,6 @@ const model = new mongoose.Schema({
     firstName: {
         type: String,
         required: true,
-        match: /^[a-zA-Z\s]+$/,
         minlength: 2,
         maxlength: 20,
         trim: true
@@ -35,7 +32,6 @@ const model = new mongoose.Schema({
     lastName: {
         type: String,
         required: true,
-        match: /^[a-zA-Z\s]+$/,
         minlength: 2,
         maxlength: 20,
         trim: true

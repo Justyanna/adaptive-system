@@ -2,7 +2,7 @@ import Lesson from './Lesson'
 import { isLoggedIn, getUserDetails } from '../../services/auth'
 import { Link } from 'react-router-dom'
 
-const ActivityList = ({ enrolled, activities }) => {
+const LessonsList = ({ enrolled, lessons }) => {
   if (!isLoggedIn())
     return <div>Aby zapisać się na kurs, należy się zalogować.</div>
 
@@ -17,14 +17,14 @@ const ActivityList = ({ enrolled, activities }) => {
       </div>
     )
 
-  if (!activities?.length > 0)
+  if (!lessons?.length > 0)
     return <div>Kurs nie zawiera jeszcze żadnej treści.</div>
 
   if (!enrolled) return <></>
 
-  return activities.map((activity, key) => (
-    <Lesson contents={activity.contents} key={key} />
+  return lessons.map((lesson, key) => (
+    <Lesson id={key} lesson={lesson} key={key} />
   ))
 }
 
-export default ActivityList
+export default LessonsList

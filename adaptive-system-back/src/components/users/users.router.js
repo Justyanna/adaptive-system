@@ -16,6 +16,7 @@ usersRouter.post('/user/login', usersController.authUser);
 usersRouter.post('/user/verify', usersController.verifyUserToken);
 usersRouter.post('/user/enroll', auth.authenticate, usersController.enrollUserForCourse);
 usersRouter.post('/user/role', auth.authenticate, usersController.switchUserRole);
+usersRouter.post('/user/adapt', auth.authenticate, usersController.adaptUser);
 
 usersRouter.post('/questionnaire', auth.authenticate, usersController.checkQuestionnaire);
 usersRouter.get('/questionnaire', auth.authenticate, usersController.getQuestionnaire);

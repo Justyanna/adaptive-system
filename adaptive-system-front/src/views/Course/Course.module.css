@@ -1,11 +1,11 @@
 .activity {
-  display: flex;
-  flex-direction: column;
-  padding: 2em 4em;
-  text-align: justify;
+    display: flex;
+    flex-direction: column;
+    padding: 2em 4em;
+    text-align: justify;
 }
 
 .img {
-  align-self: center;
-  margin: 2em 0;
+    align-self: center;
+    margin: 2em 0;
 }

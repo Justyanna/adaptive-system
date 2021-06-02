@@ -4,7 +4,7 @@ import { isLoggedIn } from '../../services/auth'
 import { getCourse } from '../../services/courses'
 import { enrollAtCourse, getUserCourseList } from '../../services/users'
 import { objIsEmpty } from '../../utils'
-import ActivityList from './ActivityList'
+import LessonsList from './LessonsList'
 import EnrollUi from './EnrollUi'
 
 const Course = () => {
@@ -52,8 +52,9 @@ const Course = () => {
     <main className="layout">
       <>
         <h2>Kurs {course.name}</h2>
+        {console.log(course)}
         <EnrollUi enrolled={enrolled} enroll={enroll} />
-        <ActivityList enrolled={enrolled} activities={course.lessons} />
+        <LessonsList enrolled={enrolled} lessons={course.lessons} />
       </>
     </main>
   )
