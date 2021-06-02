@@ -50,14 +50,8 @@ const Activities = () => {
 	const handleSendShortResponse = async() =>{
 		let amount = document.querySelector('[name="amount"][checked]')?.value;
 		let lesson = document.querySelector('[name="lesson"][checked]')?.value;
-		if(!amount || !lesson)
-		{
-			
-		}
-		
 		await adaptUser({"amount": amount, "lesson": lesson})
 		showModal(false)
-		
 	}
 
 	return (
@@ -118,7 +112,6 @@ const Activities = () => {
 			<button className={`btn`} onClick={handleSendShortResponse}>
 				Prześlij
 			</button>
-       
        
         </Modal>
 		</>
