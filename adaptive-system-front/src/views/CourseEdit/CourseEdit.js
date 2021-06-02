@@ -33,7 +33,6 @@ const Course = () => {
         ...course,
         lessons: lessonList
       })
-      // console.log(res)
       setSaved(true)
     } catch (e) {
       console.dir(e)
