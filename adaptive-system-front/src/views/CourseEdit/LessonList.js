@@ -5,6 +5,7 @@ import styles from './CourseEdit.module.css'
 const LessonList = ({ lessons }) => {
   const {
     addLesson,
+    updateLesson,
     moveLessonUp,
     moveLessonDown,
     removeLesson,
@@ -12,6 +13,20 @@ const LessonList = ({ lessons }) => {
     saved,
     setEdit
   } = useContext(CourseContext)
+
+  const handleLessonNameChange = (el, idx) => {
+    el.setAttribute('contenteditable', true)
+    el.focus()
+    el.addEventListener(
+      'blur',
+      e => {
+        el.removeAttribute('contenteditable')
+        lessons[idx].title = el.innerText
+        updateLesson(idx, lessons[idx])
+      },
+      { once: true }
+    )
+  }
 
   return (
     <div>
@@ -43,7 +58,12 @@ const LessonList = ({ lessons }) => {
         lessons.map((lesson, key) => (
           <article key={key} className={`card ${styles['lesson-list-item']}`}>
             <div className={styles['lesson-info']}>
-              <h2 className={styles['lesson-title']}>{lesson.title}</h2>
+              <h2
+                className={styles['lesson-title']}
+                onClick={e => handleLessonNameChange(e.target, key)}
+              >
+                {lesson.title}
+              </h2>
               <p className={styles['lesson-description']}>
                 {lesson.description}
               </p>
