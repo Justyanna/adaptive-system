@@ -4,6 +4,8 @@ import Modal from '../../components/Modal/Modal'
 import RoleList from './RoleList'
 import { handleIssues } from '../../services/formUtils'
 import { UserContext } from '../../contexts/UserContext'
+import { updateUser } from '../../services/users'
+import { updateToken, updateUserData } from '../../services/auth'
 
 const errMessages = {
   confirmPassword: 'Hasła muszą być identyczne'
@@ -12,14 +14,14 @@ const errMessages = {
 const Profile = () => {
   const history = useHistory()
   const [modal, showModal] = useState(false)
-  const { user } = useContext(UserContext)
+  const { user, setUser } = useContext(UserContext)
 
   const [firstName, setFirstName] = useState(user?.firstName || '')
   const [lastName, setLastName] = useState(user?.lastName || '')
   const [email, setEmail] = useState(user?.email || '')
   const [newPassword, setNewPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
-  // const [oldPassword, setOldPassword] = useState('')
+  const [oldPassword, setOldPassword] = useState('')
 
   if (!user) {
     history.push('/')
@@ -49,7 +51,30 @@ const Profile = () => {
     handleIssues(document, issues, 'form-input-error') && showModal(true)
   }
 
-  const applyChanges = e => {}
+  const applyChanges = async e => { 
+    const newUser  = newPassword ?
+    {
+      firstName : firstName,
+      lastName: lastName,
+      email: email,
+      password: newPassword,
+      oldPassword: oldPassword
+    } : {
+      firstName : firstName,
+      lastName: lastName,
+      email: email,
+      oldPassword: oldPassword
+    };
+    const resp = updateUser(newUser);  
+    updateUserData(await updateToken(), setUser)  
+    setFirstName(resp.firstName)
+    setLastName(resp.lastName)
+    setEmail(resp.email)
+    showModal(false)
+    setNewPassword('')
+    setConfirmPassword('')
+    setOldPassword('')
+  }
 
   return (
     <>
@@ -156,7 +181,7 @@ const Profile = () => {
             className='form-input'
             name='old-password'
             id='old-password'
-            // onChange={e => setOldPassword(e.target.value)}
+            onChange={e => setOldPassword(e.target.value)}
           />
         </div>
         <div className='form-item'>

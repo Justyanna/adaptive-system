@@ -3,6 +3,7 @@ import { default as axios } from './axios'
 const questionnaireUrl = 'questionnaire'
 const userCourseListUrl = 'user/courses'
 const userRoleUrl = 'user/role'
+const user = 'user'
 const enrollUrl = 'user/enroll'
 const userListUrl = 'users'
 
@@ -28,4 +29,8 @@ export const toggleUserRole = data => {
 
 export const getUserList = _ => {
   return axios.get(userListUrl)
+}
+
+export const updateUser = data =>{
+  return axios.patch(user, data)
 }
