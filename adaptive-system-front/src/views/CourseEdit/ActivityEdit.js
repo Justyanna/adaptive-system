@@ -62,40 +62,40 @@ const ActivityEdit = ({ activity, idx }) => {
             Jak ważna jest ta aktywność? 
             <input
               type='radio'
-              name='weight'
-              id='weight-0'
+              name={`weight-${idx}`}
+              id={`weight-${idx}-0`}
               defaultChecked={activity.weight <= 0.2}
               onChange={() => setWeight(0.2)}
             />
              
             <input
               type='radio'
-              name='weight'
-              id='weight-1'
+              name={`weight-${idx}`}
+              id={`weight-${idx}-1`}
               defaultChecked={activity.weight > 0.2 && activity.weight <= 0.4}
               onChange={() => setWeight(0.4)}
             />
              
             <input
               type='radio'
-              name='weight'
-              id='weight-2'
+              name={`weight-${idx}`}
+              id={`weight-${idx}-2`}
               defaultChecked={activity.weight > 0.4 && activity.weight <= 0.5}
               onChange={() => setWeight(0.6)}
             />
              
             <input
               type='radio'
-              name='weight'
-              id='weight-3'
+              name={`weight-${idx}`}
+              id={`weight-${idx}-3`}
               defaultChecked={activity.weight > 0.6 && activity.weight <= 0.8}
               onChange={() => setWeight(0.8)}
             />
              
             <input
               type='radio'
-              name='weight'
-              id='weight-4'
+              name={`weight-${idx}`}
+              id={`weight-${idx}-4`}
               defaultChecked={activity.weight > 0.8}
               onChange={() => setWeight(1.0)}
             />
