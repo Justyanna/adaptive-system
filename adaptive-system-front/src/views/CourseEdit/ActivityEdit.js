@@ -1,72 +1,63 @@
 import { useContext } from 'react'
 import styles from './CourseEdit.module.css'
-import ActivityEditEssential from './ActivityEditEssential'
-import ActivityEditAdditional from './ActivityEditAdditional'
-import ActivityEditContextual from './ActivityEditContextual'
-import ActivityEditSpecial from './ActivityEditSpecial'
 import { LessonContext } from './LessonEdit'
-import { CourseContext } from './CourseEdit'
 
-const activityTags = {
-  essential: 'kluczowa',
-  additional: 'dodatkowa',
-  contextual: 'kontekstowa',
-  special: 'specjalna'
+const oppositeMode = {
+  alpha: 'gamma',
+  beta: 'delta',
+  gamma: 'alpha',
+  delta: 'beta'
 }
 
-const renderActivity = type => {
-  switch (type) {
-    case 'essential':
-      return <ActivityEditEssential />
-    case 'additional':
-      return <ActivityEditAdditional />
-    case 'contextual':
-      return <ActivityEditContextual />
-    case 'special':
-      return <ActivityEditSpecial />
-    default:
-      return <></>
-  }
-}
+const ActivityEdit = ({ activity, idx }) => {
+  const {
+    activities,
+    addActivity,
+    updateActivity,
+    moveActivityUp,
+    moveActivityDown,
+    removeActivity
+  } = useContext(LessonContext)
 
-const ActivityEdit = ({ activity, addActivity, idx }) => {
-  const { setSaved } = useContext(CourseContext)
-  const { activities, setActivityList } = useContext(LessonContext)
-
-  const moveActivityUp = () => {
-    const tmp = [...activities]
-    const el = tmp.splice(idx, 1)
-    tmp.splice(idx - 1, 0, ...el)
-    setActivityList(tmp)
-    setSaved(false)
+  const addTextComponent = (type, mode) => {
+    const tmp = { ...activity }
+    tmp[mode] = [
+      ...activity[mode],
+      { type: 'text', contents: 'Komponent tekstowy' }
+    ]
+    updateActivity(idx, tmp)
+    return
   }
 
-  const moveActivityDown = () => {
-    const tmp = [...activities]
-    const el = tmp.splice(idx, 1)
-    tmp.splice(idx + 1, 0, ...el)
-    setActivityList(tmp)
-    setSaved(false)
+  const updateComponent = (i, value) => {
+    const tmp = activity
+    tmp[activity.mode][i].contents = value
+    updateActivity(idx, tmp)
   }
 
-  const removeActivity = () => {
-    const tmp = [...activities]
-    tmp.splice(idx, 1)
-    setActivityList(tmp)
-    setSaved(false)
+  const removeComponent = i => {
+    const tmp = activity
+    tmp[activity.mode].splice(i, 1)
+    updateActivity(idx, tmp)
+  }
+
+  const swapMode = () => {
+    const tmp = activity
+    tmp.mode = oppositeMode[activity.mode]
+    updateActivity(idx, tmp)
   }
 
   return (
     <section className={`card ${styles['activity-list-item']}`}>
       <header className={styles['activity-header']}>
-        <h2>{`Aktywność ${activityTags[activity.type]}`}</h2>
+        <h2>{activity.title}</h2>
 
         <div className={styles['lesson-ui']}>
           <div className={styles['lesson-ui-item']}>
             <button
               className={`btn btn-wide ${'btn-move-up'}`}
               disabled={idx < 1}
-              onClick={moveActivityUp}
+              onClick={() => moveActivityUp(idx)}
             >
               W górę
             </button>
@@ -75,7 +66,7 @@ const ActivityEdit = ({ activity, addActivity, idx }) => {
             <button
               className={`btn btn-wide ${'btn-move-down'}`}
               disabled={idx >= activities.length - 1}
-              onClick={moveActivityDown}
+              onClick={() => moveActivityDown(idx)}
             >
               W dół
             </button>
@@ -90,19 +81,118 @@ const ActivityEdit = ({ activity, addActivity, idx }) => {
           </div>
         </div>
       </header>
-      {renderActivity(activity.type)}
+      {activity.type === 'essential' && (
+        <div>
+          <h3>Aktywność kluczowa</h3>
+          {activity.components?.length > 0 && (
+            <div className={styles['component-list']}>
+              {activity.components.map((component, key) => (
+                <div key={key}>
+                  <button
+                    className='btn error'
+                    onClick={() => removeComponent(key)}
+                  >
+                    Usuń
+                  </button>
+                  <textarea
+                    className={styles['component-text']}
+                    defaultValue={component.contents}
+                    onBlur={e => updateComponent(key, e.target.value)}
+                  />
+                </div>
+              ))}
+            </div>
+          )}
+          <div className={styles['activity-add-component']}>
+            <button
+              className='btn action'
+              onClick={() => addTextComponent('essential', activity.mode)}
+            >
+              Dodaj tekst
+            </button>
+          </div>
+        </div>
+      )}
+      {activity.type === 'contextual' && (
+        <div>
+          <h3>Aktywność kontekstowa</h3>
+          <div>
+            <button className='btn' onClick={swapMode}>
+              {oppositeMode[activity.mode]}
+            </button>
+          </div>
+          {activity[activity.mode]?.length > 0 && (
+            <div className={styles['component-list']}>
+              {activity[activity.mode].map((component, key) => (
+                <div key={key}>
+                  <button
+                    className='btn error'
+                    onClick={() => removeComponent(key)}
+                  >
+                    Usuń
+                  </button>
+                  <textarea
+                    className={styles['component-text']}
+                    defaultValue={component.contents}
+                    onBlur={e => updateComponent(key, e.target.value)}
+                  />
+                </div>
+              ))}
+            </div>
+          )}
+          <div className={styles['activity-add-component']}>
+            <button
+              className='btn action'
+              onClick={() => addTextComponent('contextual', activity.mode)}
+            >
+              Dodaj tekst
+            </button>
+          </div>
+        </div>
+      )}
+      {activity.type === 'special' && (
+        <div>
+          <h3>Aktywność specjalna</h3>
+          <div>
+            <button className='btn' onClick={swapMode}>
+              {oppositeMode[activity.mode]}
+            </button>
+          </div>
+          {activity[activity.mode]?.length > 0 && (
+            <div className={styles['component-list']}>
+              {activity[activity.mode].map((component, key) => (
+                <div key={key}>
+                  <button
+                    className='btn error'
+                    onClick={() => removeComponent(key)}
+                  >
+                    Usuń
+                  </button>
+                  <textarea
+                    className={styles['component-text']}
+                    defaultValue={component.contents}
+                    onBlur={e => updateComponent(key, e.target.value)}
+                  />
+                </div>
+              ))}
+            </div>
+          )}
+          <div className={styles['activity-add-component']}>
+            <button
+              className='btn action'
+              onClick={() => addTextComponent('special', activity.mode)}
+            >
+              Dodaj tekst
+            </button>
+          </div>
+        </div>
+      )}
       <div className={styles['ui-new-unit']}>
         <button
           className={`btn btn-wide ${'btn-add-lesson'}`}
           onClick={() => addActivity(idx, 'essential')}
         >
           Kluczowa
-        </button>
-        <button
-          className={`btn btn-wide ${'btn-add-test'}`}
-          onClick={() => addActivity(idx, 'additional')}
-        >
-          Dodatkowa
         </button>
         <button
           className={`btn btn-wide ${'btn-add-test'}`}
