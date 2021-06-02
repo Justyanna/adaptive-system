@@ -32,12 +32,12 @@ const LessonList = ({ lessons }) => {
         >
           Dodaj lekcję
         </button>
-        <button
+        {/* <button
           className={`btn btn-wide ${'btn-add-test'}`}
           onClick={addLesson}
         >
           Dodaj test
-        </button>
+        </button> */}
       </div>
       {lessons?.length > 0 &&
         lessons.map((lesson, key) => (
@@ -54,7 +54,7 @@ const LessonList = ({ lessons }) => {
             <div className={styles['lesson-ui']}>
               <div className={styles['lesson-ui-item']}>
                 <button
-                  className={`btn btn-wide ${'btn-edit'}`}
+                  className={`btn btn-wide ${'btn-edit'} navigation`}
                   onClick={() => setEdit(key)}
                 >
                   Edytuj
@@ -94,12 +94,12 @@ const LessonList = ({ lessons }) => {
               >
                 Dodaj lekcję
               </button>
-              <button
+              {/* <button
                 className={`btn btn-wide ${'btn-add-test'}`}
                 onClick={addLesson}
               >
                 Dodaj test
-              </button>
+              </button> */}
             </div>
           </article>
         ))}
