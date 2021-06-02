@@ -47,11 +47,61 @@ const ActivityEdit = ({ activity, idx }) => {
     updateActivity(idx, tmp)
   }
 
+  const setWeight = w => {
+    const tmp = activity
+    tmp.weight = w
+    updateActivity(idx, tmp)
+  }
+
   return (
     <section className={`card ${styles['activity-list-item']}`}>
       <header className={styles['activity-header']}>
         <h2>{activity.title}</h2>
-
+        {activity.weight && (
+          <div>
+            Jak ważna jest ta aktywność? 
+            <input
+              type='radio'
+              name='weight'
+              id='weight-0'
+              defaultChecked={activity.weight <= 0.2}
+              onChange={() => setWeight(0.2)}
+            />
+             
+            <input
+              type='radio'
+              name='weight'
+              id='weight-1'
+              defaultChecked={activity.weight > 0.2 && activity.weight <= 0.4}
+              onChange={() => setWeight(0.4)}
+            />
+             
+            <input
+              type='radio'
+              name='weight'
+              id='weight-2'
+              defaultChecked={activity.weight > 0.4 && activity.weight <= 0.5}
+              onChange={() => setWeight(0.6)}
+            />
+             
+            <input
+              type='radio'
+              name='weight'
+              id='weight-3'
+              defaultChecked={activity.weight > 0.6 && activity.weight <= 0.8}
+              onChange={() => setWeight(0.8)}
+            />
+             
+            <input
+              type='radio'
+              name='weight'
+              id='weight-4'
+              defaultChecked={activity.weight > 0.8}
+              onChange={() => setWeight(1.0)}
+            />
+             
+          </div>
+        )}
         <div className={styles['lesson-ui']}>
           <div className={styles['lesson-ui-item']}>
             <button
