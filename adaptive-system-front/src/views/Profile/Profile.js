@@ -51,22 +51,23 @@ const Profile = () => {
     handleIssues(document, issues, 'form-input-error') && showModal(true)
   }
 
-  const applyChanges = async e => { 
-    const newUser  = newPassword ?
-    {
-      firstName : firstName,
-      lastName: lastName,
-      email: email,
-      password: newPassword,
-      oldPassword: oldPassword
-    } : {
-      firstName : firstName,
-      lastName: lastName,
-      email: email,
-      oldPassword: oldPassword
-    };
-    const resp = updateUser(newUser);  
-    updateUserData(await updateToken(), setUser)  
+  const applyChanges = async e => {
+    const newUser = newPassword
+      ? {
+          firstName: firstName,
+          lastName: lastName,
+          email: email,
+          password: newPassword,
+          oldPassword: oldPassword
+        }
+      : {
+          firstName: firstName,
+          lastName: lastName,
+          email: email,
+          oldPassword: oldPassword
+        }
+    const resp = updateUser(newUser)
+    updateUserData(await updateToken(), setUser)
     setFirstName(resp.firstName)
     setLastName(resp.lastName)
     setEmail(resp.email)

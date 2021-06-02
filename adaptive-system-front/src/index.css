@@ -45,10 +45,6 @@
   flex-direction: column;
 }
 
-.flow {
-  padding: var(--flow-padding) 0;
-}
-
 .flow > * + * {
   margin-top: var(--flow-gap, 1em);
   line-height: 1.5;
