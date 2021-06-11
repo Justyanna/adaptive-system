@@ -4,7 +4,7 @@ const CourseCard = ({ course }) => {
   const history = useHistory()
 
   const goToEdit = _ => {
-    history.push(`/course/${course._id}/edit`)
+    history.push(`/course/edit/${course._id}`)
   }
 
   return (

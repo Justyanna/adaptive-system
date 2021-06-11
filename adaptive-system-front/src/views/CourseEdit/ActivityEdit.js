@@ -1,6 +1,9 @@
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import styles from './CourseEdit.module.css'
 import { LessonContext } from './LessonEdit'
+import Modal from '../../components/Modal/Modal'
+import Dropzone from 'react-dropzone'
+import { uploadFile } from '../../services/file'
 
 const oppositeMode = {
   alpha: 'gamma',
@@ -19,6 +22,8 @@ const ActivityEdit = ({ activity, idx }) => {
     removeActivity
   } = useContext(LessonContext)
 
+  const [modal, showModal] = useState(false)
+
   const addTextComponent = (type, mode) => {
     const tmp = { ...activity }
     tmp[mode] = [
@@ -27,6 +32,15 @@ const ActivityEdit = ({ activity, idx }) => {
     ]
     updateActivity(idx, tmp)
     return
+  }
+
+  const openImageDialog = (type, mode) => {
+    showModal(true)
+  }
+
+  const addImageComponent = async image => {
+    const res = await uploadFile(image)
+    console.log(res)
   }
 
   const updateComponent = (i, value) => {
@@ -160,6 +174,12 @@ const ActivityEdit = ({ activity, idx }) => {
             >
               Dodaj tekst
             </button>
+            <button
+              className='btn action'
+              onClick={() => openImageDialog('essential', activity.mode)}
+            >
+              Dodaj grafikę
+            </button>
           </div>
         </div>
       )}
@@ -196,6 +216,12 @@ const ActivityEdit = ({ activity, idx }) => {
               onClick={() => addTextComponent('contextual', activity.mode)}
             >
               Dodaj tekst
+            </button>
+            <button
+              className='btn action'
+              onClick={() => openImageDialog('contextual', activity.mode)}
+            >
+              Dodaj grafikę
             </button>
           </div>
         </div>
@@ -234,6 +260,12 @@ const ActivityEdit = ({ activity, idx }) => {
             >
               Dodaj tekst
             </button>
+            <button
+              className='btn action'
+              onClick={() => openImageDialog('special', activity.mode)}
+            >
+              Dodaj grafikę
+            </button>
           </div>
         </div>
       )}
@@ -257,6 +289,32 @@ const ActivityEdit = ({ activity, idx }) => {
           Specjalna
         </button>
       </div>
+      <Modal visible={modal} setVisible={showModal}>
+        <Dropzone
+          onDrop={([file]) => addImageComponent(file)}
+          accept={'image/jpeg, image/png'}
+          maxFiles={1}
+        >
+          {({ getRootProps, getInputProps }) => (
+            <div {...getRootProps()}>
+              <input {...getInputProps()} />
+              <h2 style={{ textAlign: 'center', paddingBottom: '0.5em' }}>
+                {activity.title}
+              </h2>
+              <p
+                style={{
+                  padding: '1.5em 1em',
+                  textAlign: 'center',
+                  outline: 'dashed 2px #CCC'
+                }}
+              >
+                Przeciągnij tu obraz
+                <br /> lub kliknij by wybrać plik z dysku.
+              </p>
+            </div>
+          )}
+        </Dropzone>
+      </Modal>
     </section>
   )
 }
