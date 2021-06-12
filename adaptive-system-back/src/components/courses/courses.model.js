@@ -1,5 +1,17 @@
 import mongoose from 'mongoose';
 
+const question = new mongoose.Schema({
+    question: String,
+    answers: [String],
+    correct: [Number]
+}, { _id: false });
+
+const test = new mongoose.Schema({
+    title: { type: String, unique: true },
+    desc: String,
+    questions: [question]
+}, { _id: false });
+
 const model = new mongoose.Schema({
     name: {
         type: String,
@@ -23,6 +35,9 @@ const model = new mongoose.Schema({
         type: Array(Object),
         default: [],
         required: false
+    },
+    tests: {
+        type: [test]
     }
 });
 
