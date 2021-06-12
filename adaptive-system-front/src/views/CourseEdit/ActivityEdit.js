@@ -1,9 +1,10 @@
-import { useContext, useState } from 'react'
+import { useContext, useState, useEffect } from 'react'
 import styles from './CourseEdit.module.css'
 import { LessonContext } from './LessonEdit'
 import Modal from '../../components/Modal/Modal'
 import Dropzone from 'react-dropzone'
-import { uploadFile } from '../../services/file'
+import { getFile, uploadFile } from '../../services/file'
+import { useParams } from 'react-router-dom'
 
 const oppositeMode = {
   alpha: 'gamma',
@@ -13,6 +14,10 @@ const oppositeMode = {
 }
 
 const ActivityEdit = ({ activity, idx }) => {
+  const { courseId } = useParams()
+  const [activityData, setActivityData] = useState(null)
+  const [images, setImages] = useState({})
+
   const {
     activities,
     addActivity,
@@ -35,12 +40,19 @@ const ActivityEdit = ({ activity, idx }) => {
   }
 
   const openImageDialog = (type, mode) => {
+    setActivityData({ type, mode })
     showModal(true)
   }
 
   const addImageComponent = async image => {
-    const res = await uploadFile(image)
-    console.log(res)
+    let mode = activityData.mode
+    const {
+      data: { fileId }
+    } = await uploadFile(image, courseId)
+    const tmp = { ...activity }
+    tmp[mode] = [...activity[mode], { type: 'img', contents: fileId }]
+    updateActivity(idx, tmp)
+    return
   }
 
   const updateComponent = (i, value) => {
@@ -66,6 +78,23 @@ const ActivityEdit = ({ activity, idx }) => {
     tmp.weight = w
     updateActivity(idx, tmp)
   }
+
+  const loadImage = async id => {
+    const { data } = await getFile(id)
+    const image = Buffer.from(data, 'binary').toString('base64')
+    setImages({ ...images, id: image })
+    document.querySelector(
+      `img#img-${id}`
+    ).src = `data:image/jpg;base64,${image}`
+  }
+
+  useEffect(() => {
+    activity?.components
+      ?.filter(({ type }) => type === 'img')
+      ?.forEach(({ contents: id }) => {
+        loadImage(id)
+      })
+  }, [activity])
 
   return (
     <section className={`card ${styles['activity-list-item']}`}>
@@ -158,11 +187,21 @@ const ActivityEdit = ({ activity, idx }) => {
                   >
                     Usuń
                   </button>
-                  <textarea
-                    className={styles['component-text']}
-                    defaultValue={component.contents}
-                    onBlur={e => updateComponent(key, e.target.value)}
-                  />
+                  {component.type === 'text' && (
+                    <textarea
+                      className={styles['component-text']}
+                      defaultValue={component.contents}
+                      onBlur={e => updateComponent(key, e.target.value)}
+                    />
+                  )}
+                  {component.type === 'img' && (
+                    <p>
+                      <img src='tmp' id={`img-${component.contents}`} />
+                    </p>
+                  )}
+                  {component.type !== 'text' && component.type !== 'img' && (
+                    <p>Element wymaga implementacji</p>
+                  )}
                 </div>
               ))}
             </div>
