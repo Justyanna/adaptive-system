@@ -80,12 +80,9 @@ const ActivityEdit = ({ activity, idx }) => {
   }
 
   const loadImage = async id => {
-    const { data } = await getFile(id)
-    const image = Buffer.from(data, 'binary').toString('base64')
-    setImages({ ...images, id: image })
     document.querySelector(
       `img#img-${id}`
-    ).src = `data:image/jpg;base64,${image}`
+    ).src = `http://localhost:8080/img/${id}`
   }
 
   useEffect(() => {
