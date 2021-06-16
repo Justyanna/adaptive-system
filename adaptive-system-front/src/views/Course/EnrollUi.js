@@ -12,7 +12,11 @@ const EnrollUi = ({ enrolled, enroll }) => {
 
   return (
     <div>
-      <button className="btn action" onClick={enroll}>
+      <button
+        className='btn action'
+        onClick={enroll}
+        style={{ marginTop: '1em' }}
+      >
         Zapisz się
       </button>
     </div>

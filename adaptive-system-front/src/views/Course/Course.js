@@ -49,9 +49,9 @@ const Course = () => {
   if (objIsEmpty(course)) return <h2>Kurs {courseId}</h2>
 
   return (
-    <main className="layout">
+    <main className='layout'>
       <>
-        <h2>Kurs {course.name}</h2>
+        <h2>{course.name}</h2>
         {console.log(course)}
         <EnrollUi enrolled={enrolled} enroll={enroll} />
         <LessonsList enrolled={enrolled} lessons={course.lessons} />

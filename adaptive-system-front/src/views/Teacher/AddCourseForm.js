@@ -29,7 +29,7 @@ const AddCourseForm = () => {
 
   return (
     <form className='flow' onSubmit={handleSubmit}>
-      <p>Nowy kurs</p>
+      <h2>Nowy kurs</h2>
       <div className='form-item'>
         <label className='form-label' htmlFor='title'>
           Tytuł kursu

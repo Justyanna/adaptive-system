@@ -90,7 +90,6 @@ const Course = () => {
 
   return (
     <main className='layout'>
-      <h1>{course.name} (edytowanie)</h1>
       <CourseContext.Provider
         value={{
           addLesson,
@@ -105,7 +104,12 @@ const Course = () => {
         }}
       >
         {edit < 0 ? (
-          <LessonList lessons={lessonList} saved={saved} />
+          <>
+            <h2 style={{ marginBottom: '0.5rem' }}>
+              {course.name} (edytowanie)
+            </h2>
+            <LessonList lessons={lessonList} saved={saved} />
+          </>
         ) : (
           <LessonEdit data={lessonList[edit]} idx={edit} />
         )}
