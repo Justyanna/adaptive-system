@@ -1,6 +1,10 @@
 
 const Component = ({component}) => {
-    return <> <br></br>  {component.type === 'img' && (
+    return <> <br></br>  {component.type === 'text' && (
+        <p>
+          {component.contents}
+        </p>
+      )}{component.type === 'img' && (
         <p>
           <img src='tmp' id={`img-${component.contents}`} />
         </p>
