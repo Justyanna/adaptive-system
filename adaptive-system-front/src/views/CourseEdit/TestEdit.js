@@ -43,16 +43,10 @@ const TestEdit = ({ data, idx }) => {
   }
 
   const addQuestion = (idx, questions) => {
-    if (questions != undefined) {
-      const tmp = questionsList
-      tmp.splice(idx + 1, 0, createQuestions(questions[idx].title))
-      setQuestionsList(tmp)
-    } else {
-      const tmp = []
-      tmp.push(createQuestions(null))
-      setQuestionsList(tmp)
-    }
 
+    const tmp = questionsList
+    tmp.splice(idx + 1, 0, createQuestions(null))
+    setQuestionsList(tmp)
     setSaved(false)
   }
 

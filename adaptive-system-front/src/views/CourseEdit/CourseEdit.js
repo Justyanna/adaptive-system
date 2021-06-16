@@ -66,7 +66,7 @@ const Course = () => {
 			{
 				title: `Test ${testsList.length + 1}`,
 				description: 'Noway Test',
-				activities: []
+				questions: []
 			}
 		]);
 		setSaved(false);
