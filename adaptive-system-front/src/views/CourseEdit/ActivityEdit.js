@@ -28,6 +28,7 @@ const ActivityEdit = ({ activity, idx }) => {
   } = useContext(LessonContext)
 
   const [modal, showModal] = useState(false)
+  const [modalVideo, showModalVideo] = useState(false)
 
   const addTextComponent = (type, mode) => {
     const tmp = { ...activity }
@@ -44,6 +45,11 @@ const ActivityEdit = ({ activity, idx }) => {
     showModal(true)
   }
 
+  const openVideoDialog = (type, mode) => {
+    setActivityData({ type, mode })
+    showModalVideo(true)
+  }
+
   const addImageComponent = async image => {
     let mode = activityData.mode
     const {
@@ -51,6 +57,17 @@ const ActivityEdit = ({ activity, idx }) => {
     } = await uploadFile(image, courseId)
     const tmp = { ...activity }
     tmp[mode] = [...activity[mode], { type: 'img', contents: fileId }]
+    updateActivity(idx, tmp)
+    return
+  }
+
+  const addVideoComponent = async image => {
+    let mode = activityData.mode
+    const {
+      data: { fileId }
+    } = await uploadFile(image, courseId)
+    const tmp = { ...activity }
+    tmp[mode] = [...activity[mode], { type: 'video', contents: fileId }]
     updateActivity(idx, tmp)
     return
   }
@@ -86,41 +103,65 @@ const ActivityEdit = ({ activity, idx }) => {
     ).src = `http://localhost:8080/img/${id}`
   }
 
+  
+  const loadVideo = id => {
+    console.log(id)
+    document.querySelector(
+      `video#video-${id}`
+    ).src = `http://localhost:8080/img/${id}`
+  }
+
   useEffect(() => {
     activity?.components
       ?.filter(({ type }) => type === 'img')
       ?.forEach(({ contents: id }) => {
-        console.log(id)
         loadImage(id)
-  
+      })
+      activity?.components
+      ?.filter(({ type }) => type === 'video')
+      ?.forEach(({ contents: id }) => {
+        loadVideo(id)
       })
     activity?.beta
       ?.filter(({ type }) => type === 'img')
       ?.forEach(({ contents: id }) => {
-        console.log(id)
         loadImage(id)
-  
+      })
+
+    activity?.beta
+      ?.filter(({ type }) => type === 'video')
+      ?.forEach(({ contents: id }) => {
+        loadVideo(id)
       })
     activity?.alpha
       ?.filter(({ type }) => type === 'img')
       ?.forEach(({ contents: id }) => {
-        console.log(id)
         loadImage(id)
-  
+      })
+      activity?.alpha
+      ?.filter(({ type }) => type === 'video')
+      ?.forEach(({ contents: id }) => {
+        loadVideo(id)
       })
     activity?.delta
       ?.filter(({ type }) => type === 'img')
       ?.forEach(({ contents: id }) => {
-        console.log(id)
         loadImage(id)
-  
+      })
+      activity?.delta
+      ?.filter(({ type }) => type === 'video')
+      ?.forEach(({ contents: id }) => {
+        loadVideo(id)
       })
       activity?.gamma
       ?.filter(({ type }) => type === 'img')
       ?.forEach(({ contents: id }) => {
-        console.log(id)
         loadImage(id)
-  
+      })
+      activity?.gamma
+      ?.filter(({ type }) => type === 'video')
+      ?.forEach(({ contents: id }) => {
+        loadVideo(id)
       })
   }, [activity])
 
@@ -227,7 +268,12 @@ const ActivityEdit = ({ activity, idx }) => {
                       <img src='tmp' id={`img-${component.contents}`} />
                     </p>
                   )}
-                  {component.type !== 'text' && component.type !== 'img' && (
+                    {component.type === 'video' && (
+                    <p>
+                      <video src='tmp' id={`video-${component.contents}`} />
+                    </p>
+                  )}
+                  {component.type !== 'text' && component.type !== 'img' && component.type !== 'video' && (
                     <p>Element wymaga implementacji</p>
                   )}
                 </div>
@@ -246,6 +292,12 @@ const ActivityEdit = ({ activity, idx }) => {
               onClick={() => openImageDialog('essential', activity.mode)}
             >
               Dodaj grafikę
+            </button>
+            <button
+              className='btn action'
+              onClick={() => openVideoDialog('special', activity.mode)}
+            >
+              Dodaj film
             </button>
           </div>
         </div>
@@ -284,7 +336,12 @@ const ActivityEdit = ({ activity, idx }) => {
                       <img src='tmp' id={`img-${component.contents}`} />
                     </p>
                   )}
-                  {component.type !== 'text' && component.type !== 'img' && (
+                    {component.type === 'video' && (
+                    <p>
+                      <video src='tmp' id={`video-${component.contents}`} />
+                    </p>
+                  )}
+                   {component.type !== 'text' && component.type !== 'img' && component.type !== 'video' && (
                     <p>Element wymaga implementacji</p>
                   )}
                 </div>
@@ -303,6 +360,12 @@ const ActivityEdit = ({ activity, idx }) => {
               onClick={() => openImageDialog('contextual', activity.mode)}
             >
               Dodaj grafikę
+            </button>
+            <button
+              className='btn action'
+              onClick={() => openVideoDialog('special', activity.mode)}
+            >
+              Dodaj film
             </button>
           </div>
         </div>
@@ -341,7 +404,12 @@ const ActivityEdit = ({ activity, idx }) => {
                       <img src='tmp' id={`img-${component.contents}`} />
                     </p>
                   )}
-                  {component.type !== 'text' && component.type !== 'img' && (
+                  {component.type === 'video' && (
+                    <p>
+                      <video src='tmp' id={`video-${component.contents}`} />
+                    </p>
+                  )}
+                  {component.type !== 'text' && component.type !== 'img' && component.type !== 'video' && (
                     <p>Element wymaga implementacji</p>
                   )}
                 </div>
@@ -360,6 +428,12 @@ const ActivityEdit = ({ activity, idx }) => {
               onClick={() => openImageDialog('special', activity.mode)}
             >
               Dodaj grafikę
+            </button>
+            <button
+              className='btn action'
+              onClick={() => openVideoDialog('special', activity.mode)}
+            >
+              Dodaj film
             </button>
           </div>
         </div>
@@ -388,6 +462,32 @@ const ActivityEdit = ({ activity, idx }) => {
         <Dropzone
           onDrop={([file]) => addImageComponent(file)}
           accept={'image/jpeg, image/png'}
+          maxFiles={1}
+        >
+          {({ getRootProps, getInputProps }) => (
+            <div {...getRootProps()}>
+              <input {...getInputProps()} />
+              <h2 style={{ textAlign: 'center', paddingBottom: '0.5em' }}>
+                {activity.title}
+              </h2>
+              <p
+                style={{
+                  padding: '1.5em 1em',
+                  textAlign: 'center',
+                  outline: 'dashed 2px #CCC'
+                }}
+              >
+                Przeciągnij tu obraz
+                <br /> lub kliknij by wybrać plik z dysku.
+              </p>
+            </div>
+          )}
+        </Dropzone>
+      </Modal>
+      <Modal visible={modalVideo} setVisible={showModalVideo}>
+        <Dropzone
+          onDrop={([file]) => addVideoComponent(file)}
+          accept={'video/mp4, video/mpeg'}
           maxFiles={1}
         >
           {({ getRootProps, getInputProps }) => (

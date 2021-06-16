@@ -10,43 +10,67 @@ const Activity = ({activity}) => {
           `img#img-${id}`
         ).src = `http://localhost:8080/img/${id}`
       }
+        
+  const loadVideo = id => {
+    console.log(id)
+    document.querySelector(
+      `video#video-${id}`
+    ).src = `http://localhost:8080/img/${id}`
+  }
       useEffect(() => {
         activity?.components
           ?.filter(({ type }) => type === 'img')
           ?.forEach(({ contents: id }) => {
-            console.log(id)
             loadImage(id)
-      
+          })
+          activity?.components
+          ?.filter(({ type }) => type === 'video')
+          ?.forEach(({ contents: id }) => {
+            loadVideo(id)
           })
         activity?.beta
           ?.filter(({ type }) => type === 'img')
           ?.forEach(({ contents: id }) => {
-            console.log(id)
             loadImage(id)
-      
+          })
+    
+        activity?.beta
+          ?.filter(({ type }) => type === 'video')
+          ?.forEach(({ contents: id }) => {
+            loadVideo(id)
           })
         activity?.alpha
           ?.filter(({ type }) => type === 'img')
           ?.forEach(({ contents: id }) => {
-            console.log(id)
             loadImage(id)
-      
+          })
+          activity?.alpha
+          ?.filter(({ type }) => type === 'video')
+          ?.forEach(({ contents: id }) => {
+            loadVideo(id)
           })
         activity?.delta
           ?.filter(({ type }) => type === 'img')
           ?.forEach(({ contents: id }) => {
-            console.log(id)
             loadImage(id)
-      
+          })
+          activity?.delta
+          ?.filter(({ type }) => type === 'video')
+          ?.forEach(({ contents: id }) => {
+            loadVideo(id)
           })
           activity?.gamma
           ?.filter(({ type }) => type === 'img')
           ?.forEach(({ contents: id }) => {
-            console.log(id)
             loadImage(id)
-      
+          })
+          activity?.gamma
+          ?.filter(({ type }) => type === 'video')
+          ?.forEach(({ contents: id }) => {
+            loadVideo(id)
           })
       }, [activity])
+    
     
     return <> 
     { <div className={`card flow ${styles.activity}`}>
