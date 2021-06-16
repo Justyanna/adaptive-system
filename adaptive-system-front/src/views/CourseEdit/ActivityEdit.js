@@ -79,17 +79,48 @@ const ActivityEdit = ({ activity, idx }) => {
     updateActivity(idx, tmp)
   }
 
-  const loadImage = async id => {
+  const loadImage = id => {
+    console.log(id)
     document.querySelector(
       `img#img-${id}`
-    ).src = `http://localhost:8080/img/${id}`
+    ).src = `http://localhost:8080/img/60ca582fe340be4a20b887d3`
   }
 
   useEffect(() => {
     activity?.components
       ?.filter(({ type }) => type === 'img')
       ?.forEach(({ contents: id }) => {
+        console.log(id)
         loadImage(id)
+  
+      })
+    activity?.beta
+      ?.filter(({ type }) => type === 'img')
+      ?.forEach(({ contents: id }) => {
+        console.log(id)
+        loadImage(id)
+  
+      })
+    activity?.alpha
+      ?.filter(({ type }) => type === 'img')
+      ?.forEach(({ contents: id }) => {
+        console.log(id)
+        loadImage(id)
+  
+      })
+    activity?.delta
+      ?.filter(({ type }) => type === 'img')
+      ?.forEach(({ contents: id }) => {
+        console.log(id)
+        loadImage(id)
+  
+      })
+      activity?.gamma
+      ?.filter(({ type }) => type === 'img')
+      ?.forEach(({ contents: id }) => {
+        console.log(id)
+        loadImage(id)
+  
       })
   }, [activity])
 

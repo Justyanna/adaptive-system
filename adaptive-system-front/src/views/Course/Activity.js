@@ -10,14 +10,44 @@ const Activity = ({activity}) => {
           `img#img-${id}`
         ).src = `http://localhost:8080/img/${id}`
       }
-    
       useEffect(() => {
         activity?.components
           ?.filter(({ type }) => type === 'img')
           ?.forEach(({ contents: id }) => {
+            console.log(id)
             loadImage(id)
+      
+          })
+        activity?.beta
+          ?.filter(({ type }) => type === 'img')
+          ?.forEach(({ contents: id }) => {
+            console.log(id)
+            loadImage(id)
+      
+          })
+        activity?.alpha
+          ?.filter(({ type }) => type === 'img')
+          ?.forEach(({ contents: id }) => {
+            console.log(id)
+            loadImage(id)
+      
+          })
+        activity?.delta
+          ?.filter(({ type }) => type === 'img')
+          ?.forEach(({ contents: id }) => {
+            console.log(id)
+            loadImage(id)
+      
+          })
+          activity?.gamma
+          ?.filter(({ type }) => type === 'img')
+          ?.forEach(({ contents: id }) => {
+            console.log(id)
+            loadImage(id)
+      
           })
       }, [activity])
+    
     return <> 
     { <div className={`card flow ${styles.activity}`}>
             <div className={styles['lesson-info']}>
