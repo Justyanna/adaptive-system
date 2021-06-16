@@ -15,6 +15,7 @@ import Course from './views/Course/Course'
 import CourseEdit from './views/CourseEdit/CourseEdit'
 import Component from './views/Course/Component'
 import Activities from './views/Course/Activities'
+import Footer from './views/Footer/Footer'
 
 function App() {
   let [user, setUser] = useState(
@@ -48,6 +49,7 @@ function App() {
           />
         </Switch>
       </UserContext.Provider>
+      <Footer />
     </Router>
   )
 }

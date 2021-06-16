@@ -25,10 +25,9 @@ const Teacher = () => {
 
   return (
     <main className='layout'>
-      <h2>Aktualności</h2>
-      <h2>Prowadzone kursy</h2>
-      {courseList && <AddCourseForm />}
-      <CourseList courses={courseList} />
+      <AddCourseForm />
+      <h2 style={{ marginTop: '1em' }}>Prowadzone kursy</h2>
+      {courseList && <CourseList courses={courseList} />}
     </main>
   )
 }

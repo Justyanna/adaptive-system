@@ -1,4 +1,4 @@
-import { useHistory } from 'react-router-dom'
+import { useHistory, Link } from 'react-router-dom'
 
 const CourseCard = ({ course }) => {
   const history = useHistory()
@@ -8,11 +8,19 @@ const CourseCard = ({ course }) => {
   }
 
   return (
-    <li className="card">
-      <p>{course.name}</p>
+    <li className='card' style={{ display: 'flex', flexDirection: 'column' }}>
+      <h3>
+        <Link to={`course/${course._id}`}>{course.name}</Link>
+      </h3>
       <p>{course.category}</p>
-      <p>{`${course.author.firstName} ${course.author.lastName}`}</p>
-      <button className="btn" onClick={goToCourse}>
+      <p
+        style={{ fontStyle: 'italic' }}
+      >{`${course.author.firstName} ${course.author.lastName}`}</p>
+      <button
+        className='btn navigation'
+        onClick={goToCourse}
+        style={{ alignSelf: 'flex-end', marginTop: '-3em' }}
+      >
         Przejdź
       </button>
     </li>

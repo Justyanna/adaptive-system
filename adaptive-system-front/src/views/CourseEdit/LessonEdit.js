@@ -85,8 +85,12 @@ const LessonEdit = ({ data, idx }) => {
     <div>
       <header>
         <h2>{lesson.title}</h2>
-        <p>{lesson.description}</p>
-        <button className='btn navigation' onClick={saveAndQuit}>
+        {/* <p>{lesson.description}</p> */}
+        <button
+          className='btn navigation'
+          onClick={saveAndQuit}
+          style={{ margin: '1rem 0' }}
+        >
           {saved ? 'Wróć' : 'Zapisz i wróć'}
         </button>
         {!saved && (

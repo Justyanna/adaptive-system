@@ -9,8 +9,10 @@ const CourseCard = ({ course }) => {
 
   return (
     <li className='card flow flow-05'>
-      <p>{course.name}</p>
-      <p>{course.category}</p>
+      <h3>{course.name}</h3>
+      <p style={{ marginTop: '-0.25em', fontStyle: 'italic' }}>
+        {course.category}
+      </p>
       <button className='btn navigation' onClick={goToEdit}>
         Edytuj
       </button>

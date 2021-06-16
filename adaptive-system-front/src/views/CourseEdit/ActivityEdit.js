@@ -223,7 +223,11 @@ const ActivityEdit = ({ activity, idx }) => {
         <div>
           <h3>Aktywność kontekstowa</h3>
           <div>
-            <button className='btn' onClick={swapMode}>
+            <button
+              className='btn'
+              onClick={swapMode}
+              style={{ marginTop: '0.5rem' }}
+            >
               {oppositeMode[activity.mode]}
             </button>
           </div>
@@ -266,7 +270,11 @@ const ActivityEdit = ({ activity, idx }) => {
         <div>
           <h3>Aktywność specjalna</h3>
           <div>
-            <button className='btn' onClick={swapMode}>
+            <button
+              className='btn'
+              onClick={swapMode}
+              style={{ marginTop: '0.5rem' }}
+            >
               {oppositeMode[activity.mode]}
             </button>
           </div>

@@ -8,6 +8,7 @@ import LessonList from './LessonList';
 export const CourseContext = createContext(null);
 
 const Course = () => {
+
 	const { courseId } = useParams();
 
 	const [ course, setCourse ] = useState(null);

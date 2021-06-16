@@ -90,12 +90,18 @@ const LessonList = ({ lessons, tests }) => {
               >
                 {lesson.title}
               </h2>
-              <p className={styles['lesson-description']}>
+              <p
+                className={styles['lesson-description']}
+                style={{ fontStyle: 'italic' }}
+              >
                 {lesson.description}
               </p>
               <p
                 className={styles['lesson-data']}
-              >{`Aktywności: ${lesson.activities.length}`}</p>
+                style={{ marginTop: '0.5rem' }}
+              >
+                <strong>Aktywności:</strong> {lesson.activities.length}
+              </p>
             </div>
             <div className={styles['lesson-ui']}>
               <div className={styles['lesson-ui-item']}>

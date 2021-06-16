@@ -79,7 +79,7 @@ const Profile = () => {
 
   return (
     <>
-      <form className='layout form flow'>
+      <form className='layout form flow profile-form'>
         <h1>Profil</h1>
         <h2>Dane osobowe</h2>
         <div className='form-item'>
