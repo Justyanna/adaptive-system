@@ -241,11 +241,21 @@ const ActivityEdit = ({ activity, idx }) => {
                   >
                     Usuń
                   </button>
-                  <textarea
-                    className={styles['component-text']}
-                    defaultValue={component.contents}
-                    onBlur={e => updateComponent(key, e.target.value)}
-                  />
+                  {component.type === 'text' && (
+                    <textarea
+                      className={styles['component-text']}
+                      defaultValue={component.contents}
+                      onBlur={e => updateComponent(key, e.target.value)}
+                    />
+                  )}
+                  {component.type === 'img' && (
+                    <p>
+                      <img src='tmp' id={`img-${component.contents}`} />
+                    </p>
+                  )}
+                  {component.type !== 'text' && component.type !== 'img' && (
+                    <p>Element wymaga implementacji</p>
+                  )}
                 </div>
               ))}
             </div>
@@ -288,11 +298,21 @@ const ActivityEdit = ({ activity, idx }) => {
                   >
                     Usuń
                   </button>
-                  <textarea
-                    className={styles['component-text']}
-                    defaultValue={component.contents}
-                    onBlur={e => updateComponent(key, e.target.value)}
-                  />
+                  {component.type === 'text' && (
+                    <textarea
+                      className={styles['component-text']}
+                      defaultValue={component.contents}
+                      onBlur={e => updateComponent(key, e.target.value)}
+                    />
+                  )}
+                  {component.type === 'img' && (
+                    <p>
+                      <img src='tmp' id={`img-${component.contents}`} />
+                    </p>
+                  )}
+                  {component.type !== 'text' && component.type !== 'img' && (
+                    <p>Element wymaga implementacji</p>
+                  )}
                 </div>
               ))}
             </div>
