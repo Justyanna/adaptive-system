@@ -51,12 +51,10 @@ const Course = () => {
 
   return (
     <main className='layout'>
-      <>
-        <h2>{course.name}</h2>
-        <EnrollUi enrolled={enrolled} enroll={enroll} />
-        <LessonsList enrolled={enrolled} lessons={course.lessons} />
-        <TestsList enrolled={enrolled} tests={course.tests} />
-      </>
+      <h2>{course.name}</h2>
+      <EnrollUi enrolled={enrolled} enroll={enroll} />
+      <LessonsList enrolled={enrolled} lessons={course.lessons} />
+      <TestsList enrolled={enrolled} tests={course.tests} />
     </main>
   )
 }
