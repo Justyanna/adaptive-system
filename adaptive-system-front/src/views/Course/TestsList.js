@@ -4,18 +4,11 @@ import Test from './Test'
 
 const TestsList = ({ enrolled, tests }) => {
   if (!isLoggedIn())
-    return <div>Aby zapisać się na kurs, należy się zalogować.</div>
+  return <></>
 
   if (!getUserDetails().roles.includes('student'))
-    return (
-      <div>
-        Zanim przystąpisz do zapisywania się na kursy musisz wypełnić
-        <Link className='link' to='/questionnaire'>
-           ankietę
-        </Link>
-        .
-      </div>
-    )
+    return <></>
+    
 
   if (!tests?.length > 0)
     return <></>
