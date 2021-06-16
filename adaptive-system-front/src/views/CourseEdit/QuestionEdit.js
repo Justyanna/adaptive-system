@@ -3,12 +3,18 @@ import styles from './CourseEdit.module.css'
 import { TestsContext } from './TestEdit'
 import { useParams } from 'react-router-dom'
 
-
 const QuestionEdit = ({ question, idx }) => {
   const { courseId } = useParams()
   const [questionData, setQuestionData] = useState(null)
 
-  const { questions, addQuestion, updateQuestion, removeQuestion, moveQuestionDown, moveQuestionUp} = useContext(TestsContext)
+  const {
+    questions,
+    addQuestion,
+    updateQuestion,
+    removeQuestion,
+    moveQuestionDown,
+    moveQuestionUp
+  } = useContext(TestsContext)
 
   const handleQuestionChange = (el, idx) => {
     el.setAttribute('contenteditable', true)
@@ -24,7 +30,6 @@ const QuestionEdit = ({ question, idx }) => {
     )
   }
 
-  
   const handleAnswerChange = (el, idx, key) => {
     el.setAttribute('contenteditable', true)
     el.focus()
@@ -40,50 +45,76 @@ const QuestionEdit = ({ question, idx }) => {
   }
 
   const handleCorrectChange = (el, idx, key) => {
-  
-    if(question.correct.includes(key)) {
-        const tmp = [... question.correct]
-        tmp.splice(key, 1)
-        question.correct = tmp
-        el.innerText = "✘"
-    }else{
-        question.correct.push(key)
-        el.innerText = "✔"
+    if (question.correct.includes(key)) {
+      const tmp = [...question.correct]
+      tmp.splice(key, 1)
+      question.correct = tmp
+      el.innerText = '✘'
+    } else {
+      question.correct.push(key)
+      el.innerText = '✔'
     }
     updateQuestion(idx, question)
   }
 
-  const addAnser = (idx) => {
+  const addAnser = idx => {
     question.answers.push(`Odpowiedź nr ${question.answers.length + 1}`)
     updateQuestion(idx, question)
   }
 
   const removeOption = (idx, key) => {
-    const tmp = [... question.answers]
+    const tmp = [...question.answers]
     tmp.splice(key, 1)
     question.answers = tmp
     updateQuestion(idx, question)
   }
-  
 
   return (
     <section className={`card ${styles['question-list-item']}`}>
       <header className={styles['question-header']}>
-        <h2 onClick={e => handleQuestionChange(e.target, idx)}>{question.question}</h2>
-        
-        <ul className={styles['component-text']}>
-            {question.answers.length > 0 && question.answers.map((answer, key) => 
-                <li key={key} >
-                    <paragraph>
-                        <span onClick={e => handleAnswerChange(e.target, idx , key)}>{answer}</span>
-                        {"  "}
-                        <span onClick={e => handleCorrectChange(e.target, idx , key)}>{question.correct && question.correct.includes(key) ? "✔" : "✘"}</span>
-                        {"  "}
-                        {"  "}
-                     </paragraph>
-                     <button   className={`${'btn-move-up'}`} onClick={() => removeOption(idx, key)}>Usuń opcję</button>
-                </li>  
-            )} 
+        <h2 onClick={e => handleQuestionChange(e.target, idx)}>
+          {question.question}
+        </h2>
+
+        <ul
+          style={{
+            listStyleType: 'none',
+            padding: '1em 0',
+            margin: '0 2em',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '0.25em'
+          }}
+        >
+          {question.answers.length > 0 &&
+            question.answers.map((answer, key) => (
+              <li key={key} style={{ margin: '0.25em 0', display: 'flex' }}>
+                <paragraph style={{ flex: '1' }}>
+                  <span
+                    onClick={e => handleCorrectChange(e.target, idx, key)}
+                    style={{
+                      marginRight: '1em',
+                      color: question?.correct?.includes(key)
+                        ? 'var(--c-success)'
+                        : 'var(--c-error)',
+                      fontWeight: 'bold'
+                    }}
+                  >
+                    {question?.correct?.includes(key) ? '✔' : '✘'}
+                  </span>
+                  <span onClick={e => handleAnswerChange(e.target, idx, key)}>
+                    {answer}
+                  </span>
+                </paragraph>
+                <button
+                  className={`${'btn-move-up'} btn error`}
+                  onClick={() => removeOption(idx, key)}
+                  style={{ marginLeft: '2em' }}
+                >
+                  X
+                </button>
+              </li>
+            ))}
         </ul>
 
         <div className={styles['lesson-ui']}>
@@ -124,15 +155,10 @@ const QuestionEdit = ({ question, idx }) => {
         </div>
       </header>
       <div className={styles['activity-add-component']}>
-            <button
-            onClick={addQuestion}
-              className='btn action'
-            >
-              Dodaj pytanie
-            </button>
-            
-        </div>
-        
+        <button onClick={addQuestion} className='btn action'>
+          Dodaj pytanie
+        </button>
+      </div>
     </section>
   )
 }

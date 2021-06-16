@@ -4,24 +4,22 @@ import QuestionEdit from './QuestionEdit'
 import styles from './CourseEdit.module.css'
 
 const QuestionList = () => {
-  const { questions, addQuestion, updateQuestion} = useContext(TestsContext)
+  const { questions, addQuestion, updateQuestion } = useContext(TestsContext)
 
   return (
-    <section>
+    <div>
       {questions?.length > 0 ? (
         questions.map((question, key) => (
-          <QuestionEdit question={question} idx ={key}/>) )) : (
-            <div className={styles['activity-add-component']}>
-            <button
-            onClick={addQuestion}
-              className='btn action'
-            >
-              Dodaj pytanie
-            </button>
-            
-        </div>)
-      }
-    </section>
+          <QuestionEdit question={question} idx={key} />
+        ))
+      ) : (
+        <div className={styles['activity-add-component']}>
+          <button onClick={addQuestion} className='btn action'>
+            Dodaj pytanie
+          </button>
+        </div>
+      )}
+    </div>
   )
 }
 

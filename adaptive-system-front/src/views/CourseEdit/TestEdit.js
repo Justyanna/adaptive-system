@@ -1,17 +1,22 @@
 import { useState, useContext, createContext } from 'react'
 import { CourseContext } from './CourseEdit'
-import QuestionList from "./QuestionsList"
+import QuestionList from './QuestionsList'
 
 export const TestsContext = createContext(null)
 
-const createQuestions = ( title) => {
+const createQuestions = title => {
   const question = {
     title: title ?? 'Pusty test',
-    question :"Puste pytanie",
-    answers: ['Odpowiedź nr 1', 'Odpowiedź nr 2', 'Odpowiedź nr 3', 'Odpowiedź nr 4'],
+    question: 'Puste pytanie',
+    answers: [
+      'Odpowiedź nr 1',
+      'Odpowiedź nr 2',
+      'Odpowiedź nr 3',
+      'Odpowiedź nr 4'
+    ],
     correct: []
   }
-  return question;
+  return question
 }
 
 const TestEdit = ({ data, idx }) => {
@@ -38,16 +43,16 @@ const TestEdit = ({ data, idx }) => {
   }
 
   const addQuestion = (idx, questions) => {
-    if(questions!= undefined){
-        const tmp = questionsList
-        tmp.splice(idx + 1, 0, createQuestions( questions[idx].title))
-        setQuestionsList(tmp)
-    }else{
-        const tmp = []
-        tmp.push(createQuestions(null))
-        setQuestionsList(tmp)
+    if (questions != undefined) {
+      const tmp = questionsList
+      tmp.splice(idx + 1, 0, createQuestions(questions[idx].title))
+      setQuestionsList(tmp)
+    } else {
+      const tmp = []
+      tmp.push(createQuestions(null))
+      setQuestionsList(tmp)
     }
-    
+
     setSaved(false)
   }
 
@@ -85,7 +90,7 @@ const TestEdit = ({ data, idx }) => {
     <div>
       <header>
         <h2>{test.title}</h2>
-        <p>{test.desc}</p>
+        <p style={{ marginBottom: '0.75em' }}>{test.desc}</p>
         <button className='btn navigation' onClick={saveAndQuit}>
           {saved ? 'Wróć' : 'Zapisz i wróć'}
         </button>

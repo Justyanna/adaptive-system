@@ -16,7 +16,7 @@ const LessonList = ({ lessons, tests }) => {
     moveTestUp,
     saveChanges,
     saved,
-    setEditLesson, 
+    setEditLesson,
     setEditTest
   } = useContext(CourseContext)
 
@@ -60,7 +60,7 @@ const LessonList = ({ lessons, tests }) => {
           </button>
         </div>
       )}
-      <div>
+      <div style={{ marginTop: '0.75em' }}>
         <button
           className={`btn btn-wide ${'btn-add-lesson'}`}
           onClick={addLesson}
@@ -156,7 +156,7 @@ const LessonList = ({ lessons, tests }) => {
           </article>
         ))}
 
-{tests?.length > 0 &&
+      {tests?.length > 0 &&
         tests.map((test, key) => (
           <article key={key} className={`card ${styles['lesson-list-item']}`}>
             <div className={styles['lesson-info']}>
@@ -166,9 +166,7 @@ const LessonList = ({ lessons, tests }) => {
               >
                 {test.title}
               </h2>
-              <p className={styles['lesson-description']}>
-                {test.desc}
-              </p>
+              <p className={styles['lesson-description']}>{test.desc}</p>
             </div>
             <div className={styles['lesson-ui']}>
               <div className={styles['lesson-ui-item']}>
@@ -208,11 +206,11 @@ const LessonList = ({ lessons, tests }) => {
             </div>
             <div className={styles['ui-new-unit']}>
               <button
-              className={`btn btn-wide ${'btn-add-lesson'}`}
-              onClick={addTest}
-            >
-              Dodaj test
-            </button>
+                className={`btn btn-wide ${'btn-add-lesson'}`}
+                onClick={addTest}
+              >
+                Dodaj test
+              </button>
               {/* <button
                 className={`btn btn-wide ${'btn-add-test'}`}
                 onClick={addLesson}
