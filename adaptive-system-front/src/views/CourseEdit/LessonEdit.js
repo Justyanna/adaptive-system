@@ -23,8 +23,7 @@ const createActivity = (type, lessonTitle) => {
 }
 
 const LessonEdit = ({ data, idx }) => {
-  const { updateLesson, saved, setSaved, setEdit, saveChanges } =
-    useContext(CourseContext)
+  const { updateLesson, saved, setSaved, setEditLesson, saveChanges } = useContext(CourseContext)
   const [activityList, _setActivityList] = useState(data.activities)
   const [lesson, setLesson] = useState(data)
 
@@ -42,7 +41,7 @@ const LessonEdit = ({ data, idx }) => {
 
   const saveAndQuit = () => {
     saveLesson()
-    setEdit(-1)
+    setEditLesson(-1)
   }
 
   const addActivity = (idx, activity) => {
