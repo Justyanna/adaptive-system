@@ -83,7 +83,7 @@ const ActivityEdit = ({ activity, idx }) => {
     console.log(id)
     document.querySelector(
       `img#img-${id}`
-    ).src = `http://localhost:8080/img/60ca582fe340be4a20b887d3`
+    ).src = `http://localhost:8080/img/${id}`
   }
 
   useEffect(() => {
