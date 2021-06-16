@@ -5,6 +5,7 @@ import { getCourse } from '../../services/courses'
 import { enrollAtCourse, getUserCourseList } from '../../services/users'
 import { objIsEmpty } from '../../utils'
 import LessonsList from './LessonsList'
+import TestsList from './TestsList'
 import EnrollUi from './EnrollUi'
 
 const Course = () => {
@@ -52,9 +53,9 @@ const Course = () => {
     <main className='layout'>
       <>
         <h2>{course.name}</h2>
-        {console.log(course)}
         <EnrollUi enrolled={enrolled} enroll={enroll} />
         <LessonsList enrolled={enrolled} lessons={course.lessons} />
+        <TestsList enrolled={enrolled} tests={course.tests} />
       </>
     </main>
   )

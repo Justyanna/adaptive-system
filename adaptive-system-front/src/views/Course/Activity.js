@@ -1,14 +1,27 @@
+import { useContext, useEffect } from 'react'
 import styles from './Course.module.css'
 import Component from "./Component"
-import {  useContext } from 'react'
 import { UserContext } from '../../contexts/UserContext'
 
 const Activity = ({activity}) => {
     const { user } = useContext(UserContext)
+    const loadImage = async id => {
+        document.querySelector(
+          `img#img-${id}`
+        ).src = `http://localhost:8080/img/${id}`
+      }
+    
+      useEffect(() => {
+        activity?.components
+          ?.filter(({ type }) => type === 'img')
+          ?.forEach(({ contents: id }) => {
+            loadImage(id)
+          })
+      }, [activity])
     return <> 
     { <div className={`card flow ${styles.activity}`}>
             <div className={styles['lesson-info']}>
-                {  
+                {  activity.type==='essential' &&
                     <> 
                         {activity.components &&  <h2 className={styles['lesson-title']}>{activity.title}</h2>  }
                         { activity.components && activity.components.length > 0 && activity.components.map(component => <Component component={component}/>)}
